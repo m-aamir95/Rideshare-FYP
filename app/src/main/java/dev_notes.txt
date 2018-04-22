@@ -1,0 +1,7 @@
+1) Currently i have decided that a User will be able to do both
+   a) Getting a Ride
+   b) Sharing a Ride
+
+   Initially when a user signup they would have to provide general details
+   But later on if they decide to Share their Ride with others, they would have to complete
+   another small signup which will include details about their Vehicle and other imp stuff

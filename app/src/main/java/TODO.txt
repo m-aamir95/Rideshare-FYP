@@ -1,0 +1,4 @@
+1) Add internet connectiviy check at the very startup and don't allow user to perform signup or login
+   if no internet is detected.
+
+2) if some imp operation is being performed, then the a pop should be loaded on top screen with a loading wheel indicating operation is being performed

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="startup_screen_color">
+     #fff
+    </color>
+
+    <color name="button_color_primary">
+        #1d62d1
+    </color>
+
+    <color name="button_txt_color_primary">
+        #fff
+    </color>
+</resources>
