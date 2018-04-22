@@ -5,3 +5,5 @@
    Initially when a user signup they would have to provide general details
    But later on if they decide to Share their Ride with others, they would have to complete
    another small signup which will include details about their Vehicle and other imp stuff
+
+2) Currently i am dropping DOB attribute, it can be easily added later

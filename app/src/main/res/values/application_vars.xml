@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="startup_screen_color">
+    <color name="background_color_primary">
      #fff
     </color>
 
@@ -8,7 +8,15 @@
         #1d62d1
     </color>
 
+    <color name="button_color_disabled">
+        #9a9bf9
+    </color>
+
     <color name="button_txt_color_primary">
         #fff
+    </color>
+    
+    <color name="input_hint_color">
+        #63377a
     </color>
 </resources>

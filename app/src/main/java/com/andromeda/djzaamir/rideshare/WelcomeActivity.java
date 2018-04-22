@@ -1,5 +1,6 @@
 package com.andromeda.djzaamir.rideshare;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,5 +17,11 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void openSignupActivity(View view) {
+        Intent signupActiviyIntent = new Intent(WelcomeActivity.this,SignupActivity.class);
+        startActivity(signupActiviyIntent);
+
+        //Dispose off current activity
+        finish();
+        return;
     }
 }

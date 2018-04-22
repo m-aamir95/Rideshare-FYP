@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.andromeda.djzaamir.rideshare.SignupActivity"
+    android:orientation="vertical"
+    android:background="@color/background_color_primary"
+    android:padding="20dp">
+
+    <!--Name-->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:textColorHint="@color/input_hint_color"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/edittextbox_name"
+        />
+
+    <!--email-->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:textColorHint="@color/input_hint_color"
+        android:inputType="textEmailAddress"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/edittextbox_email"/>
+
+    <!--cell-->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Cell"
+        android:textColorHint="@color/input_hint_color"
+        android:inputType="number"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/edittextbox_cell"/>
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:textColorHint="@color/input_hint_color"
+        android:inputType="textPassword"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/edittextbox_password"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Comfirm Password"
+        android:textColorHint="@color/input_hint_color"
+        android:inputType="textPassword"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/edittextbox_password_comfirm"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Signup"
+        android:paddingHorizontal="50dp"
+        android:background="@color/button_color_disabled"
+        android:textColor="@color/button_txt_color_primary"
+        android:layout_gravity="center"
+        android:enabled="false"
+        android:layout_marginTop="20dp"/>
+
+
+
+</LinearLayout>
