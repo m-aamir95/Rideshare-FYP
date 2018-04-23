@@ -39,7 +39,7 @@
         android:layout_marginBottom="10dp"
         android:id="@+id/edittextbox_cell"/>
 
-
+     <!--Password-->
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,6 +49,7 @@
         android:layout_marginBottom="10dp"
         android:id="@+id/edittextbox_password"/>
 
+    <!--Comfirm Password-->
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,11 +64,12 @@
         android:layout_height="wrap_content"
         android:text="Signup"
         android:paddingHorizontal="50dp"
-        android:background="@color/button_color_disabled"
+        android:background="@color/button_color_primary"
         android:textColor="@color/button_txt_color_primary"
         android:layout_gravity="center"
-        android:enabled="false"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        android:onClick="performSignup"
+        android:id="@+id/signup_button"/>
 
 
 
