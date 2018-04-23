@@ -4,35 +4,48 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class MainActivity extends AppCompatActivity {
+
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
+         new Thread(new Runnable() {
 
-                long sleep_for = 1500L;
+             @Override
+             public void run() {
 
-                try {
-                    //Sleep for S seconds and then start Welcome Login/Signup activity
-                    Thread.sleep(sleep_for);
+                 try {
+                     Thread.sleep(1500L);
+                 } catch (InterruptedException e) {
+                     e.printStackTrace();
+                 }
 
-                    Intent welcomeActivityIntent = new Intent(MainActivity.this,WelcomeActivity.class);
-                    startActivity(welcomeActivityIntent);
 
-                    //Dispose off current activity
-                    finish();
-                    return;
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-
+                 //Check if the user is signed in
+            firebaseAuth = FirebaseAuth.getInstance();
+            if (firebaseAuth.getCurrentUser() != null){
+                //Take to the Core Application Activity
+                Intent rideShareCoreActivity =  new Intent(MainActivity.this,RideShareCoreActivity.class);
+                startActivity(rideShareCoreActivity);
+            }else{
+                //Start login/Signup Activity
+                Intent welcomeActivityIntent = new Intent(MainActivity.this,WelcomeActivity.class);
+                startActivity(welcomeActivityIntent);
             }
-        }).start();
+
+
+            //Dispose off current activity
+            finish();
+            return;
+             }
+         }).start();
+
+
     }
 }

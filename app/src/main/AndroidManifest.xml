@@ -17,7 +17,11 @@
             </intent-filter>
         </activity>
         <activity android:name=".WelcomeActivity" />
-        <activity android:name=".SignupActivity"></activity>
+        <activity android:name=".SignupActivity" />
+        <activity
+            android:name=".RideShareCoreActivity"
+            android:label="@string/title_activity_ride_share_core"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

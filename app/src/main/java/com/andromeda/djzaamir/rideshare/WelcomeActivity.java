@@ -7,6 +7,7 @@ import android.view.View;
 
 public class WelcomeActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,8 +21,5 @@ public class WelcomeActivity extends AppCompatActivity {
         Intent signupActiviyIntent = new Intent(WelcomeActivity.this,SignupActivity.class);
         startActivity(signupActiviyIntent);
 
-        //Dispose off current activity
-        finish();
-        return;
     }
 }

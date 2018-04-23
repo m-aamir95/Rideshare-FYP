@@ -1,14 +1,25 @@
 package com.andromeda.djzaamir.rideshare;
 
-import android.graphics.Color;
+import android.app.Activity;
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -19,9 +30,10 @@ public class SignupActivity extends AppCompatActivity {
     //Flags to make sure good data is being entered
     private boolean nameGood,emailGood, cellGood,passwordGood,primary_pass_field_visited = false;
 
+    //Firebase
+    FirebaseAuth firebaseAuth;
+    FirebaseAuth.AuthStateListener authStateListener;
 
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
@@ -35,6 +47,45 @@ public class SignupActivity extends AppCompatActivity {
 
         signupButton =  findViewById(R.id.signup_button);
 
+        //init auth instance
+        firebaseAuth =  FirebaseAuth.getInstance();
+
+
+        //Register callback for firebaseAuthState Change
+       authStateListener = new FirebaseAuth.AuthStateListener() {
+           @Override
+           public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+               FirebaseUser user =  FirebaseAuth.getInstance().getCurrentUser();
+               if (user != null){//Successful signup
+                    //Take back to login Activity and display message account created successfully
+
+                   Toast.makeText(SignupActivity.this,"Successful Signup :)",Toast.LENGTH_SHORT).show();
+
+                   new Thread(new Runnable() {
+                       @Override
+                       public void run() {
+                           //Add little delay before switching activity
+                           try {
+                               Thread.sleep(1000);
+                           } catch (InterruptedException e) {
+                               e.printStackTrace();
+                           }
+                       }
+                   }).start();
+
+
+                   //Perform signout for firbase
+                   FirebaseAuth.getInstance().signOut();
+
+                   Intent welcomeActiviyIntent =  new Intent(SignupActivity.this,                                                            WelcomeActivity.class);
+
+                   startActivity(welcomeActiviyIntent);
+                   //Dispose this activity
+                   finish();
+                   return;
+               }
+           }
+       };
     }
 
 
@@ -48,12 +99,44 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         //Perform singup
-        Toast.makeText(this,"Signup in process Sire!",Toast.LENGTH_SHORT).show();
+
+        //Try to register user with new email and password
+        String email_to_register    =  editTextEmail.getText().toString();
+        String password_to_register =  editTextPassword.getText().toString();
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email_to_register,password_to_register).addOnFailureListener(new              OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(SignupActivity.this,"Email is in use by\nanother account!",Toast.LENGTH_LONG).show();
+                editTextEmail.requestFocus();
+                editTextEmail.setError("Email is in use by another account");
+            }
+        }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            @Override
+            public void onSuccess(AuthResult authResult) {
+                editTextEmail.clearFocus();
+                editTextEmail.setError(null);
+            }
+        });
 
     }
 
 
+    //Attach and detach FirebaseAuthStateChangeListener on App start and stop
 
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseAuth.addAuthStateListener(authStateListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        firebaseAuth.removeAuthStateListener(authStateListener);
+    }
+
+    //Data Sanitizers
     boolean sanitizeName(){
         //Enforce Minimum name length = 3
        if (editTextName.getText().toString().trim().length() >= 3){
@@ -112,10 +195,8 @@ public class SignupActivity extends AppCompatActivity {
         }
         return passwordGood;
     }
-
     boolean isDataGood(){
         return sanitizeName() && sanitizeEmail() && sanitizeCell() && sanitizePassword();
     }
-
 
 }

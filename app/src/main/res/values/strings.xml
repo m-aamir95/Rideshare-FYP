@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Rideshare</string>
+    <string name="title_activity_ride_share_core">RideShareCoreActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
