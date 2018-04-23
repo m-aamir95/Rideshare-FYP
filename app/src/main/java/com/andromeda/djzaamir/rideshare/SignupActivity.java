@@ -18,7 +18,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 
 public class SignupActivity extends AppCompatActivity {
@@ -74,6 +77,12 @@ public class SignupActivity extends AppCompatActivity {
                    }).start();
 
 
+                   //Push Other Signup info to Firebase
+                   pushOtherSignupDataToFirebase();
+
+
+
+
                    //Perform signout for firbase
                    FirebaseAuth.getInstance().signOut();
 
@@ -86,6 +95,19 @@ public class SignupActivity extends AppCompatActivity {
                }
            }
        };
+    }
+
+    private synchronized void  pushOtherSignupDataToFirebase() {
+//       Grab Data
+       String name   =  editTextName.getText().toString();
+       String cell   =  editTextCell.getText().toString();
+
+//       Grab Db EndPoint Reference
+       DatabaseReference ref =  FirebaseDatabase.getInstance().getReference().child("Users");
+
+//       Send  Data
+        ref.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("name").setValue(name);
+        ref.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("cell").setValue(cell);
     }
 
 
@@ -122,8 +144,6 @@ public class SignupActivity extends AppCompatActivity {
 
 
     //Attach and detach FirebaseAuthStateChangeListener on App start and stop
-
-
     @Override
     protected void onStart() {
         super.onStart();

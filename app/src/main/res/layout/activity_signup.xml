@@ -11,6 +11,7 @@
 
     <!--Name-->
     <EditText
+        android:text="Aamir"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Name"
@@ -21,6 +22,7 @@
 
     <!--email-->
     <EditText
+        android:text="djzaamir@gmail.com"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Email"
@@ -31,6 +33,7 @@
 
     <!--cell-->
     <EditText
+        android:text="03325099550"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Cell"
@@ -41,6 +44,7 @@
 
      <!--Password-->
     <EditText
+        android:text="12345678"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Password"
@@ -51,6 +55,7 @@
 
     <!--Comfirm Password-->
     <EditText
+        android:text="12345678"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Comfirm Password"
