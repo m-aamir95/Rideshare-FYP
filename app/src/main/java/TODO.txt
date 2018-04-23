@@ -20,3 +20,5 @@
    A unique ID can also be provided, which would contain different type of data about the Ride
    An email can be made containing all of the above info TODO(Important_level=MEDIUM)
 
+
+7) Add functionality to signup with facebook TODO(Important_level=LOW)
