@@ -15,10 +15,15 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     public void openLoginActivity(View view) {
+        Intent loginActivityIntent =  new Intent(WelcomeActivity.this,LoginActivity.class);
+        startActivity(loginActivityIntent);
+
+        //Do'nt shutdown this activiy, if the user fail to login
+        //Maybe he/she will come back to this activity for signup
     }
 
     public void openSignupActivity(View view) {
-        Intent signupActiviyIntent = new Intent(WelcomeActivity.this,SignupActivity.class);
+        Intent signupActiviyIntent = new Intent(WelcomeActivity.this,LoginActivity.class);
         startActivity(signupActiviyIntent);
 
     }

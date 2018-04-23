@@ -120,17 +120,21 @@ public class SignupActivity extends AppCompatActivity {
             return; //Exit Singup function
         }
 
+        //Disable button
+        signupButton.setEnabled(false);
+
         //Perform singup
 
         //Try to register user with new email and password
         String email_to_register    =  editTextEmail.getText().toString();
         String password_to_register =  editTextPassword.getText().toString();
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email_to_register,password_to_register).addOnFailureListener(new              OnFailureListener() {
+        FirebaseAuth.getInstance().createUserWithEmailAndPassword(email_to_register,password_to_register)                      .addOnFailureListener(new              OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(SignupActivity.this,"Email is in use by\nanother account!",Toast.LENGTH_LONG).show();
                 editTextEmail.requestFocus();
                 editTextEmail.setError("Email is in use by another account");
+                signupButton.setEnabled(true);
             }
         }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
