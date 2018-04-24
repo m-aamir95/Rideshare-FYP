@@ -80,12 +80,6 @@ public class SignupActivity extends AppCompatActivity {
                    //Push Other Signup info to Firebase
                    pushOtherSignupDataToFirebase();
 
-
-
-
-                   //Perform signout for firbase
-                   FirebaseAuth.getInstance().signOut();
-
                    Intent welcomeActiviyIntent =  new Intent(SignupActivity.this,                                                            WelcomeActivity.class);
 
                    startActivity(welcomeActiviyIntent);
@@ -97,7 +91,7 @@ public class SignupActivity extends AppCompatActivity {
        };
     }
 
-    private synchronized void  pushOtherSignupDataToFirebase() {
+    private  void  pushOtherSignupDataToFirebase() {
 //       Grab Data
        String name   =  editTextName.getText().toString();
        String cell   =  editTextCell.getText().toString();
@@ -105,9 +99,19 @@ public class SignupActivity extends AppCompatActivity {
 //       Grab Db EndPoint Reference
        DatabaseReference ref =  FirebaseDatabase.getInstance().getReference().child("Users");
 
-//       Send  Data
-        ref.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("name").setValue(name);
-        ref.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("cell").setValue(cell);
+//       Prepare data to be sent
+       HashMap<String,String> data_pair = new HashMap<>();
+       data_pair.put("name",name);
+       data_pair.put("cell",cell);
+
+//        Push data
+        ref.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(data_pair)                         .addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                FirebaseAuth.getInstance().signOut();
+            }
+        });
+
     }
 
 

@@ -31,3 +31,5 @@
 10) Provide useful feedback to the user about different errors, such as Why a password is weak
     In this case let the user know about the minimum lenght of the password TODO(Important_level=HIGH)
     Maybe i can also put a method to check if a password is strong enough
+
+11) Snacke-bar in place of Toast

@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.andromeda.djzaamir.rideshare.RideShareCoreActivity"
-    tools:showIn="@layout/app_bar_ride_share_core">
+    tools:showIn="@layout/app_bar_ride_share_core"
+    android:background="@color/background_color_primary">
 
     <Button
         android:layout_width="wrap_content"
