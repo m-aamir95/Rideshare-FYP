@@ -13,16 +13,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class RideShareCoreActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ride_share_core);
+
 
         //Setup toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -40,6 +46,11 @@ public class RideShareCoreActivity extends AppCompatActivity
         //Actaul Navigation Menu
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+
+        //fetch User Information from firebase
+        fillUpUserInfo();
     }
 
     @Override
@@ -95,10 +106,45 @@ public class RideShareCoreActivity extends AppCompatActivity
 
         }
 
+        //close drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
+
+
+    private void fillUpUserInfo(){
+
+      String u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+      DatabaseReference usr_data_ref =  FirebaseDatabase.getInstance().getReference().child("Users").child(u_id);
+
+      //Put data-modified listener on above reference
+       usr_data_ref.addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(DataSnapshot dataSnapshot) {
+               if (dataSnapshot != null){
+                   String name  = dataSnapshot.child("name").getValue().toString();
+                   String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+                   //Grab references to gui
+                   TextView textView_name  =  findViewById(R.id.textview_customerName);
+                   TextView textView_email =  findViewById(R.id.textview_customerEmail);
+
+                   textView_name.setText(name);
+                   textView_email.setText(email);
+               }
+           }
+           @Override
+           public void onCancelled(DatabaseError databaseError) {
+
+           }
+       });
+
+
+    }
+
 
     public void signOut(View view) {
         FirebaseAuth.getInstance().signOut();
