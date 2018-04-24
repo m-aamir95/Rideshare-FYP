@@ -22,3 +22,12 @@
 
 
 7) Add functionality to signup with facebook TODO(Important_level=LOW)
+
+8) i'm currently now closing all activities, because sometimes a user can go backward's too in some cases
+   i need to properly address this issue TODO(Important_level=HIGH)
+
+9) Desing logos and backgrounds for the entire app TODO(Important_level=HIGH)
+
+10) Provide useful feedback to the user about different errors, such as Why a password is weak
+    In this case let the user know about the minimum lenght of the password TODO(Important_level=HIGH)
+    Maybe i can also put a method to check if a password is strong enough

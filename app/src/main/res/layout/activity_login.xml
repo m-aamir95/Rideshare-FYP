@@ -32,15 +32,17 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:hint="Email"
+        android:inputType="textEmailAddress"
         android:textColorHint="@color/input_hint_color"
-        android:id="@+id/edittextbox_email"/>
+        android:id="@+id/edittextbox_email_login"/>
 
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
+            android:hint="Password"
+            android:inputType="textPassword"
             android:textColorHint="@color/input_hint_color"
-            android:id="@+id/edittextbox_password"/>
+            android:id="@+id/edittextbox_password_login"/>
 
         <Button
             android:layout_width="match_parent"
@@ -48,7 +50,9 @@
             android:text="LOGIn"
             android:background="@color/button_color_primary"
             android:textColor="@color/button_txt_color_primary"
-            android:id="@+id/button_login"/>
+            android:onClick="logIn"
+            android:id="@+id/button_login"
+            />
 
     </LinearLayout>
 
