@@ -43,7 +43,7 @@ public class RideShareCoreActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        //Actaul Navigation Menu
+        //Actual Navigation Menu
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -103,6 +103,8 @@ public class RideShareCoreActivity extends AppCompatActivity
             //Rides History
             //Settings
 
+            //an intent pointing to this activity can also be placed here
+            //just to make the user experience nice and consistent
         }
 
         //Settings
