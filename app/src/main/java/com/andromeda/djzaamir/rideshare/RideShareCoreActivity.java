@@ -92,10 +92,43 @@ public class RideShareCoreActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+
+        //Home
+        if (id == R.id.home_item){
+
+            //TODO, very imp Inline Issue
+            //The problem is, i can't put a intent here which will pointing back to this activity
+            //Also i need to figure a way to share a single Navigation Drawer with Multilple Activities
+            //Such as
+            //Rides History
+            //Settings
+
+        }
+
+        //Settings
+        if (id == R.id.settings_item){
+            //Handle
+        }
+
+        //Rides History
+        if (id == R.id.pastRides_item){
+            //Handle
+        }
+
+        //Signout
         if (id == R.id.signout_item) {
           signOut();
         }
 
+        //Share
+        if (id == R.id.nav_share_item) {
+            //Handle
+        }
+
+        //Feedback
+        if (id == R.id.feedback_item) {
+            //Handle
+        }
 
         //close drawer
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

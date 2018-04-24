@@ -5,6 +5,23 @@
 
     <group android:checkableBehavior="single">
 
+
+        <item
+            android:icon="@mipmap/home"
+            android:title="Home"
+            android:id="@+id/home_item"/>
+
+        <item
+            android:icon="@mipmap/settings"
+            android:title="Settings"
+            android:id="@+id/settings_item"/>
+
+        <item
+            android:icon="@mipmap/pastRides"
+            android:id="@+id/pastRides_item"
+            android:title="Rides History"
+            />
+
         <item
             android:icon="@mipmap/signout"
             android:id="@+id/signout_item"
@@ -16,11 +33,11 @@
     <item android:title="Communicate">
         <menu>
             <item
-                android:id="@+id/nav_share"
+                android:id="@+id/nav_share_item"
                 android:icon="@drawable/ic_menu_share"
                 android:title="Share" />
             <item
-                android:id="@+id/nav_send"
+                android:id="@+id/feedback_item"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Feedback" />
         </menu>

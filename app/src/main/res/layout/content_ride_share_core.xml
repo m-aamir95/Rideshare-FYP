@@ -9,6 +9,6 @@
     tools:showIn="@layout/app_bar_ride_share_core"
     android:background="@color/background_color_primary">
 
-    
+
 
 </LinearLayout>
