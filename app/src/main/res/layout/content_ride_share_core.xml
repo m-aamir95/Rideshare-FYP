@@ -9,11 +9,6 @@
     tools:showIn="@layout/app_bar_ride_share_core"
     android:background="@color/background_color_primary">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Signout"
-        android:onClick="signOut"/>
-
+    
 
 </LinearLayout>
