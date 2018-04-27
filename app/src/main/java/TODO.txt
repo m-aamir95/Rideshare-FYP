@@ -38,3 +38,7 @@
 
 13) Favourite Places can be add a seperate item in the Navigation Drawer Menu or
     can be integrated the Uber and Careem have be done, inline Google Place search TODO(Important=HIGH)
+
+14) make startup welcome message activity full screen TODO(Important_level=HIGH)
+
+15) Remove settings bar from NavigationDrawerActivity TODO(Important_level=HIGh)

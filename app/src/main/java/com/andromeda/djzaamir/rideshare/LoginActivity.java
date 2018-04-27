@@ -37,7 +37,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(AuthResult authResult) {
                     //Start Core RideShare Activity
-                    Intent rideShareCoreIntent =  new Intent(LoginActivity.this, WelcomeActivity.class);
+                    Intent rideShareCoreIntent =  new Intent(LoginActivity.this, NavigationDrawer.class);
                     startActivity(rideShareCoreIntent);
 
                     //Dispose off error

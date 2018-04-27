@@ -1,5 +1,8 @@
 package com.andromeda.djzaamir.rideshare;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -13,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 public class NavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -23,14 +28,6 @@ public class NavigationDrawer extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -80,22 +77,39 @@ public class NavigationDrawer extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.home_item) {
+            startNewFragmentActivity(new HomeFragment());
+        } else if (id == R.id.settings_item) {
+            startNewFragmentActivity(new SettingsFragment());
+        } else if (id == R.id.pastRides_item) {
+            startNewFragmentActivity(new PastRidesFragment());
+        } else if (id == R.id.signout_item) {
+            signout();
+        } else if (id == R.id.nav_share_item) {
+            //Todo, Need to decide the future of it
+        } else if (id == R.id.feedback_item) {
+            startNewFragmentActivity(new FeedbackFragment());
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    //Responsible for switching between different fragments
+    void startNewFragmentActivity(android.support.v4.app.Fragment fragmentToSwitchTo){
+
+        android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.activity_container_framelayout,fragmentToSwitchTo);
+        fragmentTransaction.commit(); //very imp, signals OS to perform above operation when can
+    }
+
+    void signout(){
+        FirebaseAuth.getInstance().signOut();
+        //take back to login/signup screen
+        Intent welcomeActivityIntetn  = new Intent(NavigationDrawer.this, WelcomeActivity.class );
+        startActivity(welcomeActivityIntetn);
+        finish();
+        return;
     }
 }
