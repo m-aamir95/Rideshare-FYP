@@ -42,3 +42,5 @@
 14) make startup welcome message activity full screen TODO(Important_level=HIGH)
 
 15) Remove settings bar from NavigationDrawerActivity TODO(Important_level=HIGh)
+
+16) Do something to  improve the secuirity of both the driver and customer TODO(Important_level=HIGH)

@@ -1,4 +1,8 @@
-1) Currently i have decided that a User will be able to do both
+1) Change of Design Plan:
+    Originally i was thinking that Driver will only be able to drive car's
+    And Customers will only be able to search for driver's
+
+   Now i have decided that a User will be able to do both,    (because other Ride Sharing Apps provides this kinda of facility)
    a) Getting a Ride
    b) Sharing a Ride
 
@@ -6,20 +10,33 @@
    But later on if they decide to Share their Ride with others, they would have to complete
    another small signup which will include details about their Vehicle and other imp stuff
 
-2) Currently i am dropping DOB attribute, it can be easily added later
+2) Currently i am dropping DOB attribute, coz i dont see any useful point of it other than Data Minining
+   Perspective, it can be easily added  back later if needed!
 
 3) Huge hiccup during the development, So i was at this point where i had to integrate
    Drawerlayout inside my application, and i was not able to share a single Drawerlayout with
    multiple activities.
-   And i started to go with other useless approaches for example, creating Drawerlayout for
+   sp i started to go with other useless approaches for example, creating Drawerlayout for
    every single activity in my application
+   This was,
    A) Not good
    B) Redundant code
-   c) Not maintable
+   c) Not maintainable
    D) wasted alot of my time
 
-   In the I had to back to drawing board, and learn how to properly share a single DrawerLayout
+   In the end I had to get back to drawing board, and learn how to properly share a single DrawerLayout
    with multiple activities
 
-   All of it resulted in setbacks, both code wise and time wise
+   All of it resulted in setbacks, both code-wise and time-wise
+   //This video really helped me alot to solve this problem
+   https://www.youtube.com/watch?v=SIW6RCYmBBo00
+
+4) ok so another Imp Design decision, even though Firebase Provides some very abstracted functions data will trigger and let you know
+   about any updated data node you have placed listeners on.
+   I want to further abstract this out because Different kind of user-data related to user profile and other stuff will be required
+   in different type's of activities and fragments
+   So i am thinking to have a singleton class, and all the different listeners and logic related to that data will go inside
+   this class
+   Now from here Any instered party can call methods and use data properties from this class
+   This class will make sure that it always have updated data from firebase will sync with firebase on the background
 
