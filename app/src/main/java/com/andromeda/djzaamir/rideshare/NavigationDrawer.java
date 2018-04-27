@@ -37,6 +37,11 @@ public class NavigationDrawer extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        //Switch to default homeFragment
+         startNewFragmentActivity(new HomeFragment());
+         //set home as checked item
+        navigationView.setCheckedItem(R.id.home_item);
     }
 
     @Override
