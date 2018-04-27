@@ -18,10 +18,6 @@
         </activity>
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".SignupActivity" />
-        <activity
-            android:name=".RideShareCoreActivity"
-            android:label="@string/title_activity_ride_share_core"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".LoginActivity"></activity>
     </application>
 

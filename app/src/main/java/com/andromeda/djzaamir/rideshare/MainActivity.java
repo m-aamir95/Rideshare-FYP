@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             firebaseAuth = FirebaseAuth.getInstance();
             if (firebaseAuth.getCurrentUser() != null){
                 //Take to the Core Application Activity
-                Intent rideShareCoreActivity =  new Intent(MainActivity.this,RideShareCoreActivity.class);
+                Intent rideShareCoreActivity =  new Intent(MainActivity.this,WelcomeActivity.class);
                 startActivity(rideShareCoreActivity);
             }else{
                 //Start login/Signup Activity

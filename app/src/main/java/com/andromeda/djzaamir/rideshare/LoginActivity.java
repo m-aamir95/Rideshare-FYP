@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(AuthResult authResult) {
                     //Start Core RideShare Activity
-                    Intent rideShareCoreIntent =  new Intent(LoginActivity.this, RideShareCoreActivity.class);
+                    Intent rideShareCoreIntent =  new Intent(LoginActivity.this, WelcomeActivity.class);
                     startActivity(rideShareCoreIntent);
 
                     //Dispose off error

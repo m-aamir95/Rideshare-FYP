@@ -7,3 +7,18 @@
    another small signup which will include details about their Vehicle and other imp stuff
 
 2) Currently i am dropping DOB attribute, it can be easily added later
+
+3) Huge hiccup during the development, So i was at this point where i had to integrate
+   Drawerlayout inside my application, and i was not able to share a single Drawerlayout with
+   multiple activities.
+   And i started to go with other useless approaches for example, creating Drawerlayout for
+   every single activity in my application
+   A) Not good
+   B) Redundant code
+   c) Not maintable
+   D) wasted alot of my time
+
+   In the I had to back to drawing board, and learn how to properly share a single DrawerLayout
+   with multiple activities
+
+   All of it resulted in setbacks, both code wise and time wise
