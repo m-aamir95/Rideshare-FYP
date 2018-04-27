@@ -17,7 +17,7 @@
             android:id="@+id/settings_item"/>
 
         <item
-            android:icon="@mipmap/pastRides"
+            android:icon="@mipmap/past_rides"
             android:id="@+id/pastRides_item"
             android:title="Rides History"
             />
