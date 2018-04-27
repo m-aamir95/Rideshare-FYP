@@ -17,8 +17,18 @@
             </intent-filter>
         </activity>
         <activity android:name=".WelcomeActivity" />
-        <activity android:name=".SignupActivity" />
-        <activity android:name=".LoginActivity" />
+
+        <activity android:name=".SignupActivity" >
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+            android:value=".WelcomeActivity"/>
+        </activity>
+
+        <activity android:name=".LoginActivity" >
+             <meta-data android:name="android.support.PARENT_ACTIVITY"
+             android:value=".WelcomeActivity"/>
+
+        </activity>
+
         <activity
             android:name=".NavigationDrawer"
             android:label="@string/title_activity_navigation_drawer"
