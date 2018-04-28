@@ -32,7 +32,8 @@
 
     <item android:title="Communicate">
         <menu>
-            <item
+           <group android:checkableBehavior="single">
+             <item
                 android:id="@+id/nav_share_item"
                 android:icon="@drawable/ic_menu_share"
                 android:title="Share" />
@@ -40,6 +41,7 @@
                 android:id="@+id/feedback_item"
                 android:icon="@drawable/ic_menu_send"
                 android:title="Feedback" />
+           </group>
         </menu>
     </item>
 

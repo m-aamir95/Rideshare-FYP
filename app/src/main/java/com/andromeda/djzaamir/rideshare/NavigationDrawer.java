@@ -26,6 +26,10 @@ public class NavigationDrawer extends AppCompatActivity
     DatabaseReference userDataNodeRef;
     ValueEventListener userDataValueEventListener;
 
+
+    //Toolbar
+     Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,7 +67,7 @@ public class NavigationDrawer extends AppCompatActivity
 
         //Setup toolbar
         setContentView(R.layout.activity_navigation_drawer);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         //Drawer-Layout
@@ -83,6 +87,8 @@ public class NavigationDrawer extends AppCompatActivity
          startNewFragmentActivity(new HomeFragment());
          //set home as checked item
         navigationView.setCheckedItem(R.id.home_item);
+        //change toolbar title
+        toolbar.setTitle("Home");
     }
 
     //When the user presses DEFAULT back button on Android
@@ -93,7 +99,7 @@ public class NavigationDrawer extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             //Otherwise don't handle event
-//            super.onBackPressed();
+//            super.onBackPressed();\
         }
     }
 
@@ -126,16 +132,24 @@ public class NavigationDrawer extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.home_item) {
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            toolbar.setTitle("Home");
             startNewFragmentActivity(new HomeFragment());
         } else if (id == R.id.settings_item) {
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            toolbar.setTitle("Settings");
             startNewFragmentActivity(new SettingsFragment());
         } else if (id == R.id.pastRides_item) {
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            toolbar.setTitle("History");
             startNewFragmentActivity(new PastRidesFragment());
         } else if (id == R.id.signout_item) {
             signout();
         } else if (id == R.id.nav_share_item) {
             //Todo, Need to decide the future of it
         } else if (id == R.id.feedback_item) {
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            toolbar.setTitle("Feedback");
             startNewFragmentActivity(new FeedbackFragment());
         }
 
