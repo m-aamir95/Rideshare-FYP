@@ -10,28 +10,74 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class NavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    //Firebase
+    DatabaseReference userDataNodeRef;
+    ValueEventListener userDataValueEventListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        //Get Reference to user data in firebase
+        String u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        userDataNodeRef = FirebaseDatabase.getInstance().getReference().child("Users").child(u_id);
+
+        //Setup Event listener on user data node
+        userDataValueEventListener =  new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //Get updated data
+                String name  = dataSnapshot.child("name").getValue().toString();
+                String cell  = dataSnapshot.child("cell").getValue().toString();
+                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+                //Put data in fields
+                TextView name_txtview  = findViewById(R.id.textview_customerName);
+                TextView email_txtview = findViewById(R.id.textview_customerEmail);
+
+                name_txtview.setText(name);
+                email_txtview.setText(email);
+               //Not updating Cell at navigation drawer header
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+
+        //Setup toolbar
         setContentView(R.layout.activity_navigation_drawer);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
+        //Drawer-Layout
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        //Navigation view
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
 
         //Switch to default homeFragment
          startNewFragmentActivity(new HomeFragment());
@@ -39,13 +85,15 @@ public class NavigationDrawer extends AppCompatActivity
         navigationView.setCheckedItem(R.id.home_item);
     }
 
+    //When the user presses DEFAULT back button on Android
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            //Otherwise don't handle event
+//            super.onBackPressed();
         }
     }
 
@@ -111,5 +159,21 @@ public class NavigationDrawer extends AppCompatActivity
         startActivity(welcomeActivityIntetn);
         finish();
         return;
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        //Start Listener on Activity Startup
+        userDataNodeRef.addValueEventListener(userDataValueEventListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        //Stop Listener when activity is on background
+        userDataNodeRef.removeEventListener(userDataValueEventListener);
     }
 }

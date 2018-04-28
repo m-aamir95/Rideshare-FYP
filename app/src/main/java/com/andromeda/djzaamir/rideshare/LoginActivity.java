@@ -36,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
             FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>            () {
                 @Override
                 public void onSuccess(AuthResult authResult) {
+
                     //Start Core RideShare Activity
                     Intent rideShareCoreIntent =  new Intent(LoginActivity.this, NavigationDrawer.class);
                     startActivity(rideShareCoreIntent);
