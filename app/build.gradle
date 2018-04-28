@@ -35,6 +35,9 @@ dependencies {
     compile 'com.google.firebase:firebase-auth:15.0.0'
     compile 'com.google.firebase:firebase-crash:15.0.0'
 
+    //for LocationRequest
+    compile 'com.google.android.gms:play-services-location:15.0.0'
+
 }
 
 // Google firebase Dependency
