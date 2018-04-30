@@ -1,16 +1,16 @@
 1) Add internet connectivity check at the very startup and don't allow user to perform signup or login
-   if no internet is detected. TODO(Important_level=HIGH)
+   if no internet is detected. TODO(Important_level=HIGH ,DOC=YES)
 
 2) if some imp operation is being performed, then the a pop should be loaded on top screen with a loading       wheel indicating operation is being performed TODO(Important_level=HIGH)
 
 3) I can put a small animation of logo at startup screen, and load the main heavy weight components
    in the background, Using Intents this can be done, Start the other Activity at background
    probably can be done, IDK there has to be someway, and then use intentResult as a signal
-   that heavy resources have been loaded successfully TODO(Important_level=MEDIUM)
+   that heavy resources have been loaded successfully TODO(Important_level=MEDIUM,DOC=YES)
 
-4) Put PAK CELL-NO mask on cell no input field inside signupActivity  (Important_level=MEDIUM)
+4) Put PAK CELL-NO mask on cell no input field inside signupActivity  TODo(Important_level=MEDIUM,DOC=YES)
 
-5) Make sure email is not taken TODO(Important_level=HIGH)
+5) Make sure email is not taken TODO(Important_level=HIGH,DOC=YES)    DONE
 
 6) Provide functionality to let the loved ones know about your Ride, by sharing live locations of your Ride
    Because you and your Driver would be sharing the Ride
@@ -18,29 +18,37 @@
    Incase if one of there Internet|GPS goes down
    Driver location can also be shared for secuirity reasos's
    A unique ID can also be provided, which would contain different type of data about the Ride
-   An email can be made containing all of the above info TODO(Important_level=MEDIUM)
+   An email can be made containing all of the above info TODO(Important_level=MEDIUM ,DOC=YES)
 
 
-7) Add functionality to signup with facebook TODO(Important_level=LOW)
+7) Add functionality to signup with facebook TODO(Important_level=LOW ,DOC=YES)
 
-8) i'm currently now closing all activities, because sometimes a user can go backward's too in some cases
-   i need to properly address this issue TODO(Important_level=HIGH)
+8) i'm currently not closing all activities, because sometimes a user can go backward's too in some cases
+   i need to properly address this issue TODO(Important_level=HIGH ,DOC=YES)
 
-9) Desing logos and backgrounds for the entire app TODO(Important_level=HIGH)
+9) Designing logos and backgrounds for the entire app TODO(Important_level=HIGH ,DOC=YES)
 
 10) Provide useful feedback to the user about different errors, such as Why a password is weak
-    In this case let the user know about the minimum lenght of the password TODO(Important_level=HIGH)
+    In this case let the user know about the minimum lenght of the password TODO(Important_level=HIGH ,DOC=YES)
     Maybe i can also put a method to check if a password is strong enough
 
-11) Snacke-bar in place of Toast TODO(Important_level=LOW)
+11) Snacke-bar in place of Toast TODO(Important_level=LOW )
 
-12) Add functionality to share on multiple App's with a click of a button TODO(Important_level=HIGH)
+12) Add functionality to share on multiple App's with a click of a button TODO(Important_level=HIGH ,DOC=YES)
 
 13) Favourite Places can be add a seperate item in the Navigation Drawer Menu or
     can be integrated the Uber and Careem have be done, inline Google Place search TODO(Important=HIGH)
 
 14) make startup welcome message activity full screen TODO(Important_level=HIGH)
 
-15) Remove settings bar from NavigationDrawerActivity TODO(Important_level=HIGh)
+15) Remove settings bar from NavigationDrawerActivity TODO(Important_level=HIGh)   DONE
 
-16) Do something to  improve the secuirity of both the driver and customer TODO(Important_level=HIGH)
+16) Do something to  improve the secuirity of both the driver and customer TODO(Important_level=HIGH ,DOC=YES)
+
+17) Get Profile picture of the driver TODO(Important_level=HIGH)
+
+18) Input mask for CELL and CNIC TODO(Important_level=HIGH ,DOC=YES)
+
+19) Make sure that driver's cnic is unique and does'nt exist in the database already TODO(Important_level=HIGH ,DOC=YES)
+
+20) Make sure that cell number is unique and doesn't exist in the database already TODO(Important_level=HIGH ,DOC=YES)

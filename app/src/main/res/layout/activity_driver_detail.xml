@@ -43,6 +43,17 @@
         android:layout_marginBottom="5dp"
         android:id="@+id/cnic"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:background="@color/button_color_primary"
+        android:textColor="@color/button_txt_color_primary"
+        android:textSize="20dp"
+        android:padding="10dp"
+        android:onClick="submit_driver_details_btn"
+        />
+
 
 
 </LinearLayout>
