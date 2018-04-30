@@ -5,12 +5,34 @@
     tools:context="com.andromeda.djzaamir.rideshare.HomeFragment">
 
 
-    <TextView
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home Fragment"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"/>
+        android:text="Find a Driver "
+        android:background="@color/button_color_primary"
+        android:textColor="@color/button_txt_color_primary"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center"
+        android:id="@+id/findADriver"
+        />
+       <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Share My Ride"
+        android:background="@color/button_color_primary"
+        android:textColor="@color/button_txt_color_primary"
+        android:padding="10dp"
+        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:id="@+id/shareMyRide"
+        />
+    </LinearLayout>
 
 </FrameLayout>

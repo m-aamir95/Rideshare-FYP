@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.andromeda.djzaamir.rideshare.DriverDetailActivity"
+    android:orientation="vertical"
+    android:background="@color/background_color_primary">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="In order to use App as a driver, you have to\nfill up following required info."
+        android:textSize="17sp"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Vehicle No"
+        android:textColorHint="@color/input_hint_color"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/vehicle_no"/>
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/vehicle_color_spinner"
+        >
+    </Spinner>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="CNIC"
+        android:textColorHint="@color/input_hint_color"
+        android:layout_marginBottom="5dp"
+        android:id="@+id/cnic"/>
+
+
+
+</LinearLayout>

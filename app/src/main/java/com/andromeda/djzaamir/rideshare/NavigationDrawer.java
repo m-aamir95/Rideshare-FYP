@@ -1,12 +1,17 @@
 package com.andromeda.djzaamir.rideshare;
 
+import android.*;
+import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
 
 import android.os.Bundle;
+import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -19,11 +24,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,22 +39,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+
 public class NavigationDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener,
-        GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     //region Variables
     //Firebase
-    DatabaseReference userDataNodeRef;
-    ValueEventListener userDataValueEventListener;
+    private DatabaseReference userDataNodeRef;
+    private ValueEventListener userDataValueEventListener;
 
-    //For Location
-    GoogleApiClient googleApiClient;
-    Location lastLocation;
-    LocationRequest locationRequest;
+    //For location
+    //Manages underlying technology to access location based on permissions given in Manifest
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private Location lastKnownLocation;
+    private final int LOCATION_REQ_CODE = 1;
 
     //Toolbar
-    Toolbar toolbar;
+    private Toolbar toolbar;
     //endregion
 
     @Override
@@ -107,6 +117,45 @@ public class NavigationDrawer extends AppCompatActivity
         navigationView.setCheckedItem(R.id.home_item);
         //change toolbar title
         toolbar.setTitle("Home");
+
+
+        //init fusedLocationProviderAPI
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        //get last know location
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=         PackageManager       .PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) !=          PackageManager.PERMISSION_GRANTED) {
+
+            //Ask for permission
+             ActivityCompat.requestPermissions(NavigationDrawer.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},                      LOCATION_REQ_CODE);
+        }
+
+        //Ask for last known location
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+            @Override
+            public void onSuccess(Location location) {
+                lastKnownLocation = location;
+            }
+        });
+    }
+
+    //Callback For Permission's Response form the user
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case LOCATION_REQ_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    //Permissions granted, may be continue
+                    Toast.makeText(getApplicationContext(), "Permissiosn Granted", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getApplicationContext(), "Location Permissions Required", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return;
+                }
+                break;
+            default:
+                break;
+        }
     }
 
     //When the user presses DEFAULT back button on Android
@@ -128,7 +177,6 @@ public class NavigationDrawer extends AppCompatActivity
         getMenuInflater().inflate(R.menu.navigation_drawer, menu);
         return true;
     }
-
 
     //Callback, When a user clicks an item in the Navigation Drawer
     @SuppressWarnings("StatementWithEmptyBody")
@@ -201,40 +249,4 @@ public class NavigationDrawer extends AppCompatActivity
     //endregion
 
 
-     //region Location Related Overrided Callback's
-    @Override
-    public void onLocationChanged(Location location) {
-
-    }
-
-
-    @Override
-    public void onConnected(@Nullable Bundle bundle) {
-
-        final long INTERVAL_TIME = 1000L;
-
-        //setup and time and piriority
-        locationRequest = new LocationRequest();
-        locationRequest.setInterval(INTERVAL_TIME);
-        locationRequest.setFastestInterval(INTERVAL_TIME);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager                .PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) !=          PackageManager.PERMISSION_GRANTED) {
-            // TODO: Ask user to give Location Access
-//            return
-        }
-        LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, locationRequest, this);
-
-       }
-
-    @Override
-    public void onConnectionSuspended(int i) {
-
-       }
-
-    @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
-       }
-       //endregion
 }

@@ -1,13 +1,23 @@
 package com.andromeda.djzaamir.rideshare;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toolbar;
+import android.widget.Button;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 
 
 /**
@@ -15,21 +25,103 @@ import android.widget.Toolbar;
  */
 public class HomeFragment extends Fragment {
 
+    //region VARS
+    //Gui references
+    private Button findADriver,shareMyRide;
+
+
+    //Firebase
+    private ValueEventListener driverDataListener;
+    private DatabaseReference driverDataNodeRef;
+
+    private boolean isDriver = false;
+    private final int DRIVER_DETAILS_RESULT =  12;
+    //endregion
+
+
     public HomeFragment() {
         // Required empty public constructor
     }
 
 
-
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        //Get Reference to Current User's Driver data node
+        //If the User doesn't a driver profile then this node will be NULL
+        String u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        driverDataNodeRef = FirebaseDatabase.getInstance().getReference().child("Driver_vehicle_info").child(u_id);
 
+        //setup ValueEventListener for above DatabaseReference
+        driverDataListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //Check if any of the driver profile properties are available
+                //For simpliciy sake i am going to check for vehicle no
+                if (dataSnapshot.child("vehicle_no").getValue() != null){
+                    isDriver =  true; //let the App know that, Driver Profile Exist
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //Init gui references
+        //Since We are in a fragment, we'll have to take slightly different approach to init gui's
+        findADriver = (Button)getView().findViewById(R.id.findADriver);
+        shareMyRide = (Button)getView().findViewById(R.id.shareMyRide);
+
+        //setup Event listerner's on both buttons
+        findADriver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+              //Open Activity to get params for route and then find the matching driver's
+            }
+        });
+
+        shareMyRide.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+             //Open Activity to get Route Param's, and then share the ride
+             //But first make sure that, Driver Profile exist
+             if (!isDriver){
+                 //Prompt to fill up driver details, in another activity
+                 Intent driverDetailsActivityIntent =  new Intent(getActivity().getApplicationContext(),DriverDetailActivity.class);
+                 startActivityForResult(driverDetailsActivityIntent,DRIVER_DETAILS_RESULT);
+             }
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == DRIVER_DETAILS_RESULT && resultCode == Activity.RESULT_OK){
+            isDriver = data.getBooleanExtra("driverDetailsOk",false);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        driverDataNodeRef.addValueEventListener(driverDataListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+       driverDataNodeRef.removeEventListener(driverDataListener);
+    }
 }
