@@ -38,9 +38,9 @@
         <activity android:name=".DriverDetailActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".NavigationDrawer"
-                />
+                android:value=".NavigationDrawer" />
         </activity>
+        <activity android:name=".shareMyRide"></activity>
     </application>
 
 </manifest>

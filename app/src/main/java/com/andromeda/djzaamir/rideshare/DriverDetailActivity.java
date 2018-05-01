@@ -1,5 +1,6 @@
 package com.andromeda.djzaamir.rideshare;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -78,8 +79,9 @@ public class DriverDetailActivity extends AppCompatActivity {
                 public void onSuccess(Void aVoid) {
                   //Start the Activity to get the driver route/jouney info
                     //and make sure that on pressing back user doesnt fall back on this activity
-
-                    finish();
+                     Intent shareMyRideActivityIntent =  new Intent(getApplicationContext(), com.andromeda.djzaamir                                        .rideshare.shareMyRide.class);
+                     startActivity(shareMyRideActivityIntent);
+                     finish();
                 }
             });
         }

@@ -16,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
@@ -34,7 +35,12 @@ public class HomeFragment extends Fragment {
     private ValueEventListener driverDataListener;
     private DatabaseReference driverDataNodeRef;
 
+    //Will be true, once Driver Profile is verified in Firebase
     private boolean isDriver = false;
+    //Also to really make sure that, ValueEventListener On Firebase DriverDetail Data node
+    //has Atleast fired once, i'm going to put another bool here
+    //It will be set to true once the ValueEventListener has fired once
+    private boolean valueEventListenerFiredOnce = false;
     private final int DRIVER_DETAILS_RESULT =  12;
     //endregion
 
@@ -57,7 +63,7 @@ public class HomeFragment extends Fragment {
         driverDataListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
+                 valueEventListenerFiredOnce = true;
                 //Check if any of the driver profile properties are available
                 //For simpliciy sake i am going to check for vehicle no
                 if (dataSnapshot.child("vehicle_no").getValue() != null){
@@ -96,10 +102,14 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
              //Open Activity to get Route Param's, and then share the ride
              //But first make sure that, Driver Profile exist
-             if (!isDriver){
+             if (!isDriver && valueEventListenerFiredOnce){
                  //Prompt to fill up driver details, in another activity
                  Intent driverDetailsActivityIntent =  new Intent(getActivity().getApplicationContext(),DriverDetailActivity.class);
                  startActivityForResult(driverDetailsActivityIntent,DRIVER_DETAILS_RESULT);
+             }else{
+                 //Take to driver route/journey enter Activity
+                 Intent shareMyRideActivityIntent =  new Intent(getActivity().getApplicationContext(), com.andromeda.djzaamir.rideshare.               shareMyRide.class);
+                 startActivity(shareMyRideActivityIntent);
              }
             }
         });
