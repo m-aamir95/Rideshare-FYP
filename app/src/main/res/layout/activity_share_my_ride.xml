@@ -9,6 +9,7 @@
     android:padding="20dp"
     android:background="@color/background_color_primary">
 
+    <!--Starting location, Address-->
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,6 +17,8 @@
         android:focusableInTouchMode="false"
         android:text="Start Point"
         android:id="@+id/start_point_txtview"/>
+
+    <!--Ending location Address-->
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,36 +28,38 @@
         android:id="@+id/end_point_txtview"
         />
 
+    <!--Start Date and Time-->
      <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:text="Start Date,Time"
-        android:id="@+id/date_time_textview"
-         android:onClick="date_time_onClick"
+        android:id="@+id/start_date_time_textview"
+        />
+
+   <!--Is this is a Round Trip Checkbox layout-->
+     <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Round Trip"
+        android:textSize="18sp"
+        android:id="@+id/roundTrip_checkbox"/>
+
+
+    <!--Round trip date and time-->
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="Return Date,Time"
+        android:id="@+id/return_date_time_textview"
+        android:visibility="invisible"
         />
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Round Trip"
-            android:textSize="20sp"
-            android:textStyle="bold" />
-
-        <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-    </LinearLayout>
-
-
+    <!--share my ride button-->
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,7 +67,8 @@
         android:text="Share my Ride"
         android:background="@color/button_color_primary"
         android:textSize="20sp"
-        android:textColor="@color/button_txt_color_primary"/>
+        android:textColor="@color/button_txt_color_primary"
+        android:onClick="shareMyRide_onClick"/>
 
 
 
