@@ -24,8 +24,12 @@ public class shareMyRide extends AppCompatActivity {
     private CheckBox roundTrip_checkbox;
 
     //Date Memebers
-    String year,month,day,hour,minutes;
-    boolean isAM;
+    boolean startDateTimeSelection = true;
+
+    String start_year, start_month, start_day, start_hour, start_minutes;
+    boolean start_isAM;
+    String end_year, end_month, end_day, end_hour, end_minutes;
+    boolean end_isAm;
     String monthsName[] = {"JAN","FEB","MAR","APRIL","MAY","JUNE","JULY","AUG","SEP","OCT","NOV","DEC"};
 
     @Override
@@ -75,6 +79,7 @@ public class shareMyRide extends AppCompatActivity {
         start_date_time_edittext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startDateTimeSelection = true;
                 getDateAndTime();
             }
         });
@@ -83,7 +88,8 @@ public class shareMyRide extends AppCompatActivity {
         end_date_time_edittext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+              startDateTimeSelection = false;//Means currently working on roundtrip date and time
+                getDateAndTime();
             }
         });
         //endregion
@@ -164,28 +170,61 @@ public class shareMyRide extends AppCompatActivity {
     //helper functions to update outside scope vars with the vars of date and time callbacks
     //More details in the getDateAndTime()
     void setDate(int year , int month , int day){
-        this.year  = String.valueOf(year);
-        this.month = monthsName[month];
-        this.day   = String.valueOf(day);
+
+        if (startDateTimeSelection){
+            this.start_year = String.valueOf(year);
+            this.start_month = monthsName[month];
+            this.start_day = String.valueOf(day);
+            //Update gui
+            start_date_time_edittext.setText(start_day+"-"+start_month+"-"+start_year);
+        }else{
+            this.end_year = String.valueOf(year);
+            this.end_month = monthsName[month];
+            this.end_day = String.valueOf(day);
+            end_date_time_edittext.setText(end_day+"-"+end_month+"-"+end_year);
+        }
     }
     void setTime(int hour, int minutes){
+        //Update Start Date and Time
+        if (startDateTimeSelection){
         //Perform Military to normal time conversion
         if (hour <= 12){ //AM time range
-           isAM = true;
-           this.hour    = String.valueOf(hour);
+           start_isAM = true;
+           this.start_hour = String.valueOf(hour);
         }else {
-            isAM = false;
+            start_isAM = false;
             //Perform Military to normal time conversion
-            this.hour =  String.valueOf(hour - 12);
+            this.start_hour =  String.valueOf(hour - 12);
         }
-        this.minutes = String.valueOf(minutes);
+        this.start_minutes = String.valueOf(minutes);
+
+        //update gui
+        String current_gui_date = start_date_time_edittext.getText().toString();
+        start_date_time_edittext.setText(current_gui_date + ", " +start_hour + ":" + start_minutes);
+       }
+       //Update return/time
+       else{
+         //Perform Military to normal time conversion
+        if (hour <= 12){ //AM time range
+           end_isAm = true;
+           this.end_hour = String.valueOf(hour);
+        }else {
+            end_isAm = false;
+            //Perform Military to normal time conversion
+            this.end_hour =  String.valueOf(hour - 12);
+        }
+        this.end_minutes = String.valueOf(minutes);
+        //update gui
+        String current_gui_date = end_date_time_edittext.getText().toString();
+        end_date_time_edittext.setText(current_gui_date + ", " +end_hour + ":" + end_minutes);
+       }
     }
 
 
     //Share my Ride Button Click Listener
     public void shareMyRide_onClick(View view) {
         StringBuilder formattedDateAndTime =  new StringBuilder();
-        formattedDateAndTime.append(String.format("%s-%s-%s , %s:%s",day,month,year,hour,minutes));
+        formattedDateAndTime.append(String.format("%s-%s-%s , %s:%s", start_day, start_month, start_year, start_hour, start_minutes));
         Toast.makeText(this,formattedDateAndTime.toString(),Toast.LENGTH_SHORT).show();
     }
 
