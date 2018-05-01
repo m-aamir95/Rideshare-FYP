@@ -15,12 +15,18 @@ import java.util.Calendar;
 
 public class shareMyRide extends AppCompatActivity {
 
+    //First of All, the Date and time Code is written in a very messed up way
+    //you can understand it eventually because its heavily commented
+
+
    //Gui references
     private EditText start_point_edittext, end_point_edittext, start_date_time_edittext,end_date_time_edittext;
     private CheckBox roundTrip_checkbox;
 
     //Date Memebers
-    String date,time;
+    String year,month,day,hour,minutes;
+    boolean isAM;
+    String monthsName[] = {"JAN","FEB","MAR","APRIL","MAY","JUNE","JULY","AUG","SEP","OCT","NOV","DEC"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,6 +124,11 @@ public class shareMyRide extends AppCompatActivity {
             public void onTimeSet(TimePicker timePicker, int hour, int minutes) {
               //Can't format time to be returned in here
               //Because only Final variables can be accessed in here
+
+                //Setup time, we are passing these vars into this helper function
+                //Because we need to update outside scoped variables
+                //They cant be used here, because they need to be final for that
+                //This helper function will take these vars and update those outside scopped vars
                 setTime(hour,minutes);
             }
         },Hour,Minutes,false);
@@ -135,7 +146,10 @@ public class shareMyRide extends AppCompatActivity {
               //Can't format date to be returned in here
               //Because only Final variables can be accessed in here
 
-                //Setup date,
+                //Setup date, we are passing these vars into this helper function
+                //Because we need to update outside scoped variables
+                //They cant be used here, because they need to be final for that
+                //This helper function will take these vars and update those outside scopped vars
                 setDate(year,month,day);
 
                 //To make sure Time Dialogue will come up after selecting a date
@@ -147,19 +161,32 @@ public class shareMyRide extends AppCompatActivity {
         datePickerDialog.show();
     }
 
-
-
+    //helper functions to update outside scope vars with the vars of date and time callbacks
+    //More details in the getDateAndTime()
     void setDate(int year , int month , int day){
-        date = year + ":" + month + ":" + day;
+        this.year  = String.valueOf(year);
+        this.month = monthsName[month];
+        this.day   = String.valueOf(day);
     }
     void setTime(int hour, int minutes){
-        time = hour + ":" + minutes;
+        //Perform Military to normal time conversion
+        if (hour <= 12){ //AM time range
+           isAM = true;
+           this.hour    = String.valueOf(hour);
+        }else {
+            isAM = false;
+            //Perform Military to normal time conversion
+            this.hour =  String.valueOf(hour - 12);
+        }
+        this.minutes = String.valueOf(minutes);
     }
 
 
     //Share my Ride Button Click Listener
     public void shareMyRide_onClick(View view) {
-        Toast.makeText(this, date + "\n" + time ,Toast.LENGTH_LONG).show();
+        StringBuilder formattedDateAndTime =  new StringBuilder();
+        formattedDateAndTime.append(String.format("%s-%s-%s , %s:%s",day,month,year,hour,minutes));
+        Toast.makeText(this,formattedDateAndTime.toString(),Toast.LENGTH_SHORT).show();
     }
 
 }
