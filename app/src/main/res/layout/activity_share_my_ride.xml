@@ -5,14 +5,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.andromeda.djzaamir.rideshare.shareMyRide"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:background="@color/background_color_primary">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <EditText
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="30sp"
-        android:text="Share my Ride Activity"
-        android:layout_gravity="center"
-        android:textStyle="bold"/>
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="Start Point"
+        android:id="@+id/start_point_txtview"/>
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="End Point"
+        android:id="@+id/end_point_txtview"
+        />
+
+     <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:text="Start Date,Time"
+        android:id="@+id/date_time_textview"
+         android:onClick="date_time_onClick"
+        />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Round Trip"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="Share my Ride"
+        android:background="@color/button_color_primary"
+        android:textSize="20sp"
+        android:textColor="@color/button_txt_color_primary"/>
+
+
+
 
 </LinearLayout>

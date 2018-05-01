@@ -52,3 +52,7 @@
 19) Make sure that driver's cnic is unique and does'nt exist in the database already TODO(Important_level=HIGH ,DOC=YES)
 
 20) Make sure that cell number is unique and doesn't exist in the database already TODO(Important_level=HIGH ,DOC=YES)
+
+21) Place proper paddings at different places, experiment with it TODO(Important_Level=HIGH)
+
+22) Improve the GUI, follow google Apps GUI patterns TODO(Important_level=HIGH)
