@@ -2,12 +2,14 @@ package com.andromeda.djzaamir.rideshare;
 
 import android.*;
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,10 +22,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 public class grabLocationMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    //region Vars
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
     private Location last_known_loc;
     private final int REQ_FINE_LOC = 1;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,5 +97,16 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
                     .permission.ACCESS_FINE_LOCATION}, REQ_FINE_LOC);
         }
         mMap.setMyLocationEnabled(true);
+    }
+
+
+    public void confirm_location_button(View view) {
+        Intent shareMyRideAcitivityIntent =  new Intent();
+        LatLng selected_location =  new LatLng(last_known_loc.getLatitude(),last_known_loc.getLongitude());
+        shareMyRideAcitivityIntent.putExtra("latitude" ,String.valueOf(selected_location.latitude));
+        shareMyRideAcitivityIntent.putExtra("longitude",String.valueOf(selected_location.longitude));
+        setResult(RESULT_OK,shareMyRideAcitivityIntent);
+        //Because we are returning result to previous activity,hence we don't need to start a brand new activity
+        finish();
     }
 }

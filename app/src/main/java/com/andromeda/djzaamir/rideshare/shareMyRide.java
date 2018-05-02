@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Calendar;
 
 public class shareMyRide extends AppCompatActivity {
@@ -114,13 +116,21 @@ public class shareMyRide extends AppCompatActivity {
             case start_loc_intent:
                 if (resultCode == Activity.RESULT_OK){
                   //grab lat,lng
-
+                   if (data != null){
+                     String latitude  = data.getExtras().getString("latitude");
+                     String longitude = data.getExtras().getString("longitude");
+                     start_point_edittext.setText(latitude + ", "+longitude);
+                   }
                 }
                 break;
             case end_loc_intent:
                 if (resultCode == Activity.RESULT_OK){
                  //grab lat,lng
-
+                   if (data != null){
+                     String latitude  = data.getExtras().getString("latitude");
+                     String longitude = data.getExtras().getString("longitude");
+                     end_point_edittext.setText(latitude + ", "+longitude);
+                   }
                 }
                 break;
             default:
