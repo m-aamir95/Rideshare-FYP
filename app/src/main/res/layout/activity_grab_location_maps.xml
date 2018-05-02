@@ -6,9 +6,8 @@
     tools:context="com.andromeda.djzaamir.rideshare.grabLocationMapsActivity">
 
 
-
-
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<!--For Map-->
+  <fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map"
@@ -16,6 +15,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
 
+<!--For Place Auto Complete-->
+  <fragment
+      android:layout_marginTop="10dp"
+      android:id="@+id/place_autocomplete_fragment"
+      android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
 
     <Button
         android:layout_width="match_parent"
@@ -28,5 +34,6 @@
         android:background="@color/button_color_primary"
         android:textColor="@color/button_txt_color_primary"
         android:onClick="confirm_location_button"/>
+
 
 </FrameLayout>

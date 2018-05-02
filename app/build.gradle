@@ -39,6 +39,9 @@ dependencies {
     //for LocationRequest
     compile 'com.google.android.gms:play-services-location:15.0.0'
 
+    //For Google Places API
+    compile 'com.google.android.gms:play-services-maps:15.0.0'
+    compile 'com.google.android.gms:play-services-places:15.0.0'
 }
 
 // Google firebase Dependency

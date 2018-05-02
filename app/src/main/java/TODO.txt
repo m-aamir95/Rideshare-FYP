@@ -60,3 +60,5 @@
 23) Error Validation in Date And Time selection, make sure user provides both TODO(Important_level=HIGH)
 
 24) Display user friendly messages before and after getting permissions, to let the user know why its imp TODO(Important_level=HIGH)
+
+25) Fix Place Autocomplete tranparency issue TODO(Important_level=HIGH)

@@ -1,22 +1,27 @@
 package com.andromeda.djzaamir.rideshare;
 
-import android.*;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -25,12 +30,13 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
     //region Vars
     private GoogleMap mMap;
     private FusedLocationProviderClient fusedLocationProviderClient;
-    private Location last_known_loc;
+    private LatLng last_known_loc;
     private final int REQ_FINE_LOC = 1;
+    private Marker current_marker_location;
     //endregion
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grab_location_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -43,7 +49,7 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
 
 
         //grab last known location
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&          ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //Ask for permission
             ActivityCompat.requestPermissions(this, new String[]{Manifest
                     .permission.ACCESS_FINE_LOCATION}, REQ_FINE_LOC);
@@ -52,15 +58,34 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                last_known_loc = location;
-                LatLng current_loc_latlng = new LatLng(last_known_loc.getLatitude(), last_known_loc.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(current_loc_latlng).title("You are here"));
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(current_loc_latlng,16));
+                last_known_loc = new LatLng(location.getLatitude(),location.getLongitude());
+                current_marker_location =  mMap.addMarker(new MarkerOptions().position(last_known_loc).title("You are here"));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(last_known_loc , 16));
 
             }
         });
 
 
+        //Google Place Autocomplete Fragment
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id                                  .place_autocomplete_fragment);
+
+         autocompleteFragment.setMenuVisibility(true);
+         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                last_known_loc = place.getLatLng();
+                current_marker_location.remove();
+                current_marker_location =  mMap.addMarker(new MarkerOptions().position(last_known_loc).title("Your are here"));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(last_known_loc,16));
+
+            }
+
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.i("Place APi error", "An error occurred: " + status);
+            }
+          });
     }
 
     @Override
@@ -92,7 +117,7 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&                  ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
              ActivityCompat.requestPermissions(this, new String[]{Manifest
                     .permission.ACCESS_FINE_LOCATION}, REQ_FINE_LOC);
         }
@@ -101,8 +126,9 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
 
 
     public void confirm_location_button(View view) {
+
         Intent shareMyRideAcitivityIntent =  new Intent();
-        LatLng selected_location =  new LatLng(last_known_loc.getLatitude(),last_known_loc.getLongitude());
+        LatLng selected_location =  new LatLng(last_known_loc.latitude,last_known_loc.longitude);
         shareMyRideAcitivityIntent.putExtra("latitude" ,String.valueOf(selected_location.latitude));
         shareMyRideAcitivityIntent.putExtra("longitude",String.valueOf(selected_location.longitude));
         setResult(RESULT_OK,shareMyRideAcitivityIntent);
