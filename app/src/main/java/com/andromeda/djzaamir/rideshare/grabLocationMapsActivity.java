@@ -39,23 +39,22 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
 
 
         //grab last known location
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager               .PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) !=          PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //Ask for permission
-            ActivityCompat.requestPermissions(this,new String[]{Manifest
-            .permission.ACCESS_FINE_LOCATION},REQ_FINE_LOC);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest
+                    .permission.ACCESS_FINE_LOCATION}, REQ_FINE_LOC);
 
         }
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
                 last_known_loc = location;
-                LatLng latLng =  new LatLng(last_known_loc.getLatitude(),last_known_loc.getLongitude());
-                mMap.addMarker(new MarkerOptions().position(latLng).title("You are here"));
-                mMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                LatLng current_loc_latlng = new LatLng(last_known_loc.getLatitude(), last_known_loc.getLongitude());
+                mMap.addMarker(new MarkerOptions().position(current_loc_latlng).title("You are here"));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(current_loc_latlng,16));
 
             }
         });
-
 
 
     }
@@ -63,17 +62,17 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch(requestCode){
+        switch (requestCode) {
             case REQ_FINE_LOC:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //Cool FINE Location Access Provided
-                }else{
+                } else {
                     //Because location access is required
                     finish();
                 }
                 break;
             default:
-                    break;
+                break;
         }
     }
 
@@ -89,10 +88,10 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-//        LatLng sydney = new LatLng(last_known_loc.getLongitude(), last_known_loc.getLatitude());
-//        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-//        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+             ActivityCompat.requestPermissions(this, new String[]{Manifest
+                    .permission.ACCESS_FINE_LOCATION}, REQ_FINE_LOC);
+        }
+        mMap.setMyLocationEnabled(true);
     }
 }
