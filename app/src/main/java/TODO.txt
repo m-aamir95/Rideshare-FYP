@@ -56,3 +56,7 @@
 21) Place proper paddings at different places, experiment with it TODO(Important_Level=HIGH)
 
 22) Improve the GUI, follow google Apps GUI patterns TODO(Important_level=HIGH)
+
+23) Error Validation in Date And Time selection, make sure user provides both TODO(Important_level=HIGH)
+
+24) Display user friendly messages before and after getting permissions, to let the user know why its imp TODO(Important_level=HIGH)

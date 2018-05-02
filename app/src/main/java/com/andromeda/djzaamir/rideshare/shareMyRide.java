@@ -1,7 +1,9 @@
 package com.andromeda.djzaamir.rideshare;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -19,7 +21,8 @@ public class shareMyRide extends AppCompatActivity {
     //you can understand it eventually because its heavily commented
 
 
-   //Gui references
+    //region Vars
+    //Gui references
     private EditText start_point_edittext, end_point_edittext, start_date_time_edittext,end_date_time_edittext;
     private CheckBox roundTrip_checkbox;
 
@@ -31,6 +34,10 @@ public class shareMyRide extends AppCompatActivity {
     String end_year, end_month, end_day, end_hour, end_minutes;
     boolean end_isAm;
     String monthsName[] = {"JAN","FEB","MAR","APRIL","MAY","JUNE","JULY","AUG","SEP","OCT","NOV","DEC"};
+
+    final int start_loc_intent = 1;
+    final int end_loc_intent   = 2;
+    //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +71,8 @@ public class shareMyRide extends AppCompatActivity {
             @Override
             public void onClick(View view) {
               //start Another Activity to get Start location using Google Maps API and Google Places API
+                Intent grabLocationActivity =  new Intent(shareMyRide.this,grabLocationMapsActivity.class);
+                startActivityForResult(grabLocationActivity ,start_loc_intent); //lat,lng will be returned
             }
         });
 
@@ -72,6 +81,8 @@ public class shareMyRide extends AppCompatActivity {
             @Override
             public void onClick(View view) {
               //start Another Activity to get Start location using Google Maps API and Google Places API
+                Intent grabLocationActivity =  new Intent(shareMyRide.this,grabLocationMapsActivity.class);
+                startActivityForResult(grabLocationActivity ,end_loc_intent); //lat,lng will be returned
             }
         });
 
@@ -96,6 +107,26 @@ public class shareMyRide extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case start_loc_intent:
+                if (resultCode == Activity.RESULT_OK){
+                  //grab lat,lng
+
+                }
+                break;
+            case end_loc_intent:
+                if (resultCode == Activity.RESULT_OK){
+                 //grab lat,lng
+
+                }
+                break;
+            default:
+                break;
+        }
+    }
 
     private void getDateAndTime(){
 
@@ -166,7 +197,6 @@ public class shareMyRide extends AppCompatActivity {
 
         datePickerDialog.show();
     }
-
     //helper functions to update outside scope vars with the vars of date and time callbacks
     //More details in the getDateAndTime()
     void setDate(int year , int month , int day){
