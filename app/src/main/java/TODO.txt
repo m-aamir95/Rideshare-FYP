@@ -64,3 +64,17 @@
 25) Fix Place Autocomplete tranparency issue TODO(Important_level=HIGH)
 
 26) Fix horizontal scrolling issue in shareMyRide Start Position and End Position TODO(Important_level=HIGH)
+
+TODO 27) Fix cnic field, currently it's a text field and should be a number field TODO(Important_level=HIGH)
+
+27) Tap to get location in maps TODO(Important_level=HIGH)
+
+TODO 28) Fix GUI get location by GPS widget position, its been hidden by Google Place API TODO(Important_level=HIGH)
+
+29) Add Spinning waits when communicating with servers or doing some processing TODO(Important_level=HIGH)
+
+30) check out Rideshare Original Application Google Places Widget placement TODO(Important_level=LOW)
+
+31) On succesful share my ride completion, show user about his/her current planned route, and probably allow them to change it TODO(Important_level=HIGH)
+
+32) Error messages not being dislayed because, all the EditText fields are non focusable,so thats something to work on TODO(Important_level=HIGH)

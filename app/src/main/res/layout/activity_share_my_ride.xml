@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false"
-
+        android:layout_marginBottom="10dp"
         android:focusableInTouchMode="false"
         android:text="Start Point"
         android:maxLines="1"
@@ -39,6 +39,7 @@
             android:focusableInTouchMode="false"
             android:text="End Point"
             android:id="@+id/end_point_txtview"
+            android:layout_marginBottom="10dp"
             />
         </HorizontalScrollView>
 
@@ -50,6 +51,7 @@
         android:focusableInTouchMode="false"
         android:text="Start Date,Time"
         android:id="@+id/start_date_time_textview"
+         android:layout_marginBottom="10dp"
         />
 
    <!--Is this is a Round Trip Checkbox layout-->
@@ -58,7 +60,9 @@
         android:layout_height="wrap_content"
         android:text="Round Trip"
         android:textSize="18sp"
-        android:id="@+id/roundTrip_checkbox"/>
+        android:id="@+id/roundTrip_checkbox"
+       android:layout_marginBottom="10dp"
+       />
 
 
     <!--Round trip date and time-->
@@ -70,6 +74,7 @@
         android:text="Return Date,Time"
         android:id="@+id/return_date_time_textview"
         android:visibility="invisible"
+        android:layout_marginBottom="10dp"
         />
 
 
@@ -77,7 +82,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="35dp"
         android:text="Share my Ride"
         android:background="@color/button_color_primary"
         android:textSize="20sp"

@@ -17,7 +17,7 @@
 
 <!--For Place Auto Complete-->
   <fragment
-      android:layout_marginTop="10dp"
+      android:layout_marginTop="37dp"
       android:id="@+id/place_autocomplete_fragment"
       android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
       android:layout_width="match_parent"

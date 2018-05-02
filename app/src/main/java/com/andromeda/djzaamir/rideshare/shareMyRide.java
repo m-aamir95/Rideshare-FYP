@@ -13,9 +13,11 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -34,17 +36,23 @@ public class shareMyRide extends AppCompatActivity {
     private CheckBox roundTrip_checkbox;
 
     //Date Memebers
-    boolean startDateTimeSelection = true;
+    //Will let us know if we are reading Start DateAndTime Or End DateAndTime
+    private boolean startDateTimeSelection = true;
 
-    String start_year, start_month, start_day, start_hour, start_minutes;
-    boolean start_isAM;
-    String end_year, end_month, end_day, end_hour, end_minutes;
-    boolean end_isAm;
-    String monthsName[] = {"JAN","FEB","MAR","APRIL","MAY","JUNE","JULY","AUG","SEP","OCT","NOV","DEC"};
+    private String start_year = null, start_month= null, start_day= null, start_hour= null, start_minutes= null;
+    private boolean start_isAM;
+    private String end_year= null, end_month= null, end_day= null, end_hour= null, end_minutes= null;
+    private boolean end_isAm;
+    private String monthsName[] = {"JAN","FEB","MAR","APRIL","MAY","JUNE","JULY","AUG","SEP","OCT","NOV","DEC"};
 
-    final int start_loc_intent = 1;
-    final int end_loc_intent   = 2;
+    private final int start_loc_intent = 1;
+    private final int end_loc_intent   = 2;
 
+    //Start and ending locations
+    private LatLng start_loc_point = null, end_loc_point = null;
+
+
+    //To convert Latlng, to Addresses
     Geocoder geocoder;
     //endregion
 
@@ -129,10 +137,10 @@ public class shareMyRide extends AppCompatActivity {
                    if (data != null){
                      String latitude  = data.getExtras().getString("latitude");
                      String longitude = data.getExtras().getString("longitude");
-                     LatLng latLng = new LatLng(Double.valueOf(latitude) , Double.valueOf(longitude));
+                      start_loc_point = new LatLng(Double.valueOf(latitude) , Double.valueOf(longitude));
                      List<Address> addresses = null;
                        try {
-                           addresses = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
+                           addresses = geocoder.getFromLocation(start_loc_point.latitude,start_loc_point.longitude,1);
                        } catch (IOException e) {
                            e.printStackTrace();
                        }
@@ -146,10 +154,10 @@ public class shareMyRide extends AppCompatActivity {
                    if (data != null){
                      String latitude  = data.getExtras().getString("latitude");
                      String longitude = data.getExtras().getString("longitude");
-                     LatLng latLng = new LatLng(Double.valueOf(latitude) , Double.valueOf(longitude));
+                     end_loc_point = new LatLng(Double.valueOf(latitude) , Double.valueOf(longitude));
                      List<Address> addresses = null;
                        try {
-                           addresses = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
+                           addresses = geocoder.getFromLocation(end_loc_point.latitude,end_loc_point.longitude,1);
                        } catch (IOException e) {
                            e.printStackTrace();
                        }
@@ -287,9 +295,135 @@ public class shareMyRide extends AppCompatActivity {
 
     //Share my Ride Button Click Listener
     public void shareMyRide_onClick(View view) {
-        StringBuilder formattedDateAndTime =  new StringBuilder();
-        formattedDateAndTime.append(String.format("%s-%s-%s , %s:%s", start_day, start_month, start_year, start_hour, start_minutes));
-        Toast.makeText(this,formattedDateAndTime.toString(),Toast.LENGTH_SHORT).show();
+       //Before Submitting data to firebase validate everything
+       if (validateData()){
+           //Submit data to firebase
+           Available_Driver new_ride_entry =
+                   new Available_Driver(start_loc_point,end_loc_point,new Time(start_day,start_month,start_year,start_hour,                                                       start_minutes,start_isAM),new Time(end_day,end_month,end_year,end_hour,end_minutes,                                                       end_isAm));
+
+           String u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+           DatabaseReference available_drivers = FirebaseDatabase.getInstance().getReference().child("available_drivers");
+
+           //Push above data at this Db reference againt current user's ID
+           available_drivers.child(u_id).setValue(new_ride_entry);
+       }
     }
 
+
+    //region Data Validation Functions Before Sending data to firebase
+    //Beautifully written and refactored Validation function
+    private boolean validateData(){
+
+        //Validate Start Point
+        //All of the Error Displaying part to the user, has been taken care within the function
+        if (!validateLocation(start_loc_point,start_point_edittext,false)){
+            return  false;
+        }
+
+        //Valdiate for end point
+        if (!validateLocation(end_loc_point,end_point_edittext,true)){
+            return  false;
+        }
+
+
+        /*
+        * Validating date and time beautifully,
+        * Pls if you have some time read the function documentation
+        * */
+
+        //All of the Error Displaying part to the user, has been taken care within the function
+        if (!validateDateAndTime(start_day,start_minutes,start_date_time_edittext)){
+            return false;
+        }
+
+
+        //If the user has provided return route info
+        if (roundTrip_checkbox.isChecked()){
+          if (!validateDateAndTime(end_day,end_minutes,end_date_time_edittext)){
+              return  false;
+          }
+        }
+
+        //if everything good
+        return true;
+    }
+    private boolean validateLocation(LatLng location , EditText target_widget , boolean isForEndPoint){
+
+        String descriminator_msg = isForEndPoint ? "End": "Start";
+
+
+        //validate end position
+        if (location == null){
+            target_widget.setError("Invalid "+ descriminator_msg +" Point");
+            return  false;
+        }else{
+           target_widget.setError(null);
+        }
+
+        //if all good
+        return  true;
+    }
+    private boolean validateDateAndTime(String day, String minutes, EditText target_widget){
+         /*
+        * Because Dates and time are comprised of multiple parts
+        * such as year,month,day,hour,minutes
+        * We are going to take smart approach here
+        * Only going to check
+        *  Day in the date section
+        *    Because if the user fills in a Day, then automatically it means that they have selected year and month as well
+        *
+        * Minutes in the time section
+            Same rule as above applies if the user selects then it also means they have selected hours toi
+        *
+        * */
+        if (day == null){
+            target_widget.setError("Invalid Date");
+            return false;
+        }else{
+            target_widget.setError(null);
+        }
+        if (minutes == null){
+            target_widget.setError("Invalid Time");
+            return false;
+        }else{
+            target_widget.setError(null);
+        }
+
+        //if everything good return true
+        return true;
+    }
+    //endregion
+
+    //Internal Class Data Container For Available-Driver data
+    class Available_Driver{
+        public LatLng start_point , end_point;
+        public Time start_time , end_time;
+
+
+        private Available_Driver(){}//Disable creation without params
+        public Available_Driver(LatLng start_point, LatLng end_point, Time start_time, Time end_time) {
+            this.start_point = start_point;
+            this.end_point = end_point;
+            this.start_time = start_time;
+            this.end_time = end_time;
+        }
+
+
+    }
+       //Internal class for saving pickup and drop times
+        class Time{
+           public String day,month,year,hour,minutes;
+           public String timeOfDay;
+
+           //Cant be instaniated without these params
+            private Time(){}//Make the default constructor private
+            public Time(String day, String month, String year, String hour, String minutes,boolean isAm) {
+                this.day = day;
+                this.month = month;
+                this.year = year;
+                this.hour = hour;
+                this.minutes = minutes;
+                this.timeOfDay = isAm ?  "Am":"Pm";
+            }
+        }
 }

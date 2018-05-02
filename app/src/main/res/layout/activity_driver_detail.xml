@@ -9,6 +9,7 @@
     android:background="@color/background_color_primary">
 
 
+    <!--Message about why this Data is required-->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,6 +20,7 @@
         android:textStyle="bold"
         android:layout_marginBottom="10dp"/>
 
+    <!--Vehicle No-->
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,6 +29,7 @@
         android:layout_marginBottom="5dp"
         android:id="@+id/vehicle_no"/>
 
+    <!--Vehicle Color Selector-->
     <Spinner
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,9 +38,11 @@
         >
     </Spinner>
 
+    <!--CNIC-->
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="number"
         android:hint="CNIC"
         android:textColorHint="@color/input_hint_color"
         android:layout_marginBottom="5dp"
