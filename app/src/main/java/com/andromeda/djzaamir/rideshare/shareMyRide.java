@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +17,10 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.IOException;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 public class shareMyRide extends AppCompatActivity {
 
@@ -39,12 +44,17 @@ public class shareMyRide extends AppCompatActivity {
 
     final int start_loc_intent = 1;
     final int end_loc_intent   = 2;
+
+    Geocoder geocoder;
     //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_my_ride);
+
+        //init geo-coder
+        geocoder  = new Geocoder(this, Locale.getDefault());
 
         //init gui references
         start_point_edittext     =   findViewById(R.id.start_point_txtview);
@@ -119,7 +129,14 @@ public class shareMyRide extends AppCompatActivity {
                    if (data != null){
                      String latitude  = data.getExtras().getString("latitude");
                      String longitude = data.getExtras().getString("longitude");
-                     start_point_edittext.setText(latitude + ", "+longitude);
+                     LatLng latLng = new LatLng(Double.valueOf(latitude) , Double.valueOf(longitude));
+                     List<Address> addresses = null;
+                       try {
+                           addresses = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
+                       } catch (IOException e) {
+                           e.printStackTrace();
+                       }
+                       start_point_edittext.setText(addresses.get(0).getAddressLine(0));
                    }
                 }
                 break;
@@ -129,7 +146,14 @@ public class shareMyRide extends AppCompatActivity {
                    if (data != null){
                      String latitude  = data.getExtras().getString("latitude");
                      String longitude = data.getExtras().getString("longitude");
-                     end_point_edittext.setText(latitude + ", "+longitude);
+                     LatLng latLng = new LatLng(Double.valueOf(latitude) , Double.valueOf(longitude));
+                     List<Address> addresses = null;
+                       try {
+                           addresses = geocoder.getFromLocation(latLng.latitude,latLng.longitude,1);
+                       } catch (IOException e) {
+                           e.printStackTrace();
+                       }
+                       end_point_edittext.setText(addresses.get(0).getAddressLine(0));
                    }
                 }
                 break;

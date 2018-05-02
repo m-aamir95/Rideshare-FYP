@@ -62,3 +62,5 @@
 24) Display user friendly messages before and after getting permissions, to let the user know why its imp TODO(Important_level=HIGH)
 
 25) Fix Place Autocomplete tranparency issue TODO(Important_level=HIGH)
+
+26) Fix horizontal scrolling issue in shareMyRide Start Position and End Position TODO(Important_level=HIGH)
