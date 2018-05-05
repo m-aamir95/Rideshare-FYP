@@ -108,7 +108,7 @@ public class HomeFragment extends Fragment {
                  startActivityForResult(driverDetailsActivityIntent,DRIVER_DETAILS_RESULT);
              }else{
                  //Take to driver route/journey enter Activity
-                 Intent shareMyRideActivityIntent =  new Intent(getActivity().getApplicationContext(), com.andromeda.djzaamir.rideshare.               shareMyRide.class);
+                 Intent shareMyRideActivityIntent =  new Intent(getActivity().getApplicationContext(), com.andromeda.djzaamir.rideshare.                                shareMyRide.class);
                  startActivity(shareMyRideActivityIntent);
              }
             }

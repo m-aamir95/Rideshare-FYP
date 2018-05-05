@@ -78,3 +78,12 @@ TODO 28) Fix GUI get location by GPS widget position, its been hidden by Google 
 31) On succesful share my ride completion, show user about his/her current planned route, and probably allow them to change it TODO(Important_level=HIGH)
 
 32) Error messages not being dislayed because, all the EditText fields are non focusable,so thats something to work on TODO(Important_level=HIGH)
+
+33) we have to use cardview in order to properly show Google Place api TODO(Important_level=HIGH)
+
+34) Big problems found , even though App not working properly because not able to communicate with firebase
+     * Signup data doesn't get show on firebase
+     * Share my Ride activity opening up,even though Driver Details data has not been provided
+     * App is not even asking for driver data
+
+35) signup data not getting pushed

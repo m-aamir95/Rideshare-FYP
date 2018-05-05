@@ -105,7 +105,7 @@ public class SignupActivity extends AppCompatActivity {
        data_pair.put("cell",cell);
 
 //        Push data
-        ref.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(data_pair)                         .addOnCompleteListener(new OnCompleteListener<Void>() {
+        ref.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(data_pair)                  .addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 FirebaseAuth.getInstance().signOut();
