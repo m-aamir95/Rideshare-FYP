@@ -85,5 +85,7 @@ TODO 28) Fix GUI get location by GPS widget position, its been hidden by Google 
      * Signup data doesn't get show on firebase
      * Share my Ride activity opening up,even though Driver Details data has not been provided
      * App is not even asking for driver data
+     Maybe i need to put some more checks, like even if the DataSnapshot is not null, i should still try to access the inner relavant child nodes, to really make sure that i am able to communicate with Firebase
 
-35) signup data not getting pushed
+
+TODO 35) signup data not getting pushed ,Solved, maybe the problem was that i didn't added the Sha-1 hash of my laptop to Firebase, and when i compiled APP with my laptop, Firebase refused to communicate with my APP because of NEW sha-1 hash

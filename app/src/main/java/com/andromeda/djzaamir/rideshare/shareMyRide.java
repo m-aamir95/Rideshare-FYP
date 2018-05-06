@@ -6,15 +6,19 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -35,19 +39,16 @@ public class shareMyRide extends AppCompatActivity {
     private EditText start_point_edittext, end_point_edittext, start_date_time_edittext,end_date_time_edittext;
     private CheckBox roundTrip_checkbox;
 
-    //Date Memebers
+    //Date Members
     //Will let us know if we are reading Start DateAndTime Or End DateAndTime
     private boolean startDateTimeSelection = true;
 
-    private String start_year = null, start_month= null, start_day= null, start_hour= null, start_minutes= null;
-    private boolean start_isAM;
-    private String end_year= null, end_month= null, end_day= null, end_hour= null, end_minutes= null;
-    private boolean end_isAm;
-    private String monthsName[] = {"JAN","FEB","MAR","APRIL","MAY","JUNE","JULY","AUG","SEP","OCT","NOV","DEC"};
+    private Calendar start_date_and_time = null, end_date_and_time = null;
+    private boolean start_date_and_time_good = false, end_date_and_time_good = false; //Will be used in error validation
 
+    //TO discrimnite between activityResults in order to Assign latlng to Start Destination or Ending destination
     private final int start_loc_intent = 1;
     private final int end_loc_intent   = 2;
-
     //Start and ending locations
     private LatLng start_loc_point = null, end_loc_point = null;
 
@@ -119,7 +120,7 @@ public class shareMyRide extends AppCompatActivity {
         end_date_time_edittext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              startDateTimeSelection = false;//Means currently working on roundtrip date and time
+                startDateTimeSelection = false;//Means currently working on roundtrip date and time
                 getDateAndTime();
             }
         });
@@ -130,6 +131,9 @@ public class shareMyRide extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        //TODO, can be refactored
+
         switch (requestCode){
             case start_loc_intent:
                 if (resultCode == Activity.RESULT_OK){
@@ -198,6 +202,7 @@ public class shareMyRide extends AppCompatActivity {
          Hour      = c.get(Calendar.HOUR);
          Minutes   = c.get(Calendar.MINUTE);
 
+
         final  TimePickerDialog timePickerDialog =  new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int minutes) {
@@ -211,7 +216,6 @@ public class shareMyRide extends AppCompatActivity {
                 setTime(hour,minutes);
             }
         },Hour,Minutes,false);
-
 
         //Get Date
         int Year,Month,Day;
@@ -237,6 +241,13 @@ public class shareMyRide extends AppCompatActivity {
             }
         },Year,Month,Day);
 
+        //handle minimum date to be shown,depending upon start and end time
+        if (startDateTimeSelection){
+           datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        }else{
+            datePickerDialog.getDatePicker().setMinDate(start_date_and_time.getTimeInMillis());
+        }
+
         datePickerDialog.show();
     }
     //helper functions to update outside scope vars with the vars of date and time callbacks
@@ -244,68 +255,105 @@ public class shareMyRide extends AppCompatActivity {
     void setDate(int year , int month , int day){
 
         if (startDateTimeSelection){
-            this.start_year = String.valueOf(year);
-            this.start_month = monthsName[month];
-            this.start_day = String.valueOf(day);
+
+          //update calender obj for start date and time
+            start_date_and_time =  Calendar.getInstance();
+            start_date_and_time.set(year,month,day);
+
             //Update gui
-            start_date_time_edittext.setText(start_day+"-"+start_month+"-"+start_year);
+            start_date_time_edittext.setText(day+"-"+month+"-"+year);
         }else{
-            this.end_year = String.valueOf(year);
-            this.end_month = monthsName[month];
-            this.end_day = String.valueOf(day);
-            end_date_time_edittext.setText(end_day+"-"+end_month+"-"+end_year);
+
+            //update calender obj for start date and time
+            end_date_and_time =  Calendar.getInstance();
+            end_date_and_time.set(year,month,day);
+
+
+            end_date_time_edittext.setText(day+"-"+month+"-"+year);
         }
     }
     void setTime(int hour, int minutes){
+
+
         //Update Start Date and Time
         if (startDateTimeSelection){
+
+         start_date_and_time_good = true;
+
+        //Update start calendar
+       start_date_and_time.set(Calendar.HOUR_OF_DAY ,hour); //Hour_Of_Day, Indicating a 24 Hour clock
+       start_date_and_time.set(Calendar.MINUTE,minutes);
+
+
         //Perform Military to normal time conversion
         if (hour <= 12){ //AM time range
-           start_isAM = true;
-           this.start_hour = String.valueOf(hour);
         }else {
-            start_isAM = false;
             //Perform Military to normal time conversion
-            this.start_hour =  String.valueOf(hour - 12);
+            hour =  hour - 12;
         }
-        this.start_minutes = String.valueOf(minutes);
 
         //update gui
-        String current_gui_date = start_date_time_edittext.getText().toString();
-        start_date_time_edittext.setText(current_gui_date + ", " +start_hour + ":" + start_minutes);
+        String current_gui_date = start_date_time_edittext.getText().toString(); //To Concatinate Date and time in GUi
+        start_date_time_edittext.setText(current_gui_date + ", " +hour + ":" + FormatMinutes(minutes));
        }
        //Update return/time
        else{
-         //Perform Military to normal time conversion
+
+            end_date_and_time_good = true;
+
+            //Update start calendar
+           end_date_and_time.set(Calendar.HOUR_OF_DAY ,hour); //Hour_Of_Day, Indicating a 24 Hour clock
+           end_date_and_time.set(Calendar.MINUTE,minutes);
+
+
+        //Perform Military to normal time conversion
         if (hour <= 12){ //AM time range
-           end_isAm = true;
-           this.end_hour = String.valueOf(hour);
         }else {
-            end_isAm = false;
             //Perform Military to normal time conversion
-            this.end_hour =  String.valueOf(hour - 12);
+            hour =  hour - 12;
         }
-        this.end_minutes = String.valueOf(minutes);
+
+
         //update gui
         String current_gui_date = end_date_time_edittext.getText().toString();
-        end_date_time_edittext.setText(current_gui_date + ", " +end_hour + ":" + end_minutes);
+        end_date_time_edittext.setText(current_gui_date + ", " +hour + ":" + FormatMinutes(minutes));
        }
     }
-
+    String FormatMinutes(int minutes){
+      String tr;
+      if (minutes < 10){
+          tr = "0" + String.valueOf(minutes);
+      }else{
+          tr = String.valueOf(minutes);
+      }
+      return tr;
+    }
 
     //Share my Ride Button Click Listener
     public void shareMyRide_onClick(View view) {
+
        //Before Submitting data to firebase validate everything
        if (validateData()){
            //Submit data to firebase
-           Available_Driver new_ride_entry =
-                   new Available_Driver(start_loc_point,end_loc_point,new Time(start_day,start_month,start_year,start_hour,                                                       start_minutes,start_isAM),new Time(end_day,end_month,end_year,end_hour,end_minutes,                                                       end_isAm));
+           Available_Driver new_ride_entry = new Available_Driver(start_loc_point,end_loc_point,start_date_and_time.getTimeInMillis(),
+                                                                   end_date_and_time.getTimeInMillis());
 
            String u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
            DatabaseReference available_drivers = FirebaseDatabase.getInstance().getReference().child("available_drivers");
 
            //Push above data at this Db reference againt current user's ID
-           available_drivers.child(u_id).setValue(new_ride_entry);
+           available_drivers.child(u_id).setValue(new_ride_entry).addOnSuccessListener(new OnSuccessListener<Void>() {
+               @Override
+               public void onSuccess(Void aVoid) {
+                   //Finish this activiy
+                   finish();
+               }
+           }).addOnFailureListener(new OnFailureListener() {
+               @Override
+               public void onFailure(@NonNull Exception e) {
+                   Toast.makeText(getApplicationContext(),"Error, updating info",Toast.LENGTH_LONG).show();
+               }
+           });
        }
     }
 
@@ -332,14 +380,14 @@ public class shareMyRide extends AppCompatActivity {
         * */
 
         //All of the Error Displaying part to the user, has been taken care within the function
-        if (!validateDateAndTime(start_day,start_minutes,start_date_time_edittext)){
+        if (!validateDateAndTime(start_date_and_time_good,start_date_time_edittext)){
             return false;
         }
 
 
         //If the user has provided return route info
         if (roundTrip_checkbox.isChecked()){
-          if (!validateDateAndTime(end_day,end_minutes,end_date_time_edittext)){
+          if (!validateDateAndTime(end_date_and_time_good,end_date_time_edittext)){
               return  false;
           }
         }
@@ -355,6 +403,7 @@ public class shareMyRide extends AppCompatActivity {
         //validate end position
         if (location == null){
             target_widget.setError("Invalid "+ descriminator_msg +" Point");
+
             return  false;
         }else{
            target_widget.setError(null);
@@ -363,67 +412,34 @@ public class shareMyRide extends AppCompatActivity {
         //if all good
         return  true;
     }
-    private boolean validateDateAndTime(String day, String minutes, EditText target_widget){
-         /*
-        * Because Dates and time are comprised of multiple parts
-        * such as year,month,day,hour,minutes
-        * We are going to take smart approach here
-        * Only going to check
-        *  Day in the date section
-        *    Because if the user fills in a Day, then automatically it means that they have selected year and month as well
-        *
-        * Minutes in the time section
-            Same rule as above applies if the user selects then it also means they have selected hours toi
-        *
-        * */
-        if (day == null){
-            target_widget.setError("Invalid Date");
+    private boolean validateDateAndTime(boolean date_time_state, EditText target_widget){
+        if (date_time_state == false){
+            target_widget.setError("Invalid Date or time");
             return false;
         }else{
             target_widget.setError(null);
         }
-        if (minutes == null){
-            target_widget.setError("Invalid Time");
-            return false;
-        }else{
-            target_widget.setError(null);
-        }
-
         //if everything good return true
         return true;
     }
     //endregion
 
-    //Internal Class Data Container For Available-Driver data
+
+
+    //Data-Model Class To Contain Available Driver Data
     class Available_Driver{
         public LatLng start_point , end_point;
-        public Time start_time , end_time;
-
+        public long start_time_millis , end_time_millis;
 
         private Available_Driver(){}//Disable creation without params
-        public Available_Driver(LatLng start_point, LatLng end_point, Time start_time, Time end_time) {
+
+        public Available_Driver(LatLng start_point, LatLng end_point, long start_time_millis, long end_time_millis) {
             this.start_point = start_point;
             this.end_point = end_point;
-            this.start_time = start_time;
-            this.end_time = end_time;
+            this.start_time_millis = start_time_millis;
+            this.end_time_millis =  end_time_millis;
         }
 
 
     }
-       //Internal class for saving pickup and drop times
-        class Time{
-           public String day,month,year,hour,minutes;
-           public String timeOfDay;
-
-           //Cant be instaniated without these params
-            private Time(){}//Make the default constructor private
-            public Time(String day, String month, String year, String hour, String minutes,boolean isAm) {
-                this.day = day;
-                this.month = month;
-                this.year = year;
-                this.hour = hour;
-                this.minutes = minutes;
-                this.timeOfDay = isAm ?  "Am":"Pm";
-            }
-        }
 }

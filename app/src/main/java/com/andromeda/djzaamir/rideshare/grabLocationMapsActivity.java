@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -44,7 +45,7 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
+        //TODO this is probably because i have commented the compile of Google Play location services
         fusedLocationProviderClient = new FusedLocationProviderClient(this);
 
 
@@ -97,6 +98,7 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
                     //Cool FINE Location Access Provided
                 } else {
                     //Because location access is required
+                    Toast.makeText(getApplicationContext(),"Location Services Are Required...",Toast.LENGTH_LONG).show();
                     finish();
                 }
                 break;
