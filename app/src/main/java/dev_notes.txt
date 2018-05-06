@@ -40,3 +40,5 @@
    Now from here Any instered party can call methods and use data properties from this class
    This class will make sure that it always have updated data from firebase will sync with firebase on the background
 
+5) Now using java Calendar class and Time Stamps for managing date and time which is alot cleaner and effective way of doing things
+

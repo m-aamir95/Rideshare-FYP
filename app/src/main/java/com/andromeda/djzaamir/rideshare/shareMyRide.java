@@ -10,12 +10,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.andromeda.djzaamir.rideshare.utils.ButtonUtils;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -334,6 +336,10 @@ public class shareMyRide extends AppCompatActivity {
 
        //Before Submitting data to firebase validate everything
        if (validateData()){
+
+           final Button shareMyRide_button = findViewById(R.id.shareMyRide_button);
+           ButtonUtils.disableAndChangeText(shareMyRide_button,"Sharing Ride...");
+
            //Submit data to firebase
            Available_Driver new_ride_entry = new Available_Driver(start_loc_point,end_loc_point,start_date_and_time.getTimeInMillis(),
                                                                    end_date_and_time.getTimeInMillis());
@@ -341,17 +347,18 @@ public class shareMyRide extends AppCompatActivity {
            String u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
            DatabaseReference available_drivers = FirebaseDatabase.getInstance().getReference().child("available_drivers");
 
-           //Push above data at this Db reference againt current user's ID
+           //Push above data at this Db reference against current user's ID
            available_drivers.child(u_id).setValue(new_ride_entry).addOnSuccessListener(new OnSuccessListener<Void>() {
                @Override
                public void onSuccess(Void aVoid) {
-                   //Finish this activiy
+                   //Finish this activity
                    finish();
                }
            }).addOnFailureListener(new OnFailureListener() {
                @Override
                public void onFailure(@NonNull Exception e) {
                    Toast.makeText(getApplicationContext(),"Error, updating info",Toast.LENGTH_LONG).show();
+                   ButtonUtils.enableButtonRestoreTitle();
                }
            });
        }

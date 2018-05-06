@@ -5,9 +5,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.andromeda.djzaamir.rideshare.utils.ButtonUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -31,9 +33,14 @@ public class LoginActivity extends AppCompatActivity {
 
     public void logIn(View view) {
         if (sanitizeAllData()){
-          String email    =  editTextEmail.getText().toString();
-          String password =  editTextPassword.getText().toString();
-            FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password).addOnSuccessListener(new OnSuccessListener<AuthResult>            () {
+
+          //Disable signin buttin, and change title
+            Button login_button =  findViewById(R.id.button_login);
+            ButtonUtils.disableAndChangeText(login_button,"Logging in...");
+
+            String email    =  editTextEmail.getText().toString();
+            String password =  editTextPassword.getText().toString();
+            FirebaseAuth.getInstance().signInWithEmailAndPassword(email,password).addOnSuccessListener(new                                          OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
 
@@ -54,6 +61,8 @@ public class LoginActivity extends AppCompatActivity {
                     editTextEmail.setText("");
                     editTextPassword.setText("");
                     editTextEmail.setError("Invalid Email or Password!");
+
+                   ButtonUtils.enableButtonRestoreTitle();
                 }
             });
         }

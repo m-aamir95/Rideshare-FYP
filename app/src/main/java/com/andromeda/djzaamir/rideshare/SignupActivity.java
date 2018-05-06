@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.andromeda.djzaamir.rideshare.utils.ButtonUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -124,8 +125,8 @@ public class SignupActivity extends AppCompatActivity {
             return; //Exit Singup function
         }
 
-        //Disable button
-        signupButton.setEnabled(false);
+        Button signup_button = findViewById(R.id.signup_button);
+        ButtonUtils.disableAndChangeText(signup_button,"Signing up...");
 
         //Perform singup
 
@@ -138,7 +139,7 @@ public class SignupActivity extends AppCompatActivity {
                 Toast.makeText(SignupActivity.this,"Email is in use by\nanother account!",Toast.LENGTH_LONG).show();
                 editTextEmail.requestFocus();
                 editTextEmail.setError("Email is in use by another account");
-                signupButton.setEnabled(true);
+                ButtonUtils.enableButtonRestoreTitle();
             }
         }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override

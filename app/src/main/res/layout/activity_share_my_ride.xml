@@ -87,6 +87,7 @@
         android:background="@color/button_color_primary"
         android:textSize="20sp"
         android:textColor="@color/button_txt_color_primary"
+        android:id="@+id/shareMyRide_button"
         android:onClick="shareMyRide_onClick"/>
 
 
