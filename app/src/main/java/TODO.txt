@@ -89,3 +89,5 @@ TODO 28) Fix GUI get location by GPS widget position, its been hidden by Google 
 
 
 TODO 35) signup data not getting pushed ,Solved, maybe the problem was that i didn't added the Sha-1 hash of my laptop to Firebase, and when i compiled APP with my laptop, Firebase refused to communicate with my APP because of NEW sha-1 hash
+
+36) Fix version conflicts in Gradle TODO (Important_level=HIGH)

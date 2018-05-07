@@ -41,6 +41,9 @@ dependencies {
     //For Google Places API
     //compile 'com.google.android.gms:play-services-maps:15.0.0'    This has been included As a Implementation Above
     compile 'com.google.android.gms:play-services-places:12.0.1'
+
+    //Cardview
+    compile 'com.android.support:cardview-v7:21.0.+'
 }
 
 // Google firebase Dependency
