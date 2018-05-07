@@ -76,7 +76,7 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
             public void onPlaceSelected(Place place) {
                 last_known_loc = place.getLatLng();
                 current_marker_location.remove();
-                current_marker_location =  mMap.addMarker(new MarkerOptions().position(last_known_loc).title("Your are here"));
+                current_marker_location =  mMap.addMarker(new MarkerOptions().position(last_known_loc));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(last_known_loc,16));
 
             }
@@ -119,6 +119,20 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        //Put a listener to grab location on tap
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                last_known_loc = latLng;
+
+                //Move camera
+                current_marker_location.remove();
+                current_marker_location = mMap.addMarker(new MarkerOptions().position(latLng));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+            }
+        });
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&                  ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
              ActivityCompat.requestPermissions(this, new String[]{Manifest
                     .permission.ACCESS_FINE_LOCATION}, REQ_FINE_LOC);

@@ -41,4 +41,16 @@
    This class will make sure that it always have updated data from firebase will sync with firebase on the background
 
 5) Now using java Calendar class and Time Stamps for managing date and time which is alot cleaner and effective way of doing things
+   Also making sure that No Past Times can be selected in Start_date_and_time timeStamp i-e No Date Less than current date
+   And No Past can be selected which is less than start_date_and_time because that would be very strange
+
+6) Buttons are now being disable along with their titles which are being changed to some meaningful text e.g Logging in...
+   Indicating, some work is being performed on the background
+   All of this is being managed by a ButtonUtil's class, to reduce code
+
+7) I forgot to add the sha-1 hash of my laptop to firebase, and when i tried to compile my App from my laptop
+   Android-Studio pushed my laptop's sha-1 hash into the APP, hence Firebase was refusing to communicate
+   So wasted alot of my time, its was very important to consider these things when working with servies like google
+
+
 
