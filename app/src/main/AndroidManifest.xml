@@ -6,9 +6,6 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-
-
-
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,10 +13,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--For Google Places-->
-        <!--<meta-data-->
-            <!--android:name="com.google.android.geo.API_KEY"-->
-            <!--android:value="AIzaSyCoVK5FcoqFC6CQkE4XrtXpDFqxYZ8s600"/>-->
+        <!-- For Google Places -->
+        <!-- <meta-data -->
+        <!-- android:name="com.google.android.geo.API_KEY" -->
+        <!-- android:value="AIzaSyCoVK5FcoqFC6CQkE4XrtXpDFqxYZ8s600"/> -->
 
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -48,7 +45,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".NavigationDrawer" />
         </activity>
-        <activity android:name=".shareMyRide" />
+        <activity android:name=".shareMyRide" >
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                       android:value=".NavigationDrawer"/>
+        </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -64,8 +64,13 @@
         <activity
             android:name=".grabLocationMapsActivity"
             android:label="@string/title_activity_grab_location_maps">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".shareMyRide" />
+        </activity>
+        <activity android:name=".FindARide">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value=".shareMyRide"/>
+                       android:value=".NavigationDrawer"/>
         </activity>
     </application>
 

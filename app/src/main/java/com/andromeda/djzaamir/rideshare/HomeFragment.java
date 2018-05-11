@@ -94,6 +94,8 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
               //Open Activity to get params for route and then find the matching driver's
+                Intent findADriverActivityIntent =  new Intent(getActivity().getApplicationContext(),FindARide.class);
+                startActivity(findADriverActivityIntent);
             }
         });
 

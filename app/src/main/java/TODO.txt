@@ -77,11 +77,11 @@ TODO 28) Fix GUI get location by GPS widget position, its been hidden by Google 
 
 31) On succesful share my ride completion, show user about his/her current planned route, and probably allow them to change it TODO(Important_level=HIGH)
 
-32) Error messages not being dislayed because, all the EditText fields are non focusable,so thats something to work on TODO(Important_level=HIGH)
+TODO 32) Error messages not being dislayed because, all the EditText fields are non focusable,so thats something to work on TODO(Important_level=HIGH)
 
-33) we have to use cardview in order to properly show Google Place api TODO(Important_level=HIGH)
+TODO 33) we have to use cardview in order to properly show Google Place api TODO(Important_level=HIGH)
 
-34) Big problems found , even though App not working properly because not able to communicate with firebase
+TODO (Probably the issue was not adding laptop sha-1 and then compiling with laptop caused connections issues with firebase)    34) Big problems found , even though App not working properly because not able to communicate with firebase
      * Signup data doesn't get show on firebase
      * Share my Ride activity opening up,even though Driver Details data has not been provided
      * App is not even asking for driver data
@@ -91,3 +91,11 @@ TODO 28) Fix GUI get location by GPS widget position, its been hidden by Google 
 TODO 35) signup data not getting pushed ,Solved, maybe the problem was that i didn't added the Sha-1 hash of my laptop to Firebase, and when i compiled APP with my laptop, Firebase refused to communicate with my APP because of NEW sha-1 hash
 
 36) Fix version conflicts in Gradle TODO (Important_level=HIGH)
+
+37) Don't allow user to select any past times while selecting times TODO(Important_level=HIGH)
+
+38) Bad gui design once the user selects start and end locations The Edittextboxes just display the addesses of these locations
+    there should be some way to also display that this First Address is for Starting point
+    And this Second Address is for ending location TODO(Important_level=HIGH)
+
+39) For this scale of application most of the Validation code should be generalized in a seperate class for less redundancy and ease of maintainence TODO(Important_level=HIGH)
