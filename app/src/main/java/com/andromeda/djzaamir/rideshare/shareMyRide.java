@@ -18,10 +18,13 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.andromeda.djzaamir.rideshare.utils.ButtonUtils;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -53,6 +56,10 @@ public class shareMyRide extends AppCompatActivity {
     private final int end_loc_intent   = 2;
     //Start and ending locations
     private LatLng start_loc_point = null, end_loc_point = null;
+
+    //Bools to let know if data sent to Firebase about starting and ending location good
+    boolean start_loc_data_send_good = false , end_loc_data_send_good = false;
+
 
 
     //To convert Latlng, to Addresses
@@ -340,30 +347,68 @@ public class shareMyRide extends AppCompatActivity {
            final Button shareMyRide_button = findViewById(R.id.shareMyRide_button);
            ButtonUtils.disableAndChangeText(shareMyRide_button,"Sharing Ride...");
 
-           //Submit data to firebase
-           Available_Driver new_ride_entry = new Available_Driver(start_loc_point,end_loc_point,start_date_and_time.getTimeInMillis(),
-                                                                   end_date_and_time.getTimeInMillis());
 
+           /*
+           * Get Different Ref's to db because we have to place data in different points
+           * Due to using Geofire For Match making between drivers and customers
+           * Otherwise this could be packaged in seperate container and then pushed to DB
+           * */
            String u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
-           DatabaseReference available_drivers = FirebaseDatabase.getInstance().getReference().child("available_drivers");
 
-           //Push above data at this Db reference against current user's ID
-           available_drivers.child(u_id).setValue(new_ride_entry).addOnSuccessListener(new OnSuccessListener<Void>() {
+           //Submit data to firebase Of start point
+           DatabaseReference available_drivers_start_point = FirebaseDatabase.getInstance().getReference().child                                  ("available_drivers_start_point");
+           GeoFire start_loc_geofire_ref =  new GeoFire(available_drivers_start_point);
+           start_loc_geofire_ref.setLocation(u_id, new GeoLocation(start_loc_point.latitude, start_loc_point.longitude), new GeoFire             .CompletionListener() {
+               @Override
+               public void onComplete(String key, DatabaseError error) {
+                 if (error == null)
+                      setStartLocationDataSendState(true);
+               }
+           });
+
+
+
+
+           //Submit data to firebase Of End point
+           DatabaseReference available_drivers_end_point = FirebaseDatabase.getInstance().getReference().child                                   ("available_drivers_end_point");
+           GeoFire end_loc_geofire_ref =  new GeoFire(available_drivers_end_point);
+           end_loc_geofire_ref.setLocation(u_id, new GeoLocation(end_loc_point.latitude, end_loc_point.longitude), new GeoFire                    .CompletionListener() {
+               @Override
+               public void onComplete(String key, DatabaseError error) {
+                   if (error == null)
+                      setEndLocationDataSendState(true);
+               }
+           });
+
+
+
+           //Submit data to firebase Of Start and End time Info if any
+           DatabaseReference available_drivers_time_info = FirebaseDatabase.getInstance().getReference().child                                   ("available_drivers_time_info").child(u_id);
+           Start_end_time times = null;
+           if (roundTrip_checkbox.isChecked()){
+               times = new Start_end_time(start_date_and_time.getTimeInMillis(),end_date_and_time.getTimeInMillis());
+           }else{
+              times = new Start_end_time(start_date_and_time.getTimeInMillis());
+           }
+           available_drivers_time_info.setValue(times).addOnSuccessListener(new OnSuccessListener<Void>() {
                @Override
                public void onSuccess(Void aVoid) {
-                   //Finish this activity
                    finish();
                }
            }).addOnFailureListener(new OnFailureListener() {
                @Override
                public void onFailure(@NonNull Exception e) {
-                   Toast.makeText(getApplicationContext(),"Error, updating info",Toast.LENGTH_LONG).show();
-                   ButtonUtils.enableButtonRestoreTitle();
+                 Toast.makeText(shareMyRide.this,"Something went wrong\nUnable to share Ride data",Toast.LENGTH_LONG).show();
                }
            });
        }
     }
-
+    void setStartLocationDataSendState(boolean state){
+        start_loc_data_send_good = state;
+    }
+    void setEndLocationDataSendState(boolean state){
+        end_loc_data_send_good = state;
+    }
 
     //region Data Validation Functions Before Sending data to firebase
     //Beautifully written and refactored Validation function
@@ -433,20 +478,18 @@ public class shareMyRide extends AppCompatActivity {
 
 
 
-    //Data-Model Class To Contain Available Driver Data
-    class Available_Driver{
-        public LatLng start_point , end_point;
-        public long start_time_millis , end_time_millis;
+    //Data-Model Class To Contain Available Driver Time info i-e start and end time
+    class Start_end_time {
+        public long start_time_stamp, end_time_stamp;
 
-        private Available_Driver(){}//Disable creation without params
-
-        public Available_Driver(LatLng start_point, LatLng end_point, long start_time_millis, long end_time_millis) {
-            this.start_point = start_point;
-            this.end_point = end_point;
-            this.start_time_millis = start_time_millis;
-            this.end_time_millis =  end_time_millis;
+        private Start_end_time(){}//Disable Default constructor
+        public Start_end_time(long start_time_stamp){
+            this.start_time_stamp = start_time_stamp;
         }
-
-
+        public Start_end_time(long start_time_stamp, long end_time_stamp) {
+            this.start_time_stamp = start_time_stamp;
+            this.end_time_stamp = end_time_stamp;
+        }
     }
+
 }
