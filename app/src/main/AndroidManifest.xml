@@ -15,7 +15,7 @@
 
         <!-- For Google Places -->
         <!-- <meta-data -->
-        <!-- android:name="com.google.android.geo.API_KEY" -->
+        <!-- andrnameStringBuildername="com.google.android.geo.API_KEY" -->
         <!-- android:value="AIzaSyCoVK5FcoqFC6CQkE4XrtXpDFqxYZ8s600"/> -->
 
         <activity android:name=".MainActivity">

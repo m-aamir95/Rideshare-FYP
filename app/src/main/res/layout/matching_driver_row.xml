@@ -26,7 +26,8 @@
             android:text="Muhammad Aamir"
             android:textSize="22sp"
             android:textStyle="bold"
-            android:textColor="#000"/>
+            android:textColor="#000"
+            android:maxLines="1"/>
 
         <TextView
             android:id="@+id/driver_pickup_address"
@@ -36,7 +37,8 @@
             android:text="Pickup Address"
             android:textSize="17sp"
             android:textStyle="bold"
-            android:textColor="#52627c"/>
+            android:textColor="#52627c"
+            android:maxLines="1"/>
 
         <TextView
             android:id="@+id/driver_destination_address"
@@ -47,6 +49,7 @@
             android:textSize="17sp"
             android:textStyle="bold"
             android:textColor="#52627c"
+            android:maxLines="1"
             />
 
     </LinearLayout>

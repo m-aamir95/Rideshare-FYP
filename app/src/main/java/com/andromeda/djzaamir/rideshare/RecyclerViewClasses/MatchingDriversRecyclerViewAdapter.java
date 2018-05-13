@@ -9,6 +9,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andromeda.djzaamir.rideshare.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Collections;
 import java.util.List;
@@ -34,13 +39,26 @@ public class MatchingDriversRecyclerViewAdapter extends RecyclerView.Adapter<Mat
     }
 
     @Override
-    public void onBindViewHolder(MatchingDriversViewHolder holder, int position) {
+    public void onBindViewHolder(final MatchingDriversViewHolder holder, int position) {
        DriverDataModel current_data =  DriverData.get(position);
 
        //Assign the image here
-        holder.driver_name.setText(current_data.name);
         holder.driver_pickup_address.setText(current_data.pickup_loc_name);
         holder.driver_destination_address.setText(current_data.destination_name);
+
+        //Now we have to query for name based on id
+        DatabaseReference name_node_ref = FirebaseDatabase.getInstance().getReference().child("Users").child(current_data.id).child("name");
+        name_node_ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                holder.driver_name.setText(dataSnapshot.getValue().toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

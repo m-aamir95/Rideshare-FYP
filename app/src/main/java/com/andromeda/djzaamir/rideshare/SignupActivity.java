@@ -102,7 +102,7 @@ public class SignupActivity extends AppCompatActivity {
 
 //       Prepare data to be sent
        HashMap<String,String> data_pair = new HashMap<>();
-       data_pair.put("name",name);
+       data_pair.put("nameStringBuilder",name);
        data_pair.put("cell",cell);
 
 //        Push data
@@ -167,7 +167,7 @@ public class SignupActivity extends AppCompatActivity {
 
     //Data Sanitizers
     boolean sanitizeName(){
-        //Enforce Minimum name length = 3
+        //Enforce Minimum nameStringBuilder length = 3
        if (editTextName.getText().toString().trim().length() >= 3){
             editTextName.setError(null);
             editTextName.clearFocus();

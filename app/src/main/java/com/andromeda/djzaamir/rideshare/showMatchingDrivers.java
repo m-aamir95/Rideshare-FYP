@@ -1,11 +1,11 @@
 package com.andromeda.djzaamir.rideshare;
 
 import android.content.Intent;
+import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 import com.andromeda.djzaamir.rideshare.RecyclerViewClasses.DriverDataModel;
 import com.andromeda.djzaamir.rideshare.RecyclerViewClasses.MatchingDriversRecyclerViewAdapter;
@@ -13,12 +13,16 @@ import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryEventListener;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class showMatchingDrivers extends AppCompatActivity {
 
@@ -40,11 +44,13 @@ public class showMatchingDrivers extends AppCompatActivity {
 
     //RecyclerView Adapter
     private MatchingDriversRecyclerViewAdapter matchingDriversRecyclerViewAdapter;
+
+     //Data for adapter
+    List<DriverDataModel> data_for_RecyclerView;
     //endregion
 
 
-    //Prepare Fake data
-    List<DriverDataModel> driverDataModel = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,37 +76,6 @@ public class showMatchingDrivers extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
-
-        DriverDataModel driver_Data =  new DriverDataModel("gfnfjkgtfregfr" , "Muhammad Aamir" , null,"M.Colony.Rwp" , "IIUI");
-
-        DriverDataModel driver_Data1 =  new DriverDataModel("gfnfjkgtfregfr" , "Ali Raza" , null,"M.Colony.Rwp" , "NUML");
-
-        driverDataModel.add(driver_Data);
-        driverDataModel.add(driver_Data1);
-        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
-        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
-        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
-        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
-        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
-        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
-        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
-        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
-        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
-
-
-
-
-
-
-
-
-        matchingDriversRecyclerViewAdapter = new MatchingDriversRecyclerViewAdapter(getApplicationContext(),driverDataModel);
-
-        //set adapter to recylcerView
-        recyclerView.setAdapter(matchingDriversRecyclerViewAdapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-
 
     }
 
@@ -142,7 +117,12 @@ public class showMatchingDrivers extends AppCompatActivity {
             @Override
             public void onGeoQueryReady() {
                 starting_point_driver_match_complete = true;
-                filterOutNotMatchingDrivers();
+
+                try {
+                    filterOutNotMatchingDrivers();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
@@ -180,7 +160,11 @@ public class showMatchingDrivers extends AppCompatActivity {
                     @Override
                     public void onGeoQueryReady() {
                         ending_point_driver_match_complete = true;
-                        filterOutNotMatchingDrivers();
+                        try {
+                            filterOutNotMatchingDrivers();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     @Override
@@ -193,7 +177,7 @@ public class showMatchingDrivers extends AppCompatActivity {
     }
 
     //Will only give relevant drivers and filter out the rest of them
-    void filterOutNotMatchingDrivers() {
+    void filterOutNotMatchingDrivers() throws IOException {
 
         //Before Filtering, Make sure that the result of both Startin and ending List's is available
         if (starting_point_driver_match_complete && ending_point_driver_match_complete) {
@@ -207,21 +191,41 @@ public class showMatchingDrivers extends AppCompatActivity {
 
                     //If their Id's match keep them
                     if (start_point_driver_Data.id.equals(end_point_driver_Data.id)) {
-                        Matched_Driver_Data matched_driver_data = new Matched_Driver_Data(start_point_driver_Data.id, start_point_driver_Data.location, end_point_driver_Data.location);
+                        Matched_Driver_Data matched_driver_data = new Matched_Driver_Data(start_point_driver_Data.id,                                           start_point_driver_Data.location, end_point_driver_Data.location);
                         matched_drivers.add(matched_driver_data);
                     }
 
                 }
             }
 
-            Log.e("haha", "haha filter init good");
-            for (Matched_Driver_Data d :
-                    matched_drivers) {
-                Log.e("haha", d.id);
+            //Start putting data into the recyclerView
+            data_for_RecyclerView = new ArrayList<>();
+
+            //Start collecting data to be pushed into the list
+            Geocoder geocoder =  new Geocoder(getApplicationContext(), Locale.getDefault());
+
+            //Collect Relevant Information about each driver
+            for (Matched_Driver_Data d:
+                 matched_drivers) {
+
+
+                //Translate Latlng to place names
+                 String pickup_loc = geocoder.getFromLocation(d.start_point.latitude,d.start_point.longitude,1).get(0)                                                                                                                          .getAddressLine                                                                                                                        (0);
+                 String destination_loc = geocoder.getFromLocation(d.end_point.latitude,d.end_point.longitude,1).get(0)                                                                                                                          .getAddressLine                                                                                                                        (0);
+
+                 DriverDataModel new_data_model  =  new DriverDataModel(d.id,null,pickup_loc,destination_loc);
+
+                 //Push into the list for which willn adapted by the adapter
+                 data_for_RecyclerView.add(new_data_model);
+
             }
 
-            //finish for now
-           // finish();
+            matchingDriversRecyclerViewAdapter = new MatchingDriversRecyclerViewAdapter(getApplicationContext(),data_for_RecyclerView);
+            recyclerView.setAdapter(matchingDriversRecyclerViewAdapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+
+
         }
     }
 
@@ -252,6 +256,7 @@ public class showMatchingDrivers extends AppCompatActivity {
             this.id = id;
             this.start_point = start_point;
             this.end_point = end_point;
+
         }
     }
     //endregion
