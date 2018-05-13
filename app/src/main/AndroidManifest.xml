@@ -45,9 +45,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".NavigationDrawer" />
         </activity>
-        <activity android:name=".shareMyRide" >
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value=".NavigationDrawer"/>
+        <activity android:name=".shareMyRide">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NavigationDrawer" />
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -69,9 +70,11 @@
                 android:value=".shareMyRide" />
         </activity>
         <activity android:name=".FindARide">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value=".NavigationDrawer"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NavigationDrawer" />
         </activity>
+        <activity android:name=".showMatchingDrivers"></activity>
     </application>
 
 </manifest>
