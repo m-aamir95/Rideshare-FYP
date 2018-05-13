@@ -47,7 +47,7 @@ public class MatchingDriversRecyclerViewAdapter extends RecyclerView.Adapter<Mat
         holder.driver_destination_address.setText(current_data.destination_name);
 
         //Now we have to query for name based on id
-        DatabaseReference name_node_ref = FirebaseDatabase.getInstance().getReference().child("Users").child(current_data.id).child("name");
+        DatabaseReference name_node_ref = FirebaseDatabase.getInstance().getReference().child("Users").child(current_data.id).child             ("name");
         name_node_ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

@@ -7,6 +7,7 @@ public class DriverDataModel {
     public String pickup_loc_name;
     public String destination_name;
 
+
     public DriverDataModel(String id, String image_url, String pickup_loc_name, String destination_name) {
         this.id = id;
         this.image_url = image_url;
