@@ -3,8 +3,12 @@ package com.andromeda.djzaamir.rideshare;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
+import com.andromeda.djzaamir.rideshare.RecyclerViewClasses.DriverDataModel;
+import com.andromeda.djzaamir.rideshare.RecyclerViewClasses.MatchingDriversRecyclerViewAdapter;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryEventListener;
@@ -14,38 +18,51 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class showMatchingDrivers extends AppCompatActivity {
 
 
     //region Vars
-     //Location latlng
-     private LatLng start_loc_point,end_loc_point;
-     //Is both the Starting Driver and Ending Driver Match making is complete
-     private boolean starting_point_driver_match_complete = false;
-     private boolean ending_point_driver_match_complete = false;
 
-     //Starting and ending point Driver Data holder list's
-     private ArrayList<Driver_ID_Latlng> nearest_drivers_at_starting_position;
-     private ArrayList<Driver_ID_Latlng> nearest_drivers_at_ending_position;
-     private ArrayList<Matched_Driver_Data> matched_drivers;
+    private RecyclerView recyclerView;
+
+    //Location latlng
+    private LatLng start_loc_point, end_loc_point;
+    //Is both the Starting Driver and Ending Driver Match making is complete
+    private boolean starting_point_driver_match_complete = false;
+    private boolean ending_point_driver_match_complete = false;
+
+    //Starting and ending point Driver Data holder list's
+    private ArrayList<Driver_ID_Latlng> nearest_drivers_at_starting_position;
+    private ArrayList<Driver_ID_Latlng> nearest_drivers_at_ending_position;
+    private ArrayList<Matched_Driver_Data> matched_drivers;
+
+    //RecyclerView Adapter
+    private MatchingDriversRecyclerViewAdapter matchingDriversRecyclerViewAdapter;
     //endregion
 
+
+    //Prepare Fake data
+    List<DriverDataModel> driverDataModel = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_matching_drivers);
 
+        recyclerView = findViewById(R.id.matching_drivers_container);
+        recyclerView.setHasFixedSize(true);
+
         //Init Starting and ending point Driver Data holders
-        nearest_drivers_at_starting_position =  new ArrayList<>();
-        nearest_drivers_at_ending_position   =  new ArrayList<>();
-        matched_drivers =  new ArrayList<>();
+        nearest_drivers_at_starting_position = new ArrayList<>();
+        nearest_drivers_at_ending_position = new ArrayList<>();
+        matched_drivers = new ArrayList<>();
 
         //Grab intent data
-        Intent parentActivityIntent =  getIntent();
+        Intent parentActivityIntent = getIntent();
         start_loc_point = (LatLng) parentActivityIntent.getExtras().get("starting_latlng");
-        end_loc_point   = (LatLng) parentActivityIntent.getExtras().get("ending_latlng");
+        end_loc_point = (LatLng) parentActivityIntent.getExtras().get("ending_latlng");
 
         //Start Match-making
         try {
@@ -54,11 +71,42 @@ public class showMatchingDrivers extends AppCompatActivity {
             e.printStackTrace();
         }
 
+
+        DriverDataModel driver_Data =  new DriverDataModel("gfnfjkgtfregfr" , "Muhammad Aamir" , null,"M.Colony.Rwp" , "IIUI");
+
+        DriverDataModel driver_Data1 =  new DriverDataModel("gfnfjkgtfregfr" , "Ali Raza" , null,"M.Colony.Rwp" , "NUML");
+
+        driverDataModel.add(driver_Data);
+        driverDataModel.add(driver_Data1);
+        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
+        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
+        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
+        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
+        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
+        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
+        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
+        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
+        driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));driverDataModel.add(new DriverDataModel("fdjkfgjkf" , "Some-one",null,"From somewhere" , "To Somewheres"));
+
+
+
+
+
+
+
+
+        matchingDriversRecyclerViewAdapter = new MatchingDriversRecyclerViewAdapter(getApplicationContext(),driverDataModel);
+
+        //set adapter to recylcerView
+        recyclerView.setAdapter(matchingDriversRecyclerViewAdapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+
+
     }
 
-    //Will fetching Drivers Matching At Start Location
+    //Will fetch Drivers Matching At Start Location
     //and matching at End Location
-    private  void searchForMatchingDrivers() throws InterruptedException {
+    private void searchForMatchingDrivers() throws InterruptedException {
         /*
         * 1) Get All the Driver's starting location In 1-km Or 1-Mile Radius Around the Customer Starting position
         * 2) Get All the Driver's ending location in 1-km or 1-Mile Radius Around the Customer ending position
@@ -71,14 +119,14 @@ public class showMatchingDrivers extends AppCompatActivity {
 
 
         //Find the nearest drivers at starting point of customer
-        DatabaseReference cust_starting_latlng_fire_ref = FirebaseDatabase.getInstance().getReference().child                                 ("available_drivers_start_point");
+        DatabaseReference cust_starting_latlng_fire_ref = FirebaseDatabase.getInstance().getReference().child                                   ("available_drivers_start_point");
         GeoFire cust_starting_geofire_ref = new GeoFire(cust_starting_latlng_fire_ref);
-        cust_starting_geofire_ref.queryAtLocation(new GeoLocation(start_loc_point.latitude,start_loc_point.longitude),radius)                   .addGeoQueryEventListener(new GeoQueryEventListener() {
+        cust_starting_geofire_ref.queryAtLocation(new GeoLocation(start_loc_point.latitude, start_loc_point.longitude), radius)                 .addGeoQueryEventListener(new GeoQueryEventListener() {
 
             //Will be called for every matching result
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
-                nearest_drivers_at_starting_position.add(new Driver_ID_Latlng(key,new LatLng(location.latitude,location.longitude)));
+                nearest_drivers_at_starting_position.add(new Driver_ID_Latlng(key, new LatLng(location.latitude, location.longitude)));
             }
 
             @Override
@@ -93,8 +141,8 @@ public class showMatchingDrivers extends AppCompatActivity {
 
             @Override
             public void onGeoQueryReady() {
-              starting_point_driver_match_complete = true;
-              filterOutNotMatchingDrivers();
+                starting_point_driver_match_complete = true;
+                filterOutNotMatchingDrivers();
             }
 
             @Override
@@ -104,87 +152,88 @@ public class showMatchingDrivers extends AppCompatActivity {
         });
 
         //Find the nearest Drivers at the ending point of customer
-        DatabaseReference cust_ending_latlng_fire_ref = FirebaseDatabase.getInstance().getReference().child                                   ("available_drivers_end_point");
+        DatabaseReference cust_ending_latlng_fire_ref = FirebaseDatabase.getInstance().getReference().child                                     ("available_drivers_end_point");
         GeoFire cust_ending_geofire_ref = new GeoFire(cust_ending_latlng_fire_ref);
-        cust_ending_geofire_ref.queryAtLocation(new GeoLocation(end_loc_point.latitude,end_loc_point.longitude),radius)
-          .addGeoQueryEventListener(new GeoQueryEventListener() {
+        cust_ending_geofire_ref.queryAtLocation(new GeoLocation(end_loc_point.latitude, end_loc_point.longitude), radius)
+                .addGeoQueryEventListener(new GeoQueryEventListener() {
 
-              //Whenever a key matches criteria
-              //For more info checkout github Docs
-              // https://github.com/firebase/geofire-java
-              @Override
-              public void onKeyEntered(String key, GeoLocation location) {
-                  nearest_drivers_at_ending_position.add(new Driver_ID_Latlng(key,new LatLng(end_loc_point.latitude,end_loc_point                       .longitude)));
-              }
+                    //Whenever a key matches criteria
+                    //For more info checkout github Docs
+                    // https://github.com/firebase/geofire-java
+                    @Override
+                    public void onKeyEntered(String key, GeoLocation location) {
+                        nearest_drivers_at_ending_position.add(new Driver_ID_Latlng(key, new LatLng(end_loc_point.latitude, end_loc_point.longitude)));
+                    }
 
-              @Override
-              public void onKeyExited(String key) {
+                    @Override
+                    public void onKeyExited(String key) {
 
-              }
+                    }
 
-              @Override
-              public void onKeyMoved(String key, GeoLocation location) {
+                    @Override
+                    public void onKeyMoved(String key, GeoLocation location) {
 
-              }
+                    }
 
 
-              //When all the initial events have been fired
-              @Override
-              public void onGeoQueryReady() {
-                ending_point_driver_match_complete = true;
-                filterOutNotMatchingDrivers();
-              }
+                    //When all the initial events have been fired
+                    @Override
+                    public void onGeoQueryReady() {
+                        ending_point_driver_match_complete = true;
+                        filterOutNotMatchingDrivers();
+                    }
 
-              @Override
-              public void onGeoQueryError(DatabaseError error) {
+                    @Override
+                    public void onGeoQueryError(DatabaseError error) {
 
-              }
-          });
-
+                    }
+                });
 
 
     }
 
     //Will only give relevant drivers and filter out the rest of them
-    void filterOutNotMatchingDrivers(){
+    void filterOutNotMatchingDrivers() {
 
-      //Before Filtering, Make sure that the result of both Startin and ending List's is available
-        if (starting_point_driver_match_complete && ending_point_driver_match_complete){
-             //Now in the final list we will only keep those drivers whose starting point and ending point match with Our customer
+        //Before Filtering, Make sure that the result of both Startin and ending List's is available
+        if (starting_point_driver_match_complete && ending_point_driver_match_complete) {
+            //Now in the final list we will only keep those drivers whose starting point and ending point match with Our customer
             //One way to do this is by matching driver ID's in both starting and ending point list's
 
-            for (Driver_ID_Latlng start_point_driver_Data:
-                 nearest_drivers_at_starting_position) {
-                for (Driver_ID_Latlng end_point_driver_Data:
-                     nearest_drivers_at_ending_position) {
+            for (Driver_ID_Latlng start_point_driver_Data :
+                    nearest_drivers_at_starting_position) {
+                for (Driver_ID_Latlng end_point_driver_Data :
+                        nearest_drivers_at_ending_position) {
 
                     //If their Id's match keep them
-                    if (start_point_driver_Data.id.equals(end_point_driver_Data.id)){
-                        Matched_Driver_Data matched_driver_data = new Matched_Driver_Data(start_point_driver_Data.id,                                         start_point_driver_Data.location,end_point_driver_Data.location);
+                    if (start_point_driver_Data.id.equals(end_point_driver_Data.id)) {
+                        Matched_Driver_Data matched_driver_data = new Matched_Driver_Data(start_point_driver_Data.id, start_point_driver_Data.location, end_point_driver_Data.location);
                         matched_drivers.add(matched_driver_data);
                     }
 
                 }
             }
 
-            Log.e("haha" ,"haha filter init good");
-            for (Matched_Driver_Data d:
-                 matched_drivers) {
-               Log.e("haha" ,d.id);
+            Log.e("haha", "haha filter init good");
+            for (Matched_Driver_Data d :
+                    matched_drivers) {
+                Log.e("haha", d.id);
             }
 
             //finish for now
-            finish();
+           // finish();
         }
     }
 
-     //region Data Model Classes
+    //region Data Model Classes
     //Data Model Container Class to Hold Driver ID and Latlng
-    class Driver_ID_Latlng{
+    class Driver_ID_Latlng {
         public String id;
         public LatLng location;
 
-        private Driver_ID_Latlng(){}
+        private Driver_ID_Latlng() {
+        }
+
         public Driver_ID_Latlng(String id, LatLng location) {
             this.id = id;
             this.location = location;
@@ -192,11 +241,12 @@ public class showMatchingDrivers extends AppCompatActivity {
     }
 
     //Data Model for matched driver's
-    class Matched_Driver_Data{
+    class Matched_Driver_Data {
         public String id;
         public LatLng start_point, end_point;
 
-        private Matched_Driver_Data(){}
+        private Matched_Driver_Data() {
+        }
 
         public Matched_Driver_Data(String id, LatLng start_point, LatLng end_point) {
             this.id = id;
