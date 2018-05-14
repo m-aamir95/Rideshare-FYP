@@ -37,7 +37,7 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
     //endregion
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grab_location_maps);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -50,7 +50,7 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
 
 
         //grab last known location
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&          ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //Ask for permission
             ActivityCompat.requestPermissions(this, new String[]{Manifest
                     .permission.ACCESS_FINE_LOCATION}, REQ_FINE_LOC);
@@ -59,25 +59,25 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                last_known_loc = new LatLng(location.getLatitude(),location.getLongitude());
-                current_marker_location =  mMap.addMarker(new MarkerOptions().position(last_known_loc).title("You are here"));
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(last_known_loc , 16));
+                last_known_loc = new LatLng(location.getLatitude(), location.getLongitude());
+                current_marker_location = mMap.addMarker(new MarkerOptions().position(last_known_loc).title("You are here"));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(last_known_loc, 16));
 
             }
         });
 
 
         //Google Place Autocomplete Fragment
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id                                  .place_autocomplete_fragment);
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
-         autocompleteFragment.setMenuVisibility(true);
-         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+        autocompleteFragment.setMenuVisibility(true);
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(Place place) {
                 last_known_loc = place.getLatLng();
                 current_marker_location.remove();
-                current_marker_location =  mMap.addMarker(new MarkerOptions().position(last_known_loc));
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(last_known_loc,16));
+                current_marker_location = mMap.addMarker(new MarkerOptions().position(last_known_loc));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(last_known_loc, 16));
 
             }
 
@@ -86,7 +86,7 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
                 // TODO: Handle the error.
                 Log.i("Place APi error", "An error occurred: " + status);
             }
-          });
+        });
     }
 
     @Override
@@ -98,7 +98,7 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
                     //Cool FINE Location Access Provided
                 } else {
                     //Because location access is required
-                    Toast.makeText(getApplicationContext(),"Location Services Are Required...",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Location Services Are Required...", Toast.LENGTH_LONG).show();
                     finish();
                 }
                 break;
@@ -129,12 +129,12 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
                 //Move camera
                 current_marker_location.remove();
                 current_marker_location = mMap.addMarker(new MarkerOptions().position(latLng));
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,16));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
             }
         });
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&                  ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-             ActivityCompat.requestPermissions(this, new String[]{Manifest
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest
                     .permission.ACCESS_FINE_LOCATION}, REQ_FINE_LOC);
         }
         mMap.setMyLocationEnabled(true);
@@ -143,11 +143,11 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
 
     public void confirm_location_button(View view) {
 
-        Intent shareMyRideAcitivityIntent =  new Intent();
-        LatLng selected_location =  new LatLng(last_known_loc.latitude,last_known_loc.longitude);
-        shareMyRideAcitivityIntent.putExtra("latitude" ,String.valueOf(selected_location.latitude));
-        shareMyRideAcitivityIntent.putExtra("longitude",String.valueOf(selected_location.longitude));
-        setResult(RESULT_OK,shareMyRideAcitivityIntent);
+        Intent shareMyRideAcitivityIntent = new Intent();
+        LatLng selected_location = new LatLng(last_known_loc.latitude, last_known_loc.longitude);
+        shareMyRideAcitivityIntent.putExtra("latitude", String.valueOf(selected_location.latitude));
+        shareMyRideAcitivityIntent.putExtra("longitude", String.valueOf(selected_location.longitude));
+        setResult(RESULT_OK, shareMyRideAcitivityIntent);
         //Because we are returning result to previous activity,hence we don't need to start a brand new activity
         finish();
     }

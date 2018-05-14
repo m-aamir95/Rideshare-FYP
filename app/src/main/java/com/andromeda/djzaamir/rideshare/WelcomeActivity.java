@@ -7,7 +7,7 @@ import android.view.View;
 
 public class WelcomeActivity extends AppCompatActivity {
 
-
+  todo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

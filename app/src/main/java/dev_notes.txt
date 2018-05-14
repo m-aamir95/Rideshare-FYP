@@ -52,6 +52,23 @@
    Android-Studio pushed my laptop's sha-1 hash into the APP, hence Firebase was refusing to communicate
    So wasted alot of my time, its was very important to consider these things when working with servies like google
 
+8) Finally added the recyclerView which show's the matching drivers, yes it was a bit tricky because of the Asynchronous nature of the
+   Application, but now it's working fine,here's a little run down of how its working below
+   *) First of All i im taking care of finding the nearest drivers, you can look for exact strategy for this in the code with detailed
+      comments
+   *) After that i am loading all of the matching driver's data into a recylcerView
+       For the recyclerview we basically need to take for a few things
+        1) Declare a recylcerView in the XML layout file where you wish the list to show up
+        2) Declare any dependencies in the Android Manifest file
+        3) Need to define an adapter class which adapt the data to Recycler view
+        4) Need to define view holder class which will hold the XMl layout for each row
+           This holder class also makes sure to cache the rows whenever the go out of view from the screen
+
+   Some mistakes which i was making`
+   1) Not returning the data item count in the adapter class
+   2) Also i had to explicitly define black colors for different text, because somehow it was getting messed up
+   This is tutorial i followed for recyclerView Part TODO https://www.youtube.com/watch?v=Wq2o4EbM74k
+   From slidenerd
 
 
 
