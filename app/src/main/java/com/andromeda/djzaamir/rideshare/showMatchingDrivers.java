@@ -95,6 +95,7 @@ public class showMatchingDrivers extends AppCompatActivity {
 
         //Find the nearest drivers at starting point of customer
         DatabaseReference cust_starting_latlng_fire_ref = FirebaseDatabase.getInstance().getReference().child                                   ("available_drivers_start_point");
+
         GeoFire cust_starting_geofire_ref = new GeoFire(cust_starting_latlng_fire_ref);
         cust_starting_geofire_ref.queryAtLocation(new GeoLocation(start_loc_point.latitude, start_loc_point.longitude), radius)                 .addGeoQueryEventListener(new GeoQueryEventListener() {
 
@@ -133,6 +134,7 @@ public class showMatchingDrivers extends AppCompatActivity {
 
         //Find the nearest Drivers at the ending point of customer
         DatabaseReference cust_ending_latlng_fire_ref = FirebaseDatabase.getInstance().getReference().child                                     ("available_drivers_end_point");
+
         GeoFire cust_ending_geofire_ref = new GeoFire(cust_ending_latlng_fire_ref);
         cust_ending_geofire_ref.queryAtLocation(new GeoLocation(end_loc_point.latitude, end_loc_point.longitude), radius)
                 .addGeoQueryEventListener(new GeoQueryEventListener() {
@@ -142,7 +144,7 @@ public class showMatchingDrivers extends AppCompatActivity {
                     // https://github.com/firebase/geofire-java
                     @Override
                     public void onKeyEntered(String key, GeoLocation location) {
-                        nearest_drivers_at_ending_position.add(new Driver_ID_Latlng(key, new LatLng(end_loc_point.latitude, end_loc_point.longitude)));
+                        nearest_drivers_at_ending_position.add(new Driver_ID_Latlng(key, new LatLng(location.latitude, location.longitude)));
                     }
 
                     @Override
@@ -184,6 +186,7 @@ public class showMatchingDrivers extends AppCompatActivity {
             //Now in the final list we will only keep those drivers whose starting point and ending point match with Our customer
             //One way to do this is by matching driver ID's in both starting and ending point list's
 
+
             for (Driver_ID_Latlng start_point_driver_Data :
                     nearest_drivers_at_starting_position) {
                 for (Driver_ID_Latlng end_point_driver_Data :
@@ -194,7 +197,6 @@ public class showMatchingDrivers extends AppCompatActivity {
                         Matched_Driver_Data matched_driver_data = new Matched_Driver_Data(start_point_driver_Data.id,                                           start_point_driver_Data.location, end_point_driver_Data.location);
                         matched_drivers.add(matched_driver_data);
                     }
-
                 }
             }
 

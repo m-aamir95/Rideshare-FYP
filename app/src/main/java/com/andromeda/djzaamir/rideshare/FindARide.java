@@ -185,6 +185,8 @@ public class FindARide extends AppCompatActivity {
 
                    //Push ending point via geofire
                      DatabaseReference available_cust_end_loc_ref = FirebaseDatabase.getInstance().getReference().child                                   ("available_cust_end_loc");
+
+                     //Push ending location via Geofire
                      GeoFire end_point_geofire_ref = new GeoFire(available_cust_end_loc_ref);
                       end_point_geofire_ref.setLocation(u_id, new GeoLocation(end_loc_point.latitude, end_loc_point.longitude), new                         GeoFire.CompletionListener() {
                         @Override

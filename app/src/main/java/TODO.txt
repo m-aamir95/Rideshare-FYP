@@ -41,9 +41,9 @@
 
 14) make startup welcome message activity full screen TODO(Important_level=HIGH)
 
-15) Remove settings bar from NavigationDrawerActivity TODO(Important_level=HIGh)   DONE
+TODO,fixed 15) Remove settings bar from NavigationDrawerActivity TODO(Important_level=HIGh)   DONE
 
-16) Do something to  improve the secuirity of both the driver and customer TODO(Important_level=HIGH ,DOC=YES)
+16) Do something to  improve the security of both the driver and customer TODO(Important_level=HIGH ,DOC=YES)
 
 17) Get Profile picture of the driver TODO(Important_level=HIGH)
 
@@ -57,13 +57,13 @@
 
 22) Improve the GUI, follow google Apps GUI patterns TODO(Important_level=HIGH)
 
-23) Error Validation in Date And Time selection, make sure user provides both TODO(Important_level=HIGH)
+TODO,fixed 23) Error Validation in Date And Time selection, make sure user provides both TODO(Important_level=HIGH)
 
 24) Display user friendly messages before and after getting permissions, to let the user know why its imp TODO(Important_level=HIGH)
 
-25) Fix Place Autocomplete tranparency issue TODO(Important_level=HIGH)
+TODO,fixed 25) Fix Place Autocomplete tranparency issue TODO(Important_level=HIGH)
 
-26) Fix horizontal scrolling issue in shareMyRide Start Position and End Position TODO(Important_level=HIGH)
+TODO, fixed 26) Fix horizontal scrolling issue in shareMyRide Start Position and End Position TODO(Important_level=HIGH)
 
 TODO 27) Fix cnic field, currently it's a text field and should be a number field TODO(Important_level=HIGH)
 
