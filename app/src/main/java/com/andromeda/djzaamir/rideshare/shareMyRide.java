@@ -82,6 +82,10 @@ public class shareMyRide extends AppCompatActivity {
 
         roundTrip_checkbox       =   findViewById(R.id.roundTrip_checkbox);
 
+        //select both address field, so they may scroll
+        start_point_edittext.setSelected(true);
+        end_point_edittext.setSelected(true);
+
 
         //region Different onClick Listeners On Different Widgets
         //On Click Listener for CheckBox
