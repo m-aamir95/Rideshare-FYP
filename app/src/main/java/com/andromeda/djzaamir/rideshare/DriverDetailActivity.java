@@ -139,6 +139,7 @@ public class DriverDetailActivity extends AppCompatActivity {
 
                     user_data_ref.updateChildren(driver_profile_image_url);
 
+                    image_upload_complete = true;
                        //Only finish when all data upload is completed
                      if (image_upload_complete && other_data_upload_complete){
                          finish();
@@ -152,6 +153,14 @@ public class DriverDetailActivity extends AppCompatActivity {
 
         String v_no = vehicle_no.getText().toString().trim();
         String c_no = cnic.getText().toString().trim();
+
+
+         if (imageData != null){
+           profile_image_button.setError(null);
+        }else{
+          profile_image_button.setError("Profile Image Required!");
+          return false;
+        }
 
         if (v_no.length() > 0){
             vehicle_number = v_no;
@@ -169,12 +178,7 @@ public class DriverDetailActivity extends AppCompatActivity {
             return false;
         }
 
-        if (imageData != null){
-           profile_image_button.setError(null);
-        }else{
-          profile_image_button.setError("Profile Image Required!");
-          return false;
-        }
+
 
 
         return true;
