@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andromeda.djzaamir.rideshare.R;
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -23,9 +24,11 @@ public class MatchingDriversRecyclerViewAdapter extends RecyclerView.Adapter<Mat
 
     private LayoutInflater inflater;
     private List<DriverDataModel> DriverData =  Collections.emptyList();
+    private Context activityContext;
     public MatchingDriversRecyclerViewAdapter(Context context, List<DriverDataModel> driverData){
       inflater = LayoutInflater.from(context);
       this.DriverData = driverData;
+      activityContext = context;
     }
 
     @Override
@@ -40,7 +43,7 @@ public class MatchingDriversRecyclerViewAdapter extends RecyclerView.Adapter<Mat
 
     @Override
     public void onBindViewHolder(final MatchingDriversViewHolder holder, int position) {
-       DriverDataModel current_data =  DriverData.get(position);
+       final DriverDataModel current_data =  DriverData.get(position);
 
        //Assign the image here
         holder.driver_pickup_address.setText(current_data.pickup_loc_name);
@@ -49,6 +52,7 @@ public class MatchingDriversRecyclerViewAdapter extends RecyclerView.Adapter<Mat
         //Make both addresses selected, so they can scroll
         holder.driver_pickup_address.setSelected(true);
         holder.driver_destination_address.setSelected(true);
+
 
         //Now we have to query for name based on id
         DatabaseReference name_node_ref = FirebaseDatabase.getInstance().getReference().child("Users").child(current_data.id).child             ("name");
@@ -63,6 +67,27 @@ public class MatchingDriversRecyclerViewAdapter extends RecyclerView.Adapter<Mat
 
             }
         });
+
+
+        //Also fetch driver Image
+    DatabaseReference image_url_ref = FirebaseDatabase.getInstance().getReference().child("Driver_vehicle_info").child(current_data.                                                                                                                                    id);
+    image_url_ref.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+           if (dataSnapshot.child("driver_image").getValue() != null){
+
+                    String driver_image_url = dataSnapshot.child("driver_image").getValue().toString();
+
+                    //Update via glide
+                    Glide.with(activityContext).load(driver_image_url).into(holder.driver_image);
+           }
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    });
 
     }
 
