@@ -93,7 +93,7 @@ public class DriverDetailActivity extends AppCompatActivity {
           //Push data to firebase
             String u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
             final DatabaseReference ref =  FirebaseDatabase.getInstance().getReference().child("Driver_vehicle_info").child(u_id);
-
+            final DatabaseReference user_data_ref =  FirebaseDatabase.getInstance().getReference().child("Users").child(u_id);
             //Prepare a data model object to be pushed
              DriverDetailsContainer data_model = new DriverDetailsContainer(vehicle_number,selected_color,cnic_no);
 
@@ -137,7 +137,7 @@ public class DriverDetailActivity extends AppCompatActivity {
                     Map driver_profile_image_url = new HashMap();
                     driver_profile_image_url.put("driver_image" , uploaded_image_url.toString());
 
-                    ref.updateChildren(driver_profile_image_url);
+                    user_data_ref.updateChildren(driver_profile_image_url);
 
                        //Only finish when all data upload is completed
                      if (image_upload_complete && other_data_upload_complete){

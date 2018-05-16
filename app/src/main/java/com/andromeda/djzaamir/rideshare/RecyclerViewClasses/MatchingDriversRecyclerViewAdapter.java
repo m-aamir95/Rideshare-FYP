@@ -60,6 +60,8 @@ public class MatchingDriversRecyclerViewAdapter extends RecyclerView.Adapter<Mat
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 holder.driver_name.setText(dataSnapshot.getValue().toString());
+
+
             }
 
             @Override
@@ -70,7 +72,7 @@ public class MatchingDriversRecyclerViewAdapter extends RecyclerView.Adapter<Mat
 
 
         //Also fetch driver Image
-    DatabaseReference image_url_ref = FirebaseDatabase.getInstance().getReference().child("Driver_vehicle_info").child(current_data.                                                                                                                                    id);
+     DatabaseReference image_url_ref = FirebaseDatabase.getInstance().getReference().child("Users").child(current_data.                                                                                                                                    id);
     image_url_ref.addValueEventListener(new ValueEventListener() {
         @Override
         public void onDataChange(DataSnapshot dataSnapshot) {

@@ -100,7 +100,7 @@ public class NavigationDrawer extends AppCompatActivity
         };
 
         //Get and set image data , if available
-        DatabaseReference image_url =  FirebaseDatabase.getInstance().getReference().child("Driver_vehicle_info").child(u_id);
+        DatabaseReference image_url =  FirebaseDatabase.getInstance().getReference().child("Users").child(u_id);
         image_url.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
