@@ -6,10 +6,12 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationListener;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -23,6 +25,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,6 +88,9 @@ public class NavigationDrawer extends AppCompatActivity
                 name_txtview.setText(name);
                 email_txtview.setText(email);
                 //Not updating Cell at navigation drawer header
+
+
+
             }
 
             @Override
@@ -92,6 +98,30 @@ public class NavigationDrawer extends AppCompatActivity
 
             }
         };
+
+        //Get and set image data , if available
+        DatabaseReference image_url =  FirebaseDatabase.getInstance().getReference().child("Driver_vehicle_info").child(u_id);
+        image_url.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //if driver data is resent then this snapshot wont be empty
+                if (dataSnapshot.child("driver_image").getValue() != null){
+
+                    String driver_image_url = dataSnapshot.child("driver_image").getValue().toString();
+
+                    ImageView driver_imageview = findViewById(R.id.profilePic_imageView);
+
+                    //Update via glide
+                    Glide.with(getApplication()).load(driver_image_url).into(driver_imageview);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
         //Setup toolbar
