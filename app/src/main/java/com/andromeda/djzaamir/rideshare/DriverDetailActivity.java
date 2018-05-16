@@ -109,6 +109,9 @@ public class DriverDetailActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    public void image_upload(View view) {
+    }
 }
 
 
