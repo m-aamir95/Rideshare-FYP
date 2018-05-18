@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.andromeda.djzaamir.rideshare.FindARide"
-    android:background="@color/background_color_primary"
     android:orientation="vertical"
     android:padding="10dp">
 
@@ -64,9 +63,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="35dp"
         android:text="Find Matching Driver's"
-        android:background="@color/button_color_primary"
         android:textSize="20sp"
-        android:textColor="@color/button_txt_color_primary"
         android:id="@+id/findADriver_button"
         android:onClick="findADriver_onClick"/>
 </LinearLayout>
