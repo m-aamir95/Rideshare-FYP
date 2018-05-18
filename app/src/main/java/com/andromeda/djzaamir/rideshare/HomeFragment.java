@@ -19,7 +19,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
@@ -33,6 +32,7 @@ public class HomeFragment extends Fragment {
     //Gui references
     private Button findADriver,shareMyRide;
     private GoogleMap mMap;
+
 
 
     //Firebase
@@ -66,18 +66,21 @@ public class HomeFragment extends Fragment {
         String u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         driverDataNodeRef = FirebaseDatabase.getInstance().getReference().child("Driver_vehicle_info").child(u_id);
 
-
-
         //setup ValueEventListener for above DatabaseReference
         driverDataListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                 valueEventListenerFiredOnce = true;
+
+                valueEventListenerFiredOnce = true;
+
                 //Check if any of the driver profile properties are available
                 //For simpliciy sake i am going to check for vehicle no
                 if (dataSnapshot.child("vehicle_no").getValue() != null){
                     isDriver =  true; //let the App know that, Driver Profile Exist
+                }else{
+                    isDriver = false;
                 }
+
             }
 
             @Override
@@ -104,6 +107,9 @@ public class HomeFragment extends Fragment {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                mMap =  googleMap;
+
+               //it would be a good
+
             }
         });
 

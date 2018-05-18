@@ -2,81 +2,94 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="8dp">
 
-    <!--Driver Image-->
-    <ImageView
-        android:id="@+id/driver_image"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
-        android:src="@drawable/ic_launcher_background" />
-
-    <!--Linaer layout for text data-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:orientation="vertical"
-        android:padding="3dp">
+        android:orientation="horizontal">
+                       <!--Driver Image-->
+                <ImageView
+                    android:id="@+id/driver_image"
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    android:src="@drawable/ic_launcher_background" />
+
+                <!--Linaer layout for text data-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:orientation="vertical"
+                    android:padding="3dp">
 
 
-        <!--Driver Name-->
-        <TextView
-            android:id="@+id/driver_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textColor="#000"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+                    <!--Driver Name-->
+                    <TextView
+                        android:id="@+id/driver_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:textColor="#000"
+                        android:textSize="22sp"
+                        android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="From"
-            android:textColor="#6983ad"
-            android:layout_marginLeft="6dp"
-            android:textSize="15sp"/>
-        <!--Driver Pickup address-->
-        <TextView
-            android:id="@+id/driver_pickup_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:ellipsize="marquee"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:textColor="#52627c"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="From"
+                        android:textColor="#6983ad"
+                        android:layout_marginLeft="6dp"
+                        android:textSize="15sp"/>
+                    <!--Driver Pickup address-->
+                    <TextView
+                        android:id="@+id/driver_pickup_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:textColor="#52627c"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="To"
-            android:textColor="#6983ad"
-            android:textSize="15sp"
-            android:layout_marginLeft="6dp"/>
-        <!--Driver Destination Address-->
-        <TextView
-            android:id="@+id/driver_destination_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:ellipsize="marquee"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:textColor="#52627c"
-            android:textSize="17sp"
-            android:textStyle="bold" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="To"
+                        android:textColor="#6983ad"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="6dp"/>
+
+                    <!--Driver Destination Address-->
+                    <TextView
+                        android:id="@+id/driver_destination_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:textColor="#52627c"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
 
     </LinearLayout>
+    
+    <View
+        android:layout_marginTop="7dp"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@android:color/darker_gray"/>
 
 </LinearLayout>

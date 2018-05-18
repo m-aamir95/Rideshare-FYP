@@ -50,7 +50,7 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
 
 
         //grab last known location
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager                .PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) !=              PackageManager.PERMISSION_GRANTED) {
             //Ask for permission
             ActivityCompat.requestPermissions(this, new String[]{Manifest
                     .permission.ACCESS_FINE_LOCATION}, REQ_FINE_LOC);
@@ -68,7 +68,7 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
 
 
         //Google Place Autocomplete Fragment
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id                 .place_autocomplete_fragment);
 
         autocompleteFragment.setMenuVisibility(true);
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
