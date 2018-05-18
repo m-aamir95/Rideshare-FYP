@@ -11,6 +11,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -29,6 +32,7 @@ public class HomeFragment extends Fragment {
     //region VARS
     //Gui references
     private Button findADriver,shareMyRide;
+    private GoogleMap mMap;
 
 
     //Firebase
@@ -54,10 +58,15 @@ public class HomeFragment extends Fragment {
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
+
+
         //Get Reference to Current User's Driver data node
         //If the User doesn't a driver profile then this node will be NULL
         String u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         driverDataNodeRef = FirebaseDatabase.getInstance().getReference().child("Driver_vehicle_info").child(u_id);
+
+
 
         //setup ValueEventListener for above DatabaseReference
         driverDataListener = new ValueEventListener() {
@@ -88,6 +97,15 @@ public class HomeFragment extends Fragment {
         //Since We are in a fragment, we'll have to take slightly different approach to init gui's
         findADriver = (Button)getView().findViewById(R.id.findADriver);
         shareMyRide = (Button)getView().findViewById(R.id.shareMyRide);
+
+         //init google maps
+        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.home_screen_map);
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+               mMap =  googleMap;
+            }
+        });
 
         //setup Event listerner's on both buttons
         findADriver.setOnClickListener(new View.OnClickListener() {
