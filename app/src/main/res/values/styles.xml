@@ -1,12 +1,31 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <!-- API Version less than 21. -->
+    <style name="AppTheme" parent="BaseAppTheme">
+        <!-- Customize your theme here. -->
+
+    </style>
+
+
+    <!--Base Application Theme-->
+    <style name="BaseAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+
+
+        <!--Color scheme for buttons -->
+       <item name="colorControlNormal">#FB8C00</item>
+       <item name="colorControlHighlight">#9FA8DA</item>
+       <item name="colorControlActivated">@color/colorAccent</item>
+
+        
     </style>
+
+
+
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
