@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.andromeda.djzaamir.rideshare.utils.ButtonUtils;
@@ -30,6 +32,7 @@ public class SignupActivity extends AppCompatActivity {
     //GUI references
     private EditText editTextName, editTextEmail, editTextCell, editTextPassword, editTextComfirmPassowrd;
     private Button signupButton;
+    private ProgressBar loading_spinner;
 
     //Flags to make sure good data is being entered
     private boolean nameGood, emailGood, cellGood, passwordGood, primary_pass_field_visited = false;
@@ -48,8 +51,8 @@ public class SignupActivity extends AppCompatActivity {
         editTextCell = findViewById(R.id.edittextbox_cell);
         editTextPassword = findViewById(R.id.edittextbox_password);
         editTextComfirmPassowrd = findViewById(R.id.edittextbox_password_comfirm);
-
         signupButton = findViewById(R.id.signup_button);
+        loading_spinner =  findViewById(R.id.loading_spinner);
 
         //init auth instance
         firebaseAuth = FirebaseAuth.getInstance();
@@ -65,21 +68,13 @@ public class SignupActivity extends AppCompatActivity {
 
                     Toast.makeText(SignupActivity.this, "Successful Signup :)", Toast.LENGTH_SHORT).show();
 
-                    new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //Add little delay before switching activity
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }).start();
 
 
                     //Push Other Signup info to Firebase
                     pushOtherSignupDataToFirebase();
+
+                    //Hide spinner
+                    loading_spinner.setVisibility(View.GONE);
 
                     Intent welcomeActiviyIntent = new Intent(SignupActivity.this, WelcomeActivity.class);
 
@@ -92,6 +87,10 @@ public class SignupActivity extends AppCompatActivity {
         };
     }
 
+    /*
+    * Will be called when user's auth status change
+    *
+    * */
     private void pushOtherSignupDataToFirebase() {
 //       Grab Data
         String name = editTextName.getText().toString();
@@ -124,10 +123,12 @@ public class SignupActivity extends AppCompatActivity {
             return; //Exit Singup function
         }
 
+
         Button signup_button = findViewById(R.id.signup_button);
         ButtonUtils.disableAndChangeText(signup_button, "Signing up...");
 
-        //Perform singup
+        //Perform singup and init spinner
+        loading_spinner.setVisibility(View.VISIBLE);
 
         //Try to register user with new email and password
         String email_to_register = editTextEmail.getText().toString();
@@ -136,6 +137,7 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(SignupActivity.this, "Email is in use by\nanother account!", Toast.LENGTH_LONG).show();
+                loading_spinner.setVisibility(View.GONE);
                 editTextEmail.requestFocus();
                 editTextEmail.setError("Email is in use by another account");
                 ButtonUtils.enableButtonRestoreTitle();

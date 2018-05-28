@@ -1,68 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+
+<FrameLayout android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.andromeda.djzaamir.rideshare.SignupActivity"
-    android:orientation="vertical"
-    android:padding="20dp">
+    >
 
-    <!--Name-->
-    <EditText
+
+        <!--Loading spinner-->
+        <ProgressBar
+            android:id="@+id/loading_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"/>
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Name"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/edittextbox_name"
-        />
+        android:layout_height="match_parent"
+        tools:context="com.andromeda.djzaamir.rideshare.SignupActivity"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-    <!--email-->
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/edittextbox_email"/>
+        <!--Name-->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/edittextbox_name"
+            />
 
-    <!--cell-->
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Cell"
-        android:inputType="number"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/edittextbox_cell"/>
+        <!--email-->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/edittextbox_email"/>
 
-     <!--Password-->
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/edittextbox_password"/>
+        <!--cell-->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cell"
+            android:inputType="number"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/edittextbox_cell"/>
 
-    <!--Comfirm Password-->
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Comfirm Password"
-        android:inputType="textPassword"
-        android:layout_marginBottom="10dp"
-        android:id="@+id/edittextbox_password_comfirm"/>
+         <!--Password-->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/edittextbox_password"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Signup"
-        android:paddingHorizontal="100dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:onClick="performSignup"
-        android:id="@+id/signup_button"/>
+        <!--Comfirm Password-->
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Comfirm Password"
+            android:inputType="textPassword"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/edittextbox_password_comfirm"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Signup"
+            android:paddingHorizontal="100dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:onClick="performSignup"
+            android:id="@+id/signup_button"/>
 
 
 
-</LinearLayout>
+
+
+    </LinearLayout>
+
+</FrameLayout>

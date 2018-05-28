@@ -98,8 +98,8 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
                     //Cool FINE Location Access Provided
                 } else {
                     //Because location access is required
-                    Toast.makeText(getApplicationContext(), "Location Services Are Required...", Toast.LENGTH_LONG).show();
-                    finish();
+                     Toast.makeText(getApplicationContext(), "Location Services Are Required...", Toast.LENGTH_LONG).show();
+                    System.exit(0);
                 }
                 break;
             default:
