@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ public class shareMyRide extends AppCompatActivity {
     //Gui references
     private EditText start_point_edittext, end_point_edittext, start_date_time_edittext,end_date_time_edittext;
     private CheckBox roundTrip_checkbox;
+    private ProgressBar loading_spinner;
 
     //Date Members
     //Will let us know if we are reading Start DateAndTime Or End DateAndTime
@@ -81,6 +83,8 @@ public class shareMyRide extends AppCompatActivity {
         end_date_time_edittext   =   findViewById(R.id.return_date_time_textview);
 
         roundTrip_checkbox       =   findViewById(R.id.roundTrip_checkbox);
+
+        loading_spinner =  findViewById(R.id.loading_spinner);
 
         //select both address field, so they may scroll
         start_point_edittext.setSelected(true);
@@ -352,6 +356,10 @@ public class shareMyRide extends AppCompatActivity {
            ButtonUtils.disableAndChangeText(shareMyRide_button,"Sharing Ride...");
 
 
+           //Init loading spinner
+           loading_spinner.setVisibility(View.VISIBLE);
+
+
            /*
            * Get Different Ref's to db because we have to place data in different points
            * Due to using Geofire For Match making between drivers and customers
@@ -361,11 +369,14 @@ public class shareMyRide extends AppCompatActivity {
 
            //Submit data to firebase Of start point
            DatabaseReference available_drivers_start_point = FirebaseDatabase.getInstance().getReference().child                                  ("available_drivers_start_point");
+
            GeoFire start_loc_geofire_ref =  new GeoFire(available_drivers_start_point);
            start_loc_geofire_ref.setLocation(u_id, new GeoLocation(start_loc_point.latitude, start_loc_point.longitude), new GeoFire             .CompletionListener() {
                @Override
                public void onComplete(String key, DatabaseError error) {
+                   //TODO , No error Handling Incase of Rejection/Failure from firebase
                  if (error == null)
+
                       setStartLocationDataSendState(true);
                }
            });
@@ -388,20 +399,24 @@ public class shareMyRide extends AppCompatActivity {
 
            //Submit data to firebase Of Start and End time Info if any
            DatabaseReference available_drivers_time_info = FirebaseDatabase.getInstance().getReference().child                                   ("available_drivers_time_info").child(u_id);
+
            Start_end_time times = null;
            if (roundTrip_checkbox.isChecked()){
                times = new Start_end_time(start_date_and_time.getTimeInMillis(),end_date_and_time.getTimeInMillis());
            }else{
               times = new Start_end_time(start_date_and_time.getTimeInMillis());
            }
+
            available_drivers_time_info.setValue(times).addOnSuccessListener(new OnSuccessListener<Void>() {
                @Override
                public void onSuccess(Void aVoid) {
+                   loading_spinner.setVisibility(View.GONE);
                    finish();
                }
            }).addOnFailureListener(new OnFailureListener() {
                @Override
                public void onFailure(@NonNull Exception e) {
+                 loading_spinner.setVisibility(View.GONE);
                  Toast.makeText(shareMyRide.this,"Something went wrong\nUnable to share Ride data",Toast.LENGTH_LONG).show();
                }
            });
