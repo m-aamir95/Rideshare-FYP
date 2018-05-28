@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import com.andromeda.djzaamir.rideshare.utils.ButtonUtils;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -20,6 +20,7 @@ public class LoginActivity extends AppCompatActivity {
     //Gui references
     private EditText editTextEmail,editTextPassword;
     private boolean passwordGood=false,emailGood=false;
+    private ProgressBar loading_spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         //Establish references to gui
         editTextEmail    =  findViewById(R.id.edittextbox_email_login);
         editTextPassword =  findViewById(R.id.edittextbox_password_login);
+        loading_spinner = findViewById(R.id.loading_spinner);
     }
 
     public void logIn(View view) {
@@ -37,6 +39,10 @@ public class LoginActivity extends AppCompatActivity {
           //Disable signin buttin, and change title
             Button login_button =  findViewById(R.id.button_login);
             ButtonUtils.disableAndChangeText(login_button,"Logging in...");
+
+            //Fire loading spinner
+            loading_spinner.setVisibility(View.VISIBLE);
+
 
             String email    =  editTextEmail.getText().toString();
             String password =  editTextPassword.getText().toString();
@@ -51,6 +57,8 @@ public class LoginActivity extends AppCompatActivity {
                     //Dispose off error
                     editTextEmail.setError(null);
 
+                    loading_spinner.setVisibility(View.GONE);
+
                     //Dispose this activity
                     finish();
                     return;
@@ -58,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+                    loading_spinner.setVisibility(View.GONE);
                     editTextEmail.setText("");
                     editTextPassword.setText("");
                     editTextEmail.setError("Invalid Email or Password!");
