@@ -4,27 +4,23 @@ import android.app.Activity;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.andromeda.djzaamir.rideshare.utils.ButtonUtils;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
-import com.firebase.geofire.GeoQueryDataEventListener;
-import com.firebase.geofire.GeoQueryEventListener;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -34,6 +30,7 @@ public class FindARide extends AppCompatActivity {
     //Gui references
     private EditText start_point_edittext, end_point_edittext;
     private Button findADriver_button;
+    private ProgressBar loading_spinner;
 
     //On Activiy Result tags
     private final int start_loc_intent=1 , end_loc_intent=2;
@@ -62,6 +59,7 @@ public class FindARide extends AppCompatActivity {
         //Establish gui references
         start_point_edittext =  findViewById(R.id.start_point_findAdriver_txtview);
         end_point_edittext   =  findViewById(R.id.end_point_findAdriver_txtview);
+        loading_spinner = findViewById(R.id.loading_spinner);
 
         findADriver_button =  findViewById(R.id.findADriver_button);
 
@@ -171,6 +169,9 @@ public class FindARide extends AppCompatActivity {
 
             ButtonUtils.disableAndChangeText(findADriver_button,"Searching For Drivers...");
 
+            //Init spinner
+            loading_spinner.setVisibility(View.VISIBLE);
+
             //Grab references to firebase
             final  String u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -198,6 +199,8 @@ public class FindARide extends AppCompatActivity {
                             Intent matchingDriverActivityIntent = new Intent(getApplicationContext() , showMatchingDrivers.class);
                             matchingDriverActivityIntent.putExtra("starting_latlng" ,start_loc_point);
                             matchingDriverActivityIntent.putExtra("ending_latlng", end_loc_point);
+
+                            loading_spinner.setVisibility(View.GONE);
 
                             startActivity(matchingDriverActivityIntent);
                             finish();
