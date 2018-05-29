@@ -25,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -132,6 +133,7 @@ public class RideSharedFragment extends Fragment {
             }
         });
 
+        //Get End point location and display it to EditText
         end_point_loc_Node_ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -156,6 +158,59 @@ public class RideSharedFragment extends Fragment {
             }
         });
 
+        //Get start and date and time and display it in EditextBoxes
+        date_and_time_Node_ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if  (dataSnapshot != null){
+                    Long start_timestamp = Long.parseLong(dataSnapshot.child("start_time_stamp").getValue().toString());
+                    Long end_timestamp   = Long.parseLong(dataSnapshot.child("end_time_stamp").getValue().toString());
+
+                    //Perform timestamp to date and time Conversion
+                    int day,month,year, hour,min;
+
+                    //Set time stamp to calender instance
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTimeInMillis(start_timestamp);
+
+                    //extract individual data
+                    day   = calendar.get(Calendar.DAY_OF_MONTH);
+                    month = calendar.get(Calendar.MONTH);
+                    year  = calendar.get(Calendar.YEAR);
+
+                    hour = calendar.get(Calendar.HOUR);
+                    min  = calendar.get(Calendar.MINUTE);
+
+                    String str_representation = day + "-" + month + "-" + year + ", " + hour + ":" + min;
+                    start_date.setText(str_representation);
+
+
+                    //If end timestamp is exist means greater than zero then set it as well
+                    if (end_timestamp > 0){
+                        calendar.setTimeInMillis(end_timestamp);
+                        //extract individual data
+                        day   = calendar.get(Calendar.DAY_OF_MONTH);
+                        month = calendar.get(Calendar.MONTH);
+                        year  = calendar.get(Calendar.YEAR);
+
+                        hour = calendar.get(Calendar.HOUR);
+                        min  = calendar.get(Calendar.MINUTE);
+
+                        String str_representation_ = day + "-" + month + "-" + year + ", " + hour + ":" + min;
+                        end_date.setText(str_representation_);
+                    }else {
+                        end_date.setVisibility(View.GONE);
+                    }
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
 }
