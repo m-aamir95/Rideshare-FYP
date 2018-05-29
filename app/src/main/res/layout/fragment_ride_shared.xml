@@ -62,13 +62,13 @@
               android:layout_height="wrap_content">
 
             <EditText
+            android:id="@+id/end_point_txtview"
             android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:hint="Drop-off point"
-            android:id="@+id/end_point_txtview"
             android:layout_marginBottom="10dp"
             />
 
@@ -83,12 +83,12 @@
          android:layout_height="wrap_content">
 
          <EditText
+        android:id="@+id/start_date_time_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:hint="Start Date,Time"
-        android:id="@+id/start_date_time_textview"
          android:layout_marginBottom="10dp"
         />
 
@@ -103,12 +103,12 @@
        android:id="@+id/textInputLayout_wrapper_for_return_date_time">
 
         <EditText
+        android:id="@+id/return_date_time_textview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false"
         android:focusableInTouchMode="false"
         android:hint="Return Date,Time"
-        android:id="@+id/return_date_time_textview"
         android:layout_marginBottom="10dp"
         />
 
@@ -117,6 +117,7 @@
 
     <!--Edit Ride Parameters Button-->
     <Button
+        android:id="@+id/edit_ride_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Edit Ride"
@@ -127,12 +128,15 @@
 
     <!--Completly Cancel the Ride-->
         <Button
-            android:layout_marginTop="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel Ride"
-        android:paddingHorizontal="100dp"
-        android:layout_gravity="center"
+         android:id="@+id/cancel_ride_btn"
+         android:layout_marginTop="10dp"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="Cancel Ride"
+         android:paddingHorizontal="100dp"
+         android:layout_gravity="center"
+         android:textColor="#FFF"
+         android:background="#ff0000"
         />
 
      </LinearLayout>

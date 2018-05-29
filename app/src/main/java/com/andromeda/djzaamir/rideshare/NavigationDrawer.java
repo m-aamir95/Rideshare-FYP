@@ -32,9 +32,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 
 public class NavigationDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     //region Variables
     //Firebase
@@ -56,8 +60,6 @@ public class NavigationDrawer extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         //Get Reference to user data in firebase
         String u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -267,7 +269,7 @@ public class NavigationDrawer extends AppCompatActivity
 
         android.support.v4.app.FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.activity_container_framelayout, fragmentToSwitchTo);
-        fragmentTransaction.commit(); //very imp, signals OS to perform above operation when can
+        fragmentTransaction.commitAllowingStateLoss(); //very imp, signals OS to perform above operation whenever possible
     }
 
     void signout() {
@@ -296,9 +298,5 @@ public class NavigationDrawer extends AppCompatActivity
         //Stop Listener when activity is on background
         userDataNodeRef.removeEventListener(userDataValueEventListener);
     }
-
-
     //endregion
-
-
 }
