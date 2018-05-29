@@ -1,7 +1,7 @@
 1) Add internet connectivity check at the very startup and don't allow user to perform signup or login
    if no internet is detected. TODO(Important_level=HIGH ,DOC=YES)
 
-2) if some imp operation is being performed, then the a pop should be loaded on top screen with a loading       wheel indicating operation is being performed TODO(Important_level=HIGH)
+TODO 2) if some imp operation is being performed, then the a pop should be loaded on top screen with a loading       wheel indicating operation is being performed TODO(Important_level=HIGH)   DONE
 
 3) I can put a small animation of logo at startup screen, and load the main heavy weight components
    in the background, Using Intents this can be done, Start the other Activity at background
@@ -10,7 +10,7 @@
 
 4) Put PAK CELL-NO mask on cell no input field inside signupActivity  TODo(Important_level=MEDIUM,DOC=YES)
 
-5) Make sure email is not taken TODO(Important_level=HIGH,DOC=YES)    DONE
+TODO 5) Make sure email is not taken TODO(Important_level=HIGH,DOC=YES)    DONE
 
 6) Provide functionality to let the loved ones know about your Ride, by sharing live locations of your Ride
    Because you and your Driver would be sharing the Ride
@@ -45,7 +45,7 @@ TODO,fixed 15) Remove settings bar from NavigationDrawerActivity TODO(Important_
 
 16) Do something to  improve the security of both the driver and customer TODO(Important_level=HIGH ,DOC=YES)
 
-17) Get Profile picture of the driver TODO(Important_level=HIGH)
+TODO 17) Get Profile picture of the driver TODO(Important_level=HIGH)   DONE
 
 18) Input mask for CELL and CNIC TODO(Important_level=HIGH ,DOC=YES)
 
@@ -61,25 +61,25 @@ TODO,fixed 23) Error Validation in Date And Time selection, make sure user provi
 
 24) Display user friendly messages before and after getting permissions, to let the user know why its imp TODO(Important_level=HIGH)
 
-TODO,fixed 25) Fix Place Autocomplete tranparency issue TODO(Important_level=HIGH)
+TODO,fixed 25) Fix Place Autocomplete tranparency issue TODO(Important_level=HIGH)       DONE
 
-TODO, fixed 26) Fix horizontal scrolling issue in shareMyRide Start Position and End Position TODO(Important_level=HIGH)
+TODO, fixed 26) Fix horizontal scrolling issue in shareMyRide Start Position and End Position TODO(Important_level=HIGH)   DONE
 
-TODO 27) Fix cnic field, currently it's a text field and should be a number field TODO(Important_level=HIGH)
+TODO 27) Fix cnic field, currently it's a text field and should be a number field TODO(Important_level=HIGH)  DONE
 
-27) Tap to get location in maps TODO(Important_level=HIGH)
+TODO 27) Tap to get location in maps TODO(Important_level=HIGH)   DONE
 
 TODO 28) Fix GUI get location by GPS widget position, its been hidden by Google Place API TODO(Important_level=HIGH)
 
-29) Add Spinning waits when communicating with servers or doing some processing TODO(Important_level=HIGH)
+TODO 29) Add Spinning waits when communicating with servers or doing some processing TODO(Important_level=HIGH)   DONE
 
-30) check out Rideshare Original Application Google Places Widget placement TODO(Important_level=LOW)
+TODO 30) check out Rideshare Original Application Google Places Widget placement TODO(Important_level=LOW)   DONE
 
 31) On succesful share my ride completion, show user about his/her current planned route, and probably allow them to change it TODO(Important_level=HIGH)
 
-TODO 32) Error messages not being dislayed because, all the EditText fields are non focusable,so thats something to work on TODO(Important_level=HIGH)
+TODO 32) Error messages not being dislayed because, all the EditText fields are non focusable,so thats something to work on TODO(Important_level=HIGH)   DONE
 
-TODO 33) we have to use cardview in order to properly show Google Place api TODO(Important_level=HIGH)
+TODO 33) we have to use cardview in order to properly show Google Place api TODO(Important_level=HIGH)   DONE
 
 TODO (Probably the issue was not adding laptop sha-1 and then compiling with laptop caused connections issues with firebase)    34) Big problems found , even though App not working properly because not able to communicate with firebase
      * Signup data doesn't get show on firebase

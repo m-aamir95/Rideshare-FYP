@@ -60,7 +60,7 @@ public class shareMyRide extends AppCompatActivity {
     private LatLng start_loc_point = null, end_loc_point = null;
 
     //Bools to let know if data sent to Firebase about starting and ending location good
-    boolean start_loc_data_send_good = false , end_loc_data_send_good = false;
+    boolean start_loc_data_send_good = false , end_loc_data_send_good = false , date_and_time_send_state_good = false;
 
 
 
@@ -376,8 +376,8 @@ public class shareMyRide extends AppCompatActivity {
                public void onComplete(String key, DatabaseError error) {
                    //TODO , No error Handling Incase of Rejection/Failure from firebase
                  if (error == null)
-
                       setStartLocationDataSendState(true);
+                      tryToCloseActivity();
                }
            });
 
@@ -392,6 +392,7 @@ public class shareMyRide extends AppCompatActivity {
                public void onComplete(String key, DatabaseError error) {
                    if (error == null)
                       setEndLocationDataSendState(true);
+                      tryToCloseActivity();
                }
            });
 
@@ -410,8 +411,8 @@ public class shareMyRide extends AppCompatActivity {
            available_drivers_time_info.setValue(times).addOnSuccessListener(new OnSuccessListener<Void>() {
                @Override
                public void onSuccess(Void aVoid) {
-                   loading_spinner.setVisibility(View.GONE);
-                   finish();
+                   setDateAndTimeSendState(true);
+                   tryToCloseActivity();
                }
            }).addOnFailureListener(new OnFailureListener() {
                @Override
@@ -427,6 +428,15 @@ public class shareMyRide extends AppCompatActivity {
     }
     void setEndLocationDataSendState(boolean state){
         end_loc_data_send_good = state;
+    }
+    void setDateAndTimeSendState(boolean state){
+        date_and_time_send_state_good = state;
+    }
+    void tryToCloseActivity(){
+        if (start_loc_data_send_good && end_loc_data_send_good && date_and_time_send_state_good){
+             loading_spinner.setVisibility(View.GONE);
+             finish();
+         }
     }
 
     //region Data Validation Functions Before Sending data to firebase
