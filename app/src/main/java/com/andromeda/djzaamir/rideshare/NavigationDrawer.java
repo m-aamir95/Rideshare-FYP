@@ -1,6 +1,5 @@
 package com.andromeda.djzaamir.rideshare;
 
-import android.*;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -8,14 +7,9 @@ import android.location.Location;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationCallback;
-import com.google.android.gms.location.LocationListener;
 
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
@@ -29,10 +23,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,14 +32,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
 
 public class NavigationDrawer extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     //region Variables
     //Firebase
-    private DatabaseReference userDataNodeRef;
+    private DatabaseReference userDataNodeRef ,  isUserSharingRideNodeRef;
     private ValueEventListener userDataValueEventListener;
 
     //For location
@@ -69,7 +58,36 @@ public class NavigationDrawer extends AppCompatActivity
 
         //Get Reference to user data in firebase
         String u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        //Firebase Node Ref For user data only
         userDataNodeRef = FirebaseDatabase.getInstance().getReference().child("Users").child(u_id);
+        isUserSharingRideNodeRef =  FirebaseDatabase.getInstance().getReference().child("available_drivers_start_point").child(u_id);
+
+        //If This Person is sharing His/her Ride then switch to RideShared Fragment
+        isUserSharingRideNodeRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+               if (dataSnapshot != null && dataSnapshot.getValue() != null ){
+                       startNewFragmentActivity(new RideSharedFragment());
+               }else{
+                   //Switch to default homeFragment
+                  startNewFragmentActivity(new HomeFragment());
+                  //set home as checked item
+                   NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                   navigationView.setCheckedItem(R.id.home_item);
+                    //change toolbar title
+                  toolbar.setTitle("Home");
+               }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //Firebase Node Ref to check if the person is sharing his/her Ride
+
 
         //Setup Event listener on user data node
         userDataValueEventListener = new ValueEventListener() {
@@ -87,10 +105,8 @@ public class NavigationDrawer extends AppCompatActivity
 
                 name_txtview.setText(name);
                 email_txtview.setText(email);
+
                 //Not updating Cell at navigation drawer header
-
-
-
             }
 
             @Override
@@ -141,12 +157,7 @@ public class NavigationDrawer extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        //Switch to default homeFragment
-        startNewFragmentActivity(new HomeFragment());
-        //set home as checked item
-        navigationView.setCheckedItem(R.id.home_item);
-        //change toolbar title
-        toolbar.setTitle("Home");
+
 
 
         //init fusedLocationProviderAPI
@@ -276,6 +287,8 @@ public class NavigationDrawer extends AppCompatActivity
         //Stop Listener when activity is on background
         userDataNodeRef.removeEventListener(userDataValueEventListener);
     }
+
+
     //endregion
 
 

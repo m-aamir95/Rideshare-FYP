@@ -443,11 +443,9 @@ public class shareMyRide extends AppCompatActivity {
         if (start_loc_data_send_good && end_loc_data_send_good && date_and_time_send_state_good){
              loading_spinner.setVisibility(View.GONE);
 
-              //Take to RideSharedActivity
-              Intent rideSharedActivityIntent = new Intent(getApplicationContext() ,RideShared.class);
-              startActivity(rideSharedActivityIntent);
-              finish();
-         }
+            //Take to RideSharedActivity
+            finish();
+        }
     }
 
     //region Data Validation Functions Before Sending data to firebase
