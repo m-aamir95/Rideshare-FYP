@@ -18,7 +18,7 @@
              android:layout_height="wrap_content"
              android:textSize="22sp"
              android:textAlignment="center"
-             android:text="Your Ride has been Succesfully shared, following are the                     details of your ride."
+             android:text="Your Ride has been Succesfully shared with following details"
              />
 
          <!--Starting location, Address-->
@@ -129,7 +129,7 @@
     <!--Completly Cancel the Ride-->
         <Button
          android:id="@+id/cancel_ride_btn"
-         android:layout_marginTop="10dp"
+         android:layout_marginTop="20dp"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:text="Cancel Ride"

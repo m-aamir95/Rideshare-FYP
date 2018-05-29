@@ -1,5 +1,7 @@
 package com.andromeda.djzaamir.rideshare;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -74,10 +76,26 @@ public class RideSharedFragment extends Fragment {
         cancel_ride_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 //Remove Start Position from firebase
-                FirebaseDatabase.getInstance().getReference().child("available_drivers_start_point").child(u_id).removeValue();
-                FirebaseDatabase.getInstance().getReference().child("available_drivers_end_point").child(u_id).removeValue();
-                FirebaseDatabase.getInstance().getReference().child("available_drivers_time_info").child(u_id).removeValue();
+
+                AlertDialog.Builder dialoge =  new AlertDialog.Builder(getActivity());
+                dialoge.setTitle("Alert!")
+                .setMessage("Are you sure? \nThis will Stop Sharing your Ride")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //Remove Start Position from firebase
+                        FirebaseDatabase.getInstance().getReference().child("available_drivers_start_point").child(u_id).removeValue();
+                        FirebaseDatabase.getInstance().getReference().child("available_drivers_end_point").child(u_id).removeValue();
+                        FirebaseDatabase.getInstance().getReference().child("available_drivers_time_info").child(u_id).removeValue();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        //Do nothing
+                    }
+                }).create().show();
+
             }
         });
 
