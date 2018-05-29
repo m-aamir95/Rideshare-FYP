@@ -90,7 +90,7 @@ public class showMatchingDrivers extends AppCompatActivity {
         *    Let the algorithm Begin
         * */
 
-        final float radius = 1.5f;
+        final float radius = 1.0f; //In km
 
 
         //Find the nearest drivers at starting point of customer
