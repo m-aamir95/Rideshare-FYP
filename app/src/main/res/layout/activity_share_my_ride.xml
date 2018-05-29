@@ -34,7 +34,11 @@
           android:fillViewport="true"
           android:scrollbarAlwaysDrawHorizontalTrack="true">
 
-          <EditText
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+              <EditText
               android:id="@+id/start_point_txtview"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
@@ -42,7 +46,10 @@
               android:focusable="false"
               android:focusableInTouchMode="false"
               android:maxLines="1"
-              android:text="Start Point" />
+              android:hint="Start Point"
+              />
+
+        </android.support.design.widget.TextInputLayout>
 
       </HorizontalScrollView>
 
@@ -53,28 +60,45 @@
             android:fillViewport="true"
             android:scrollbarAlwaysDrawHorizontalTrack="true"
             >
+
+
+          <android.support.design.widget.TextInputLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
             <EditText
             android:maxLines="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:text="End Point"
+            android:hint="End Point"
             android:id="@+id/end_point_txtview"
             android:layout_marginBottom="10dp"
             />
+
+          </android.support.design.widget.TextInputLayout>
+
+
         </HorizontalScrollView>
 
     <!--Start Date and Time-->
-     <EditText
+     <android.support.design.widget.TextInputLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+
+         <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:text="Start Date,Time"
+        android:hint="Start Date,Time"
         android:id="@+id/start_date_time_textview"
          android:layout_marginBottom="10dp"
         />
+
+
+     </android.support.design.widget.TextInputLayout>
 
    <!--Is this is a Round Trip Checkbox layout-->
      <CheckBox
@@ -88,16 +112,22 @@
 
 
     <!--Round trip date and time-->
-    <EditText
+   <android.support.design.widget.TextInputLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+        <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:focusable="false"
         android:focusableInTouchMode="false"
-        android:text="Return Date,Time"
+        android:hint="Return Date,Time"
         android:id="@+id/return_date_time_textview"
         android:visibility="invisible"
         android:layout_marginBottom="10dp"
         />
+
+   </android.support.design.widget.TextInputLayout>
 
 
     <!--share my ride button-->
