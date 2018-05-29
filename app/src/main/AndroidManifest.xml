@@ -19,14 +19,12 @@
         <!-- android:value="AIzaSyCoVK5FcoqFC6CQkE4XrtXpDFqxYZ8s600"/> -->
 
         <activity android:name=".MainActivity">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".WelcomeActivity" />
         <activity android:name=".SignupActivity">
             <meta-data
@@ -76,11 +74,12 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".NavigationDrawer" />
         </activity>
-        <activity
-            android:name=".showMatchingDrivers">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value=".NavigationDrawer"/>
+        <activity android:name=".showMatchingDrivers">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".NavigationDrawer" />
         </activity>
+        <activity android:name=".RideShared"></activity>
     </application>
 
 </manifest>

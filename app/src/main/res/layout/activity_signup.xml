@@ -29,7 +29,11 @@
         android:padding="20dp">
 
         <!--Name-->
-        <EditText
+           <android.support.design.widget.TextInputLayout
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content" >
+
+            <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Name"
@@ -37,17 +41,30 @@
             android:id="@+id/edittextbox_name"
             />
 
+           </android.support.design.widget.TextInputLayout>
+
+
         <!--email-->
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/edittextbox_email"/>
+          <android.support.design.widget.TextInputLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+                <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/edittextbox_email"/>
+
+          </android.support.design.widget.TextInputLayout>
 
         <!--cell-->
-        <EditText
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+             <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Cell"
@@ -55,8 +72,14 @@
             android:layout_marginBottom="10dp"
             android:id="@+id/edittextbox_cell"/>
 
+        </android.support.design.widget.TextInputLayout>
+
          <!--Password-->
-        <EditText
+         <android.support.design.widget.TextInputLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content">
+
+            <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
@@ -64,14 +87,23 @@
             android:layout_marginBottom="10dp"
             android:id="@+id/edittextbox_password"/>
 
+         </android.support.design.widget.TextInputLayout>
+
+
         <!--Comfirm Password-->
-        <EditText
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Comfirm Password"
             android:inputType="textPassword"
             android:layout_marginBottom="10dp"
             android:id="@+id/edittextbox_password_comfirm"/>
+
+        </android.support.design.widget.TextInputLayout>
 
         <Button
             android:layout_width="wrap_content"
