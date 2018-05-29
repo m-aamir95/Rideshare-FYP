@@ -49,6 +49,8 @@ public class NavigationDrawer extends AppCompatActivity
 
     //Toolbar
     private Toolbar toolbar;
+
+    private boolean switch_to_rideShared_fragment = false; //Will be used to decide should the app Display Home Or RideShared Fragment
     //endregion
 
     @Override
@@ -69,9 +71,11 @@ public class NavigationDrawer extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                if (dataSnapshot != null && dataSnapshot.getValue() != null ){
                        startNewFragmentActivity(new RideSharedFragment());
+                       switch_to_rideShared_fragment = true;
                }else{
                    //Switch to default homeFragment
                   startNewFragmentActivity(new HomeFragment());
+                  switch_to_rideShared_fragment = false;
                   //set home as checked item
                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
                    navigationView.setCheckedItem(R.id.home_item);
@@ -227,9 +231,14 @@ public class NavigationDrawer extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.home_item) {
+
             Toolbar toolbar = findViewById(R.id.toolbar);
             toolbar.setTitle("Home");
-            startNewFragmentActivity(new HomeFragment());
+            if (!switch_to_rideShared_fragment){
+              startNewFragmentActivity(new HomeFragment());
+            }else{
+                startNewFragmentActivity(new RideSharedFragment());
+            }
         } else if (id == R.id.settings_item) {
             Toolbar toolbar = findViewById(R.id.toolbar);
             toolbar.setTitle("Settings");

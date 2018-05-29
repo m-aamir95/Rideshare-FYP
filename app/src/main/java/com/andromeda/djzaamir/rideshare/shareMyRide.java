@@ -384,7 +384,7 @@ public class shareMyRide extends AppCompatActivity {
                    //TODO , No error Handling Incase of Rejection/Failure from firebase
                  if (error == null)
                       setStartLocationDataSendState(true);
-                      tryToCloseActivity();
+                      tryToSwitchToRideSharedFragment();
                }
            });
 
@@ -399,7 +399,7 @@ public class shareMyRide extends AppCompatActivity {
                public void onComplete(String key, DatabaseError error) {
                    if (error == null)
                       setEndLocationDataSendState(true);
-                      tryToCloseActivity();
+                      tryToSwitchToRideSharedFragment();
                }
            });
 
@@ -419,7 +419,7 @@ public class shareMyRide extends AppCompatActivity {
                @Override
                public void onSuccess(Void aVoid) {
                    setDateAndTimeSendState(true);
-                   tryToCloseActivity();
+                   tryToSwitchToRideSharedFragment();
                }
            }).addOnFailureListener(new OnFailureListener() {
                @Override
@@ -439,7 +439,7 @@ public class shareMyRide extends AppCompatActivity {
     void setDateAndTimeSendState(boolean state){
         date_and_time_send_state_good = state;
     }
-    void tryToCloseActivity(){
+    void tryToSwitchToRideSharedFragment(){
         if (start_loc_data_send_good && end_loc_data_send_good && date_and_time_send_state_good){
              loading_spinner.setVisibility(View.GONE);
 

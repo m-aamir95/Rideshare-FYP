@@ -4,12 +4,137 @@
     android:layout_height="match_parent"
     tools:context="com.andromeda.djzaamir.rideshare.RideSharedFragment">
 
-     <TextView
+    <!--Main Layout-->
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="match_parent"
+         android:orientation="vertical"
+         android:padding="10dp"
+         >
+
+         <!--Describing text-->
+         <TextView
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:textSize="22sp"
+             android:textAlignment="center"
+             android:text="Your Ride has been Succesfully shared, following are the                     details of your ride."
+             />
+
+         <!--Starting location, Address-->
+      <HorizontalScrollView
+          android:layout_marginTop="30dp"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:fillViewport="true"
+          android:scrollbarAlwaysDrawHorizontalTrack="true">
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+              <EditText
+              android:id="@+id/start_point_txtview"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:layout_marginBottom="10dp"
+              android:focusable="false"
+              android:focusableInTouchMode="false"
+              android:maxLines="1"
+              android:hint="Pickup point"
+              />
+
+        </android.support.design.widget.TextInputLayout>
+
+      </HorizontalScrollView>
+
+          <!--Ending location Address-->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fillViewport="true"
+            android:scrollbarAlwaysDrawHorizontalTrack="true"
+            >
+
+
+          <android.support.design.widget.TextInputLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+            <EditText
+            android:maxLines="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:hint="Drop-off point"
+            android:id="@+id/end_point_txtview"
+            android:layout_marginBottom="10dp"
+            />
+
+          </android.support.design.widget.TextInputLayout>
+
+
+        </HorizontalScrollView>
+
+          <!--Start Date and Time-->
+     <android.support.design.widget.TextInputLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+
+         <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:hint="Start Date,Time"
+        android:id="@+id/start_date_time_textview"
+         android:layout_marginBottom="10dp"
+        />
+
+
+     </android.support.design.widget.TextInputLayout>
+
+   <!--Round trip date and time-->
+   <android.support.design.widget.TextInputLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:visibility="visible"
+       android:id="@+id/textInputLayout_wrapper_for_return_date_time">
+
+        <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:hint="Return Date,Time"
+        android:id="@+id/return_date_time_textview"
+        android:layout_marginBottom="10dp"
+        />
+
+   </android.support.design.widget.TextInputLayout>
+
+
+    <!--Edit Ride Parameters Button-->
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="RideShared Fragment"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"/>
+        android:text="Edit Ride"
+        android:paddingHorizontal="100dp"
+        android:layout_gravity="center"
+        />
+
+
+    <!--Completly Cancel the Ride-->
+        <Button
+            android:layout_marginTop="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel Ride"
+        android:paddingHorizontal="100dp"
+        android:layout_gravity="center"
+        />
+
+     </LinearLayout>
 
 </FrameLayout>
