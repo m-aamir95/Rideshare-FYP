@@ -8,6 +8,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -45,6 +46,7 @@ public class shareMyRide extends AppCompatActivity {
     private EditText start_point_edittext, end_point_edittext, start_date_time_edittext,end_date_time_edittext;
     private CheckBox roundTrip_checkbox;
     private ProgressBar loading_spinner;
+    private TextInputLayout textInputLayout;
 
     //Date Members
     //Will let us know if we are reading Start DateAndTime Or End DateAndTime
@@ -86,6 +88,8 @@ public class shareMyRide extends AppCompatActivity {
 
         loading_spinner =  findViewById(R.id.loading_spinner);
 
+        textInputLayout = findViewById(R.id.textInputLayout_wrapper_for_return_date_time);
+
         //select both address field, so they may scroll
         start_point_edittext.setSelected(true);
         end_point_edittext.setSelected(true);
@@ -97,9 +101,9 @@ public class shareMyRide extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (roundTrip_checkbox.isChecked()){
-                    end_date_time_edittext.setVisibility(View.VISIBLE);
+                    textInputLayout.setVisibility(View.VISIBLE);
                 }else{
-                    end_date_time_edittext.setVisibility(View.INVISIBLE);
+                    textInputLayout.setVisibility(View.INVISIBLE);
                 }
             }
         });
@@ -297,9 +301,12 @@ public class shareMyRide extends AppCompatActivity {
 
          start_date_and_time_good = true;
 
+         //Also Enable CheckBox for Return date and time
+         roundTrip_checkbox.setEnabled(true);
+
         //Update start calendar
-       start_date_and_time.set(Calendar.HOUR_OF_DAY ,hour); //Hour_Of_Day, Indicating a 24 Hour clock
-       start_date_and_time.set(Calendar.MINUTE,minutes);
+        start_date_and_time.set(Calendar.HOUR_OF_DAY ,hour); //Hour_Of_Day, Indicating a 24 Hour clock
+        start_date_and_time.set(Calendar.MINUTE,minutes);
 
 
         //Perform Military to normal time conversion
