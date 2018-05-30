@@ -20,6 +20,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.andromeda.djzaamir.rideshare.utils.ButtonUtils;
+import com.andromeda.djzaamir.rideshare.utils.InputUtils;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.maps.model.LatLng;
@@ -363,6 +364,8 @@ public class shareMyRide extends AppCompatActivity {
            final Button shareMyRide_button = findViewById(R.id.shareMyRide_button);
            ButtonUtils.disableAndChangeText(shareMyRide_button,"Sharing Ride...");
 
+           //disable all inputs
+           InputUtils.disableInputControls(start_point_edittext,end_point_edittext,start_date_time_edittext,roundTrip_checkbox , end_date_time_edittext);
 
            //Init loading spinner
            loading_spinner.setVisibility(View.VISIBLE);
@@ -376,7 +379,7 @@ public class shareMyRide extends AppCompatActivity {
            String u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
            //Submit data to firebase Of start point
-           DatabaseReference available_drivers_start_point = FirebaseDatabase.getInstance().getReference().child                                  ("available_drivers_start_point");
+           DatabaseReference available_drivers_start_point = FirebaseDatabase.getInstance().getReference().child                                                                                                                                    ("available_drivers_start_point");
 
            GeoFire start_loc_geofire_ref =  new GeoFire(available_drivers_start_point);
            start_loc_geofire_ref.setLocation(u_id, new GeoLocation(start_loc_point.latitude, start_loc_point.longitude), new GeoFire             .CompletionListener() {
@@ -426,6 +429,7 @@ public class shareMyRide extends AppCompatActivity {
                @Override
                public void onFailure(@NonNull Exception e) {
                  loading_spinner.setVisibility(View.GONE);
+                 InputUtils.enableInputControls();
                  Toast.makeText(shareMyRide.this,"Something went wrong\nUnable to share Ride data",Toast.LENGTH_LONG).show();
                }
            });
