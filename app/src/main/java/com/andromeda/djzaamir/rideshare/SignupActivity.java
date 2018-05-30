@@ -14,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.andromeda.djzaamir.rideshare.utils.ButtonUtils;
+import com.andromeda.djzaamir.rideshare.utils.InputUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -127,6 +128,10 @@ public class SignupActivity extends AppCompatActivity {
         Button signup_button = findViewById(R.id.signup_button);
         ButtonUtils.disableAndChangeText(signup_button, "Signing up...");
 
+
+        //disable input-controls
+        InputUtils.disableInputControls(editTextName,editTextEmail,editTextCell,editTextPassword,editTextComfirmPassowrd);
+
         //Perform singup and init spinner
         loading_spinner.setVisibility(View.VISIBLE);
 
@@ -141,6 +146,7 @@ public class SignupActivity extends AppCompatActivity {
                 editTextEmail.requestFocus();
                 editTextEmail.setError("Email is in use by another account");
                 ButtonUtils.enableButtonRestoreTitle();
+                InputUtils.enableInputControls();
             }
         }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override

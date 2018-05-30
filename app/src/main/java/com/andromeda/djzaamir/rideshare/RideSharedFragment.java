@@ -162,7 +162,7 @@ public class RideSharedFragment extends Fragment {
         date_and_time_Node_ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if  (dataSnapshot != null){
+                if  (dataSnapshot != null && dataSnapshot.getValue() != null){
 
                     //Get the timestamps
                     Long start_timestamp = Long.parseLong(dataSnapshot.child("start_time_stamp").getValue().toString());

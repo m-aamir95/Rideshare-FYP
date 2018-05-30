@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.andromeda.djzaamir.rideshare.utils.InputUtils;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +43,7 @@ public class DriverDetailActivity extends AppCompatActivity {
     private Spinner color_spinner;
     private ImageView profile_image;
 
-    private Button profile_image_button;
+    private Button profile_image_button,submit_data_button;
 
     private String selected_color,vehicle_number,cnic_no;
 
@@ -65,6 +66,7 @@ public class DriverDetailActivity extends AppCompatActivity {
         color_spinner =  findViewById(R.id.vehicle_color_spinner);
         profile_image = findViewById(R.id.user_image);
         profile_image_button = findViewById(R.id.profile_image_button);
+        submit_data_button = findViewById(R.id.submit_Data_button);
 
         //Fill up spinner with Array Adapter
         ArrayAdapter<String> colors_adapter =  new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,colors);
@@ -90,6 +92,11 @@ public class DriverDetailActivity extends AppCompatActivity {
 
     public void submit_driver_details_btn(View view) throws IOException {
         if (dataValidationGood()){
+
+            //Disable input controls
+            InputUtils.disableInputControls(vehicle_no,cnic,profile_image,profile_image_button,submit_data_button);
+
+
           //Push data to firebase
             String u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
             final DatabaseReference ref =  FirebaseDatabase.getInstance().getReference().child("Driver_vehicle_info").child(u_id);

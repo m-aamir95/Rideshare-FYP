@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.andromeda.djzaamir.rideshare.utils.ButtonUtils;
+import com.andromeda.djzaamir.rideshare.utils.InputUtils;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.maps.model.LatLng;
@@ -168,6 +169,9 @@ public class FindARide extends AppCompatActivity {
         if (validateData()){
 
             ButtonUtils.disableAndChangeText(findADriver_button,"Searching For Drivers...");
+
+            //disable input controls
+            InputUtils.disableInputControls(start_point_edittext , end_point_edittext);
 
             //Init spinner
             loading_spinner.setVisibility(View.VISIBLE);

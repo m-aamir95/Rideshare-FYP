@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 
 import com.andromeda.djzaamir.rideshare.utils.ButtonUtils;
+import com.andromeda.djzaamir.rideshare.utils.InputUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
@@ -39,6 +40,9 @@ public class LoginActivity extends AppCompatActivity {
           //Disable signin buttin, and change title
             Button login_button =  findViewById(R.id.button_login);
             ButtonUtils.disableAndChangeText(login_button,"Logging in...");
+
+            //disable input controls
+            InputUtils.disableInputControls(editTextEmail ,  editTextPassword);
 
             //Fire loading spinner
             loading_spinner.setVisibility(View.VISIBLE);
@@ -72,6 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                     editTextEmail.setError("Invalid Email or Password!");
 
                    ButtonUtils.enableButtonRestoreTitle();
+                   InputUtils.enableInputControls();
                 }
             });
         }
