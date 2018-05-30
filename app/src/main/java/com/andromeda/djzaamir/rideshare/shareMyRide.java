@@ -254,7 +254,8 @@ public class shareMyRide extends AppCompatActivity {
                 //Because we need to update outside scoped variables
                 //They cant be used here, because they need to be final for that
                 //This helper function will take these vars and update those outside scopped vars
-                setDate(year,month,day);
+
+                setDate(year,month,day);  //month + 1, because DataPickerDialouge is starting months from 0 =  Jan insead of 1 =  Jan
 
                 //To make sure Time Dialogue will come up after selecting a date
               timePickerDialog.show();
@@ -282,7 +283,7 @@ public class shareMyRide extends AppCompatActivity {
             start_date_and_time.set(year,month,day);
 
             //Update gui
-            start_date_time_edittext.setText(day+"-"+month+"-"+year);
+            start_date_time_edittext.setText(day+"-"+(month+1)+"-"+year);
         }else{
 
             //update calender obj for start date and time
@@ -290,7 +291,7 @@ public class shareMyRide extends AppCompatActivity {
             end_date_and_time.set(year,month,day);
 
 
-            end_date_time_edittext.setText(day+"-"+month+"-"+year);
+            end_date_time_edittext.setText(day+"-"+(month+1)+"-"+year);
         }
     }
     void setTime(int hour, int minutes){

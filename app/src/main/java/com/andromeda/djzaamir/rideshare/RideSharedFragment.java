@@ -163,46 +163,20 @@ public class RideSharedFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if  (dataSnapshot != null){
+
+                    //Get the timestamps
                     Long start_timestamp = Long.parseLong(dataSnapshot.child("start_time_stamp").getValue().toString());
                     Long end_timestamp   = Long.parseLong(dataSnapshot.child("end_time_stamp").getValue().toString());
 
-                    //Perform timestamp to date and time Conversion
-                    int day,month,year, hour,min;
-
-                    //Set time stamp to calender instance
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.setTimeInMillis(start_timestamp);
-
-                    //extract individual data
-                    day   = calendar.get(Calendar.DAY_OF_MONTH);
-                    month = calendar.get(Calendar.MONTH);
-                    year  = calendar.get(Calendar.YEAR);
-
-                    hour = calendar.get(Calendar.HOUR);
-                    min  = calendar.get(Calendar.MINUTE);
-
-                    String str_representation = day + "-" + month + "-" + year + ", " + hour + ":" + min;
-                    start_date.setText(str_representation);
-
+                    //Display start date and time
+                    parseTimestampAndSetupEdittext(start_timestamp , start_date);
 
                     //If end timestamp is exist means greater than zero then set it as well
                     if (end_timestamp > 0){
-                        calendar.setTimeInMillis(end_timestamp);
-                        //extract individual data
-                        day   = calendar.get(Calendar.DAY_OF_MONTH);
-                        month = calendar.get(Calendar.MONTH);
-                        year  = calendar.get(Calendar.YEAR);
-
-                        hour = calendar.get(Calendar.HOUR);
-                        min  = calendar.get(Calendar.MINUTE);
-
-                        String str_representation_ = day + "-" + month + "-" + year + ", " + hour + ":" + min;
-                        end_date.setText(str_representation_);
+                        parseTimestampAndSetupEdittext(end_timestamp,end_date);
                     }else {
                         end_date.setVisibility(View.GONE);
                     }
-
-
                 }
             }
 
@@ -213,4 +187,26 @@ public class RideSharedFragment extends Fragment {
         });
     }
 
+    private String formatMinutes(int min) {
+        if (min < 10){
+            return "0" + String.valueOf(min);
+        }
+        return String.valueOf(min);
+    }
+
+    private void parseTimestampAndSetupEdittext(long timestamp, EditText target_edittext){
+        Calendar c =  Calendar.getInstance();
+        c.setTimeInMillis(timestamp);
+
+        int day   = c.get(Calendar.DAY_OF_MONTH);
+        int month = c.get(Calendar.MONTH);
+        int year  = c.get(Calendar.YEAR);
+
+        int hour  = c.get(Calendar.HOUR);
+        int min   = c.get(Calendar.MINUTE);
+
+        String str_representation = day + "-" + (month+1) + "-" + year + ", " + hour + ":" + formatMinutes(min);
+
+        target_edittext.setText(str_representation);
+    }
 }
