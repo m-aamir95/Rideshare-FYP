@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.Toast;
 
 import com.andromeda.djzaamir.rideshare.RecyclerViewClasses.DriverDataModel;
 import com.andromeda.djzaamir.rideshare.RecyclerViewClasses.MatchingDriversRecyclerViewAdapter;
@@ -94,10 +96,10 @@ public class showMatchingDrivers extends AppCompatActivity {
 
 
         //Find the nearest drivers at starting point of customer
-        DatabaseReference cust_starting_latlng_fire_ref = FirebaseDatabase.getInstance().getReference().child                                   ("available_drivers_start_point");
+        DatabaseReference cust_starting_latlng_fire_ref = FirebaseDatabase.getInstance().getReference().child                                                                                                                           ("available_drivers_start_point");
 
         GeoFire cust_starting_geofire_ref = new GeoFire(cust_starting_latlng_fire_ref);
-        cust_starting_geofire_ref.queryAtLocation(new GeoLocation(start_loc_point.latitude, start_loc_point.longitude), radius)                 .addGeoQueryEventListener(new GeoQueryEventListener() {
+        cust_starting_geofire_ref.queryAtLocation(new GeoLocation(start_loc_point.latitude, start_loc_point.longitude), radius)                                 .addGeoQueryEventListener(new GeoQueryEventListener() {
 
             //Will be called for every matching result
             @Override
@@ -194,11 +196,12 @@ public class showMatchingDrivers extends AppCompatActivity {
 
                     //If their Id's match keep them
                     if (start_point_driver_Data.id.equals(end_point_driver_Data.id)) {
-                        Matched_Driver_Data matched_driver_data = new Matched_Driver_Data(start_point_driver_Data.id,                                           start_point_driver_Data.location, end_point_driver_Data.location);
+                        Matched_Driver_Data matched_driver_data = new Matched_Driver_Data(start_point_driver_Data.id,                                                          start_point_driver_Data.location, end_point_driver_Data.location);
                         matched_drivers.add(matched_driver_data);
                     }
                 }
             }
+
 
             //Start putting data into the recyclerView
             data_for_RecyclerView = new ArrayList<>();
@@ -212,8 +215,8 @@ public class showMatchingDrivers extends AppCompatActivity {
 
 
                 //Translate Latlng to place names
-                 String pickup_loc = geocoder.getFromLocation(d.start_point.latitude,d.start_point.longitude,1).get(0)                                                                                                                          .getAddressLine                                                                                                                        (0);
-                 String destination_loc = geocoder.getFromLocation(d.end_point.latitude,d.end_point.longitude,1).get(0)                                                                                                                          .getAddressLine                                                                                                                        (0);
+                 String pickup_loc = geocoder.getFromLocation(d.start_point.latitude,d.start_point.longitude,1).get(0)                                                                                                                          .getAddressLine                                                                                                                                         (0);
+                 String destination_loc = geocoder.getFromLocation(d.end_point.latitude,d.end_point.longitude,1).get(0)                                                                                                                          .getAddressLine                                                                                                                                        (0);
 
                  DriverDataModel new_data_model  =  new DriverDataModel(d.id,null,pickup_loc,destination_loc);
 

@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.andromeda.djzaamir.rideshare.R;
 import com.bumptech.glide.Glide;
@@ -38,6 +39,16 @@ public class MatchingDriversRecyclerViewAdapter extends RecyclerView.Adapter<Mat
         //And pass it  to the view holder which will manage it and also cache it
         View view =  inflater.inflate(R.layout.matching_driver_row,parent,false);
         MatchingDriversViewHolder holder =  new MatchingDriversViewHolder(view);
+
+        //attach on click listener to newly created view
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TextView driver_name =  view.findViewById(R.id.driver_name);
+                Toast.makeText(view.getContext(), "Mr Stark I am Shark : " + driver_name.getText() , Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return holder;
     }
 
@@ -105,7 +116,7 @@ public class MatchingDriversRecyclerViewAdapter extends RecyclerView.Adapter<Mat
     * and then whenever it moves out of screen, RecyclerView.ViewHolder will cache it
     * hence reducing calls to findViewById
     * */
-    class MatchingDriversViewHolder extends RecyclerView.ViewHolder {
+    class MatchingDriversViewHolder extends RecyclerView.ViewHolder   {
 
         public TextView driver_name , driver_pickup_address , driver_destination_address;
         public ImageView driver_image;
@@ -114,6 +125,7 @@ public class MatchingDriversRecyclerViewAdapter extends RecyclerView.Adapter<Mat
         public MatchingDriversViewHolder(View itemView) {
             super(itemView);
 
+
             //Grab References to gui
             driver_image =  (ImageView) itemView.findViewById(R.id.driver_image);
             driver_name  =  (TextView)  itemView.findViewById(R.id.driver_name);
@@ -121,6 +133,8 @@ public class MatchingDriversRecyclerViewAdapter extends RecyclerView.Adapter<Mat
             driver_destination_address = (TextView) itemView.findViewById(R.id.driver_destination_address);
 
         }
+
+
     }
 
 
