@@ -82,6 +82,12 @@
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
+                    <TextView
+                        android:id="@+id/hidden_id_field"
+                        android:layout_width="0sp"
+                        android:layout_height="0sp"
+                        android:visibility="invisible"/>
+
                 </LinearLayout>
 
     </LinearLayout>

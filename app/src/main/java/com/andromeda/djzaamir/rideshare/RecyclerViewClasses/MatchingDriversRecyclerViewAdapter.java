@@ -44,8 +44,12 @@ public class MatchingDriversRecyclerViewAdapter extends RecyclerView.Adapter<Mat
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView driver_name =  view.findViewById(R.id.driver_name);
-                Toast.makeText(view.getContext(), "Mr Stark I am Shark : " + driver_name.getText() , Toast.LENGTH_SHORT).show();
+                /*
+                * Select driver id from hidden attribute , then pass it to a different activity reponsible
+                * for displaying driver details
+                * along with providing inter communication between the driver and the customer
+                * */
+                Toast.makeText(view.getContext(), ((TextView) view.findViewById(R.id.hidden_id_field)).getText(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -56,13 +60,16 @@ public class MatchingDriversRecyclerViewAdapter extends RecyclerView.Adapter<Mat
     public void onBindViewHolder(final MatchingDriversViewHolder holder, int position) {
        final DriverDataModel current_data =  DriverData.get(position);
 
-       //Assign the image here
+       //Assign the pickup and drop addresses here ,  along with Hidden ID attribute
         holder.driver_pickup_address.setText(current_data.pickup_loc_name);
         holder.driver_destination_address.setText(current_data.destination_name);
+
+        holder.hidden_id_textview.setText(current_data.id);
 
         //Make both addresses selected, so they can scroll
         holder.driver_pickup_address.setSelected(true);
         holder.driver_destination_address.setSelected(true);
+
 
 
         //Now we have to query for name based on id
@@ -120,6 +127,7 @@ public class MatchingDriversRecyclerViewAdapter extends RecyclerView.Adapter<Mat
 
         public TextView driver_name , driver_pickup_address , driver_destination_address;
         public ImageView driver_image;
+        public TextView hidden_id_textview;
 
         //Here the root of out Matching_driver_row will be passed in
         public MatchingDriversViewHolder(View itemView) {
@@ -131,7 +139,7 @@ public class MatchingDriversRecyclerViewAdapter extends RecyclerView.Adapter<Mat
             driver_name  =  (TextView)  itemView.findViewById(R.id.driver_name);
             driver_pickup_address = (TextView) itemView.findViewById(R.id.driver_pickup_address);
             driver_destination_address = (TextView) itemView.findViewById(R.id.driver_destination_address);
-
+            hidden_id_textview = (TextView)itemView.findViewById(R.id.hidden_id_field);
         }
 
 
