@@ -1,6 +1,7 @@
 package com.andromeda.djzaamir.rideshare.RecyclerViewClasses;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andromeda.djzaamir.rideshare.DisplayDriverDetails;
 import com.andromeda.djzaamir.rideshare.R;
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
@@ -49,7 +51,16 @@ public class MatchingDriversRecyclerViewAdapter extends RecyclerView.Adapter<Mat
                 * for displaying driver details
                 * along with providing inter communication between the driver and the customer
                 * */
-                Toast.makeText(view.getContext(), ((TextView) view.findViewById(R.id.hidden_id_field)).getText(), Toast.LENGTH_SHORT).show();
+                String id = ((TextView) view.findViewById(R.id.hidden_id_field)).getText().toString();
+
+                Intent displayDriverDetailsActivityIntent =  new Intent(view.getContext(), DisplayDriverDetails.class);
+                displayDriverDetailsActivityIntent.putExtra("id",id);
+
+                //Set flags
+                displayDriverDetailsActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                view.getContext().startActivity(displayDriverDetailsActivityIntent);
+
             }
         });
 

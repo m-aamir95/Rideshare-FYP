@@ -79,10 +79,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".NavigationDrawer" />
         </activity>
-        <activity android:name=".DisplayDriverDetails">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                       android:value=".showMatchingDrivers"/>
-        </activity>
+        <activity android:name=".DisplayDriverDetails"></activity>
     </application>
 
 </manifest>

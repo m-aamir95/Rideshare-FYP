@@ -2,12 +2,11 @@ package com.andromeda.djzaamir.rideshare;
 
 import android.content.Intent;
 import android.location.Geocoder;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.Toast;
 
 import com.andromeda.djzaamir.rideshare.RecyclerViewClasses.DriverDataModel;
 import com.andromeda.djzaamir.rideshare.RecyclerViewClasses.MatchingDriversRecyclerViewAdapter;
@@ -15,11 +14,9 @@ import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQueryEventListener;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -67,7 +64,7 @@ public class showMatchingDrivers extends AppCompatActivity {
         nearest_drivers_at_ending_position = new ArrayList<>();
         matched_drivers = new ArrayList<>();
 
-        //Grab intent data
+
         Intent parentActivityIntent = getIntent();
         start_loc_point = (LatLng) parentActivityIntent.getExtras().get("starting_latlng");
         end_loc_point = (LatLng) parentActivityIntent.getExtras().get("ending_latlng");
@@ -183,7 +180,7 @@ public class showMatchingDrivers extends AppCompatActivity {
     //Will only give relevant drivers and filter out the rest of them
     void filterOutNotMatchingDrivers() throws IOException {
 
-        //Before Filtering, Make sure that the result of both Startin and ending List's is available
+        //Before Filtering, Make sure that the result of both Starting and ending List's is available
         if (starting_point_driver_match_complete && ending_point_driver_match_complete) {
             //Now in the final list we will only keep those drivers whose starting point and ending point match with Our customer
             //One way to do this is by matching driver ID's in both starting and ending point list's
@@ -248,6 +245,8 @@ public class showMatchingDrivers extends AppCompatActivity {
             this.location = location;
         }
     }
+
+
 
     //Data Model for matched driver's
     class Matched_Driver_Data {
