@@ -114,5 +114,8 @@ public class DisplayDriverDetails extends AppCompatActivity {
             }
         });
 
+        //get date and time
+        FirebaseDatabase.getInstance().getReference().child("available_drivers_time_info").child(u_id);
+
     }
 }

@@ -19,8 +19,8 @@
 
         <ImageView
             android:id="@+id/driver_image_imageview"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+            android:layout_width="160dp"
+            android:layout_height="160dp"
             android:src="@drawable/ic_menu_camera"
             android:layout_gravity="center"/>
 
@@ -94,7 +94,43 @@
                         android:text="From some Place to somewhere"
                         />
 
+                        <!--Pickup time-->
+                        <TextView
+                        android:layout_marginTop="20dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pickup Time"
+                        android:textColor="#6983ad"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="6dp"/>
 
+                       <TextView
+                        android:id="@+id/driver_pickup_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="6dp"
+                        android:textSize="18sp"
+                        />
+
+
+                        <!--Drop-off/Return  Time-->
+                        <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Return time"
+                        android:textColor="#6983ad"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="6dp"/>
+
+                       <TextView
+                        android:id="@+id/driver_return_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginLeft="6dp"
+                        android:textSize="18sp"
+                        />
 
     </LinearLayout>
 
