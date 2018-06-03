@@ -5,12 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.andromeda.djzaamir.rideshare.DisplayDriverDetails"
-    android:padding="15dp">
+    android:padding="10dp"
+    android:orientation="vertical">
 
+
+    <!--Linear Layout to hold the Image and the Name-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:background="#eaecef"
         >
 
         <ImageView
@@ -28,6 +32,69 @@
             android:textSize="20sp"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+                    <TextView
+                        android:layout_marginTop="25dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pickup Address"
+                        android:textColor="#6983ad"
+                        android:layout_marginLeft="6dp"
+                        android:textSize="15sp"/>
+                    <!--Driver Pickup address-->
+                    <TextView
+                        android:id="@+id/driver_pickup_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:textColor="#52627c"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:text="From some Place to somewhere"
+                        />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Drop-off location"
+                        android:textColor="#6983ad"
+                        android:textSize="15sp"
+                        android:layout_marginLeft="6dp"/>
+
+                    <!--Driver Destination Address-->
+                    <TextView
+                        android:id="@+id/driver_destination_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:ellipsize="marquee"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:textColor="#52627c"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
+                        android:text="From some Place to somewhere"
+                        />
+
+
 
     </LinearLayout>
 
