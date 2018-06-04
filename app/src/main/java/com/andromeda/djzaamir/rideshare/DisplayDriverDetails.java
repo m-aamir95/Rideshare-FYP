@@ -5,6 +5,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,13 +16,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 public class DisplayDriverDetails extends AppCompatActivity {
 
     private ImageView driver_image_imageview;
-    private TextView driver_name_textview , driver_pickup_address , driver_destination_address;
+    private TextView driver_name_textview , driver_pickup_address , driver_destination_address,
+                     driver_pickup_time,driver_return_time;
     private String u_id;
 
     @Override
@@ -34,6 +37,8 @@ public class DisplayDriverDetails extends AppCompatActivity {
         driver_name_textview       =  findViewById(R.id.driver_name);
         driver_pickup_address      =  findViewById(R.id.driver_pickup_address);
         driver_destination_address =  findViewById(R.id.driver_destination_address);
+        driver_pickup_time         =  findViewById(R.id.driver_pickup_time);
+        driver_return_time         =  findViewById(R.id.driver_return_time);
 
         //grab id from intent
         Intent  intent_data = getIntent();
@@ -115,7 +120,61 @@ public class DisplayDriverDetails extends AppCompatActivity {
         });
 
         //get date and time
-        FirebaseDatabase.getInstance().getReference().child("available_drivers_time_info").child(u_id);
+        FirebaseDatabase.getInstance().getReference().child("available_drivers_time_info").child(u_id).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot != null && dataSnapshot.getValue() != null){
+                    Calendar c = Calendar.getInstance();
 
+                    //Fetch start and end timestamp from firebase
+                    Long start_time = Long.parseLong(dataSnapshot.child("start_time_stamp").getValue().toString());
+                    Long end_time   = Long.parseLong(dataSnapshot.child("end_time_stamp").getValue().toString());
+
+                    //setup start textView with timestamp
+                    parseTimestampAndSetupTextView(start_time , driver_pickup_time);
+
+                    //If return time exist then set it up
+                    if (end_time > 0 ){
+                        parseTimestampAndSetupTextView(end_time, driver_return_time);
+                    }else{
+                        driver_return_time.setText("Not Specified");
+                    }
+
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+    }
+
+    private void parseTimestampAndSetupTextView(long timestamp, TextView target_textview){
+        Calendar c =  Calendar.getInstance();
+        c.setTimeInMillis(timestamp);
+
+        int day   = c.get(Calendar.DAY_OF_MONTH);
+        int month = c.get(Calendar.MONTH);
+        int year  = c.get(Calendar.YEAR);
+
+        int hour  = c.get(Calendar.HOUR);
+        int min   = c.get(Calendar.MINUTE);
+
+        String str_representation = day + "-" + (month+1) + "-" + year + ", " + hour + ":" + formatMinutes(min);
+
+        target_textview.setText(str_representation);
+    }
+
+    private String formatMinutes(int min) {
+        if (min < 10){
+            return "0" + String.valueOf(min);
+        }
+        return String.valueOf(min);
     }
 }
