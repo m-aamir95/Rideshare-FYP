@@ -8,6 +8,11 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.andromeda.djzaamir.rideshare.AdsManager.AdManager;
+import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class AdActivity extends AppCompatActivity  {
 
@@ -33,6 +38,31 @@ public class AdActivity extends AppCompatActivity  {
         Intent intent_data =  getIntent();
         u_id =  intent_data.getStringExtra("driver_id");
 
+
+        //Load Ad Data from firebase
+        FirebaseDatabase.getInstance().getReference().child("ads/ad_1").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null){
+                    String description = dataSnapshot.child("description").getValue().toString();
+                    String url = dataSnapshot.child("img_url").getValue().toString();
+
+                    //update gui element's
+                    Glide.with(getApplicationContext()).load(url).into(ad_image);
+                    ad_text.setText(description);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+        //Self close timer Invoke
         try {
             callTimedAdTermination();
         } catch (InterruptedException e) {
