@@ -6,7 +6,9 @@
     android:layout_height="match_parent"
     tools:context="com.andromeda.djzaamir.rideshare.DisplayDriverDetails"
     android:padding="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="#b1c3e0"
+    >
 
 
     <!--Linear Layout to hold the Image and the Name-->
@@ -15,20 +17,19 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#eaecef"
+
         >
 
         <ImageView
             android:id="@+id/driver_image_imageview"
             android:layout_width="160dp"
             android:layout_height="160dp"
-            android:src="@drawable/ic_menu_camera"
             android:layout_gravity="center"/>
 
         <TextView
             android:id="@+id/driver_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Muhammad Aamir"
             android:textSize="20sp"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"/>
@@ -40,13 +41,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:background="#eaecef"
         >
 
                     <TextView
                         android:layout_marginTop="25dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Pickup Address"
+                        android:text="Pickup location"
                         android:textColor="#6983ad"
                         android:layout_marginLeft="6dp"
                         android:textSize="15sp"/>
@@ -65,7 +67,6 @@
                         android:textColor="#52627c"
                         android:textSize="17sp"
                         android:textStyle="bold"
-                        android:text="From some Place to somewhere"
                         />
 
                     <TextView
@@ -91,7 +92,6 @@
                         android:textColor="#52627c"
                         android:textSize="17sp"
                         android:textStyle="bold"
-                        android:text="From some Place to somewhere"
                         />
 
                         <!--Pickup time-->
@@ -131,6 +131,9 @@
                         android:layout_marginLeft="6dp"
                         android:textSize="18sp"
                         />
+
+
+                        <!--Contact Button Will Only Enable-->
 
     </LinearLayout>
 
