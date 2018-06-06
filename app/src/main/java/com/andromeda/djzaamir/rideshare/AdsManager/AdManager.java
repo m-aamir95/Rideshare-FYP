@@ -52,6 +52,6 @@ public class AdManager {
                //Reset Ad shown state
                 ad_already_shown = false;
             }
-        }).run();
+        }).start();
     }
 }

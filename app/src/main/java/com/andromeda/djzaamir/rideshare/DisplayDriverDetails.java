@@ -16,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.internal.InternalTokenProvider;
 
 import java.io.IOException;
 import java.util.Calendar;
@@ -186,7 +187,15 @@ public class DisplayDriverDetails extends AppCompatActivity {
          //Check if Ad has been Dislayed And not Waiting to be displayed
         if (AdManager.adShown() == false){
 
+            //show the add , pass driver ID to it via intent
+            Intent adActivityIntent =  new Intent(getApplicationContext(), AdActivity.class);
+            adActivityIntent.putExtra("driver_id" ,  u_id);
+
+            startActivity(adActivityIntent);
+
         }else{
+
+            //Directly take to Driver-Customer Communication Module
 
         }
     }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.andromeda.djzaamir.rideshare.AdActivity"
+    android:padding="15dp">
+
+    <!--Explanatory Text-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:text="Advertisement"
+        android:textColor="#f44283"
+        />
+
+    <!--Ad Image-->
+    <ImageView
+        android:id="@+id/ad_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/ic_menu_camera"
+        android:layout_weight="50"
+        />
+
+
+    <!--Ad text-->
+    <TextView
+        android:layout_marginTop="5dp"
+        android:id="@+id/ad_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Hey now brown cow\nwhats u Mr Stark\nHows everything"
+        android:layout_weight="50"
+        android:textSize="20sp"
+        />
+
+
+
+    <!--Progress Bar-->
+    <ProgressBar
+        android:id="@+id/ad_progressbar"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_centerHorizontal="true"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+   />
+
+</LinearLayout>
