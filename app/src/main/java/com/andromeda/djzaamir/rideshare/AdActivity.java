@@ -25,6 +25,8 @@ public class AdActivity extends AppCompatActivity  {
 
     private  String u_id;
 
+    Thread counter_thread;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +100,7 @@ public class AdActivity extends AppCompatActivity  {
         * switch to Customer-driver module
     * */
     private void callTimedAdTermination() throws InterruptedException {
-        new Thread(new Runnable() {
+    counter_thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 int count =0;
@@ -118,13 +120,29 @@ public class AdActivity extends AppCompatActivity  {
               //Disable ad for certain time
                 AdManager.setAdShownStateToShown();
             }
-        }).start();
+        });
+    counter_thread.start();
     }
 
 
     //Do not allow the user to go back
     @Override
     public void onBackPressed() {
+
+        /*
+        * For some reasons Killing Counter-thread causes the thread Running Inside
+        * AdManager Class to be killed automatically.
+        *
+        * Use this method instead
+        *
+    *     ExecutorService executor = Executors.newFixedThreadPool(3);
+          executor.submit(new MyThread());
+          executor.submit(new MyThread());
+          executor.submit(new MyThread());
+          executor.shutdownNow();
+        * */
+        if (AdManager.adShown() == false)
+            counter_thread.destroy();
         super.onBackPressed();  //  , Remove Default Behavior
     }
 

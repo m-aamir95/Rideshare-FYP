@@ -83,3 +83,8 @@
 its stays there until user watches complete Ad
 Once complete Ad is watched AdManager Automatically Disables it for N
 amount of time, and the re-ables Ad's ,  mention about this behavior
+
+11) Mention about that ads are randomly being fetched and displayed
+
+12) Using Thread.Stop() depricated method in AdActivity onBackPressed() Method
+    Provide a proper fix
