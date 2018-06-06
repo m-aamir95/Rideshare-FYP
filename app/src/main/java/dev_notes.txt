@@ -79,3 +79,7 @@
 
 
 
+10) Ads Manager class working fine, Dummy Ad being successfully shown
+its stays there until user watches complete Ad
+Once complete Ad is watched AdManager Automatically Disables it for N
+amount of time, and the re-ables Ad's ,  mention about this behavior

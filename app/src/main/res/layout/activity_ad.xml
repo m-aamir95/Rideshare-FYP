@@ -39,6 +39,15 @@
         />
 
 
+    <!--Explanation about progress bar-->
+    <TextView
+        android:id="@+id/ad_countdown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:textColor="#f44283"
+        android:text="Ad will disapper shortly."
+        />
 
     <!--Progress Bar-->
     <ProgressBar

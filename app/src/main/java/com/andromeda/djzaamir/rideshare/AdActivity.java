@@ -7,11 +7,13 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class AdActivity extends AppCompatActivity {
+import com.andromeda.djzaamir.rideshare.AdsManager.AdManager;
+
+public class AdActivity extends AppCompatActivity  {
 
     //vars
     private ImageView ad_image;
-    private TextView ad_text;
+    protected TextView ad_text , ad_countdown;
     private ProgressBar ad_progressBar;
 
     private  String u_id;
@@ -24,6 +26,7 @@ public class AdActivity extends AppCompatActivity {
         //Init GUI references
         ad_image =  findViewById(R.id.ad_image);
         ad_text  =  findViewById(R.id.ad_text);
+        ad_countdown = findViewById(R.id.ad_countdown);
         ad_progressBar = findViewById(R.id.ad_progressbar);
 
         //Get Driver ID , which will be passed to Customer-Driver Communication modules
@@ -49,13 +52,12 @@ public class AdActivity extends AppCompatActivity {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                int count =1;
+                int count =0;
                 final int ad_duration = 10; // 10 seconds
                 while(count  <= ad_duration){
 
-                 //Update Progress bar
+                 //Update Progress bar and countdown text
                  ad_progressBar.setProgress(count * 10); //count *10 because we are taking progrss from 10% - 100%
-
                     try {
                         Thread.sleep(1000l); //1 second pause
                     } catch (InterruptedException e) {
@@ -63,6 +65,9 @@ public class AdActivity extends AppCompatActivity {
                     }
                     count++;
               }
+
+              //Disable ad for certain time
+                AdManager.setAdShownStateToShown();
             }
         }).start();
     }
@@ -71,6 +76,7 @@ public class AdActivity extends AppCompatActivity {
     //Do not allow the user to go back
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();    , Remove Default Behavior
+//        super.onBackPressed();  //  , Remove Default Behavior
     }
+
 }
