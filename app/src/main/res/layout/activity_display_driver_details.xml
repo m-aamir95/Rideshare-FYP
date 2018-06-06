@@ -39,7 +39,7 @@
     <LinearLayout
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:background="#eaecef"
         >
@@ -133,9 +133,21 @@
                         />
 
 
-                        <!--Contact Button Will Only Enable-->
 
     </LinearLayout>
+
+    <!--Contact Button Will Only Enable-->
+    <Button
+        android:id="@+id/contact_driver_button"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Contact"
+        android:layout_gravity="center"
+        android:background="#89f442"
+        />
+
+
 
 
 </LinearLayout>
