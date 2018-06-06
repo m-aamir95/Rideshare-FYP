@@ -5,10 +5,12 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.andromeda.djzaamir.rideshare.AdsManager.AdManager;
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -176,5 +178,16 @@ public class DisplayDriverDetails extends AppCompatActivity {
             return "0" + String.valueOf(min);
         }
         return String.valueOf(min);
+    }
+
+
+    public void contact_button(View view) {
+
+         //Check if Ad has been Dislayed And not Waiting to be displayed
+        if (AdManager.adShown() == false){
+
+        }else{
+            
+        }
     }
 }
