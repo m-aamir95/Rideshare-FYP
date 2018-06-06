@@ -71,5 +71,11 @@
    From slidenerd
 
 
+9) Added A static Ad Manager Class , which can be accessed and edited from anywhere, provides the
+   functionality to check weather or not the user has seen any ad, if so then do'nt display it
+   for sometime lets say for 1-Minute
+   The State will be automatically reset using an Internal Thread inside this class
+   mention this while presenting your project,or add it the presentation
+
 
 

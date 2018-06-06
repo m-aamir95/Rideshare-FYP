@@ -187,7 +187,7 @@ public class DisplayDriverDetails extends AppCompatActivity {
         if (AdManager.adShown() == false){
 
         }else{
-            
+
         }
     }
 }

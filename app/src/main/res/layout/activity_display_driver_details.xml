@@ -144,7 +144,7 @@
         android:layout_height="wrap_content"
         android:text="Contact"
         android:layout_gravity="center"
-        android:background="#89f442"
+        android:background="#00aa00"
         android:onClick="contact_button"
         />
 
