@@ -14,6 +14,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class AdActivity extends AppCompatActivity  {
 
     //vars
@@ -40,16 +42,33 @@ public class AdActivity extends AppCompatActivity  {
 
 
         //Load Ad Data from firebase
-        FirebaseDatabase.getInstance().getReference().child("ads/ad_1").addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("ads").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.getValue() != null){
-                    String description = dataSnapshot.child("description").getValue().toString();
-                    String url = dataSnapshot.child("img_url").getValue().toString();
+
+                    /*
+                    * Randomly select ad from available ads
+                    * */
+                    long ad_count = dataSnapshot.getChildrenCount();
+                    int ad_to_display = (int)(( Math.random() * 100) % ad_count) + 1;
+                    Ad_data ad_data = null;
+
+                    int local_ad_counter = 1;
+                    for (DataSnapshot ad : dataSnapshot.getChildren()){
+
+                        String description = ad.child("description").getValue().toString();
+                        String url = ad.child("img_url").getValue().toString();
+                        ad_data =  new Ad_data(description , url);
+
+                        if (local_ad_counter  == ad_to_display)
+                            break;
+                        local_ad_counter++;
+                    }
 
                     //update gui element's
-                    Glide.with(getApplicationContext()).load(url).into(ad_image);
-                    ad_text.setText(description);
+                    Glide.with(getApplicationContext()).load(ad_data.url).into(ad_image);
+                    ad_text.setText(ad_data.description);
                 }
             }
 
@@ -106,7 +125,16 @@ public class AdActivity extends AppCompatActivity  {
     //Do not allow the user to go back
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();  //  , Remove Default Behavior
+        super.onBackPressed();  //  , Remove Default Behavior
     }
 
+}
+
+//Modal class
+class Ad_data {
+    public String description , url;
+    public Ad_data(String desc ,  String uri){
+        description = desc;
+        url = uri;
+    }
 }

@@ -22,7 +22,6 @@
         android:id="@+id/ad_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_menu_camera"
         android:layout_weight="50"
         />
 
@@ -33,7 +32,6 @@
         android:id="@+id/ad_text"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="Hey now brown cow\nwhats u Mr Stark\nHows everything"
         android:layout_weight="50"
         android:textSize="20sp"
         />
