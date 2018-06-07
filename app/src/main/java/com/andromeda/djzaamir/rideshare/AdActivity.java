@@ -14,7 +14,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class AdActivity extends AppCompatActivity  {
 
@@ -41,6 +42,7 @@ public class AdActivity extends AppCompatActivity  {
         //Get Driver ID , which will be passed to Customer-Driver Communication modules
         Intent intent_data =  getIntent();
         u_id =  intent_data.getStringExtra("driver_id");
+
 
 
         //Load Ad Data from firebase
@@ -81,8 +83,6 @@ public class AdActivity extends AppCompatActivity  {
         });
 
 
-
-
         //Self close timer Invoke
         try {
             callTimedAdTermination();
@@ -107,6 +107,7 @@ public class AdActivity extends AppCompatActivity  {
                 final int ad_duration = 10; // 10 seconds
                 while(count  <= ad_duration){
 
+
                  //Update Progress bar and countdown text
                  ad_progressBar.setProgress(count * 10); //count *10 because we are taking progrss from 10% - 100%
                     try {
@@ -117,33 +118,23 @@ public class AdActivity extends AppCompatActivity  {
                     count++;
               }
 
-              //Disable ad for certain time
-                AdManager.setAdShownStateToShown();
+              //Disable ad for certain time ,  if timer completed and thread not interrupted
+               AdManager.setAdShownStateToShown();
+
+              //FOr now finish this Activity, in future this will be taking to communications activity
+                finish();
             }
         });
-    counter_thread.start();
+
+      //Add counter thread to background running threads
+      counter_thread.start();
     }
 
 
     //Do not allow the user to go back
     @Override
     public void onBackPressed() {
-
-        /*
-        * For some reasons Killing Counter-thread causes the thread Running Inside
-        * AdManager Class to be killed automatically.
-        *
-        * Use this method instead
-        *
-    *     ExecutorService executor = Executors.newFixedThreadPool(3);
-          executor.submit(new MyThread());
-          executor.submit(new MyThread());
-          executor.submit(new MyThread());
-          executor.shutdownNow();
-        * */
-        if (AdManager.adShown() == false)
-            counter_thread.destroy();
-        super.onBackPressed();  //  , Remove Default Behavior
+//        super.onBackPressed();  //  , Remove Default Behavior
     }
 
 }

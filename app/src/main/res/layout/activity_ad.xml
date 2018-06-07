@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:textSize="16dp"
         android:textColor="#f44283"
-        android:text="Ad will disapper shortly."
+        android:text="Ad will disappear shortly"
         />
 
     <!--Progress Bar-->
@@ -52,7 +52,7 @@
         android:id="@+id/ad_progressbar"
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
-        android:layout_height="25dp"
+        android:layout_height="27dp"
         android:layout_centerHorizontal="true"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
    />

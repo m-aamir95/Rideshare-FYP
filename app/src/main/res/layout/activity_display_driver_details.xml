@@ -143,6 +143,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Contact"
+        android:textColor="#fff"
+        android:textSize="20sp"
         android:layout_gravity="center"
         android:background="#00aa00"
         android:onClick="contact_button"
