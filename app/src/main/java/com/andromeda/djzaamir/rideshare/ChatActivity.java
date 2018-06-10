@@ -11,8 +11,6 @@ import android.widget.TextView;
 
 import com.andromeda.djzaamir.rideshare.utils.InputUtils;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -35,13 +33,11 @@ public class ChatActivity extends AppCompatActivity {
         ride_request_button =  findViewById(R.id.ride_request_button);
         chat_message_Edittextview =  findViewById(R.id.chat_message_edittextview);
 
-
-
-
-
         //Grab driver id from intent
         driver_id =  getIntent().getStringExtra("driver_id");
         u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
     }
 
     //Send button/Image for chats
@@ -58,13 +54,8 @@ public class ChatActivity extends AppCompatActivity {
         //Grab and send message to firebase
         String msg =  chat_message_Edittextview.getText().toString();
 
-        //Every chat has a unique id which is comprised of   chat_id = driver_id + customer_id;
-        DatabaseReference chat_node = FirebaseDatabase.getInstance().getReference().child("chats_history").child(driver_id + u_id);
-        /*
-        * Push will make a random ID entry inside this node
-        * Against this random ID we will insert this new Chat Message
-        * */
-        chat_node.push().setValue(msg);
+       //Send data to firebase
+
 
         //clear message-type area
         chat_message_Edittextview.setText("");
@@ -72,4 +63,5 @@ public class ChatActivity extends AppCompatActivity {
         //Enable button
         InputUtils.enableInputControls();
     }
+
 }

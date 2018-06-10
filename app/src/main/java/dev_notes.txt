@@ -88,3 +88,24 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
 
 12) Using Thread.Stop() depricated method in AdActivity onBackPressed() Method
     Provide a proper fix
+
+13) How i am going to structure the schema for chat module in firebase
+    Every User will have a chats Key-value pair like this
+     firebase-root/users/chats/
+                              key-1   => Points a complete chat history between two people
+                              key-2
+                              key-n
+     This key will point to a unique Chat History within another firebase data node which is
+      firebase-root/chats-history/
+                                  key-1/                => A unique chat history between two people
+                                       user-name:Aamir
+                                       msg:hey now brown cow
+
+                                       user-name:Khan
+                                       msg:wow now brown cow
+
+                                       user-name:Aamir
+                                       msg:yeh cheez mere Aziz
+
+                                  key-2/
+                                  key-n/
