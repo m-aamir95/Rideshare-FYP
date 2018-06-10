@@ -59,13 +59,15 @@ public class ChatActivity extends AppCompatActivity {
         String msg =  chat_message_Edittextview.getText().toString();
 
         //Every chat has a unique id which is comprised of   chat_id = driver_id + customer_id;
-        DatabaseReference chat_node = FirebaseDatabase.getInstance().getReference().child(driver_id + u_id);
+        DatabaseReference chat_node = FirebaseDatabase.getInstance().getReference().child("chats_history").child(driver_id + u_id);
         /*
         * Push will make a random ID entry inside this node
         * Against this random ID we will insert this new Chat Message
         * */
         chat_node.push().setValue(msg);
 
+        //clear message-type area
+        chat_message_Edittextview.setText("");
 
         //Enable button
         InputUtils.enableInputControls();
