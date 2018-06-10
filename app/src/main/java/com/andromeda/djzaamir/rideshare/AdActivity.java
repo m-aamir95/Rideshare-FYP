@@ -121,8 +121,13 @@ public class AdActivity extends AppCompatActivity  {
               //Disable ad for certain time ,  if timer completed and thread not interrupted
                AdManager.setAdShownStateToShown();
 
-              //FOr now finish this Activity, in future this will be taking to communications activity
-                finish();
+              //Take to another activity
+              Intent chatActivityIntent =  new Intent(getApplicationContext() , ChatActivity.class);
+              chatActivityIntent.putExtra("driver_id" ,  u_id);
+
+              startActivity(chatActivityIntent);
+
+              finish();
             }
         });
 

@@ -196,6 +196,10 @@ public class DisplayDriverDetails extends AppCompatActivity {
         }else{
 
             //Directly take to Driver-Customer Communication Module
+            Intent chatActivityIntent =  new Intent(getApplicationContext() , ChatActivity.class);
+            chatActivityIntent.putExtra("driver_id" ,  u_id);
+
+            startActivity(chatActivityIntent);
 
         }
     }

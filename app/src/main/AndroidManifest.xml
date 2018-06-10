@@ -80,7 +80,10 @@
                 android:value=".NavigationDrawer" />
         </activity>
         <activity android:name=".DisplayDriverDetails" />
-        <activity android:name=".AdActivity"></activity>
+        <activity android:name=".AdActivity" />
+        <activity android:name=".ChatActivity">
+
+        </activity>
     </application>
 
 </manifest>
