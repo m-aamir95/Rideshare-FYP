@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.andromeda.djzaamir.rideshare.ChatActivity"
+    android:orientation="vertical"
     >
 
     <!--Driver Info Display and Request View-->
@@ -12,9 +13,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        >
 
 
+        <!--Driver Pic and Name-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,6 +56,9 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="#2d7dce"
+                android:textColor="#fff"
+                android:textSize="18dp"
                 android:text="REQUEST"
                 />
 
@@ -64,7 +70,44 @@
 
 
 
+     <!--Divider Line-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000"/>
 
+
+
+    <!--Chat LinearLayout-->
+    <LinearLayout
+        android:id="@+id/chats_container"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#000"
+        android:orientation="vertical"
+        android:layout_weight="60">
+
+
+    </LinearLayout>
+
+
+    <!--Type Message Container And Send Button-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+        android:background="#f00"
+        android:layout_weight="10">
+
+    </LinearLayout>
+
+
+
+
+    
+    
 
 
 </LinearLayout>
+<!--End Of Main Linaer Layout-->
