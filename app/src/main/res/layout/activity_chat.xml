@@ -4,9 +4,130 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+<<<<<<< Updated upstream
     tools:context="com.andromeda.djzaamir.rideshare.ChatActivity">
+=======
+    tools:context="com.andromeda.djzaamir.rideshare.ChatActivity"
+    android:orientation="vertical"
+    android:padding="5dp"
+    >
+>>>>>>> Stashed changes
 
 
 
+<<<<<<< Updated upstream
+=======
+        <!--Driver Pic and Name-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="40">
+
+            <!--Driver Image-->
+            <ImageView
+                android:id="@+id/driver_image"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/ic_menu_camera"
+                android:layout_gravity="center"
+                />
+
+            <!--Driver Name -->
+            <TextView
+                android:id="@+id/driver_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Muhammad Aamir"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                />
+
+        </LinearLayout>
+
+
+        <!--Send Ride Request Button-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="60">
+
+            <Button
+                android:id="@+id/ride_request_button"
+                android:layout_marginLeft="50dp"
+                android:paddingHorizontal="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#2d7dce"
+                android:textColor="#fff"
+                android:textSize="18dp"
+                android:text="REQUEST"
+                />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+
+     <!--Divider Line-->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#000"/>
+
+
+
+    <!--Chat LinearLayout-->
+    <LinearLayout
+        android:id="@+id/chats_container"
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical"
+        android:layout_weight="60">
+
+
+    </LinearLayout>
+
+
+    <!--Type Message Container And Send Button-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+        android:layout_weight="10">
+
+        <!--Edit Text area to type messages-->
+        <EditText
+            android:id="@+id/chat_message_edittextview"
+            android:layout_width="320dp"
+            android:layout_height="match_parent"
+            android:text="Hey now brown cow"
+            />
+
+        <!--Send Button-->
+        <ImageView
+            android:id="@+id/send_msg_button_imageview"
+            android:layout_width="40dp"
+            android:layout_weight="20"
+            android:layout_height="50dp"
+            android:src="@drawable/message_sent"
+            android:layout_gravity="center"
+            android:onClick="send_chat_message"
+            />
+
+    </LinearLayout>
+
+
+
+
+    
+    
+
+>>>>>>> Stashed changes
 
 </LinearLayout>
