@@ -4,7 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.andromeda.djzaamir.rideshare.ChatActivity">
+    tools:context="com.andromeda.djzaamir.rideshare.ChatActivity"
+    >
+
+    <!--Driver Info Display and Request View-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:orientation="horizontal">
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="40">
+
+            <!--Driver Image-->
+            <ImageView
+                android:id="@+id/driver_image"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_menu_camera"
+                android:layout_gravity="center"
+                />
+
+            <!--Driver Name -->
+            <TextView
+                android:id="@+id/driver_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Muhammad Aamir"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                />
+
+        </LinearLayout>
+
+
+        <!--Send Ride Request Button-->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="60">
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="REQUEST"
+                />
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
 
 
 
