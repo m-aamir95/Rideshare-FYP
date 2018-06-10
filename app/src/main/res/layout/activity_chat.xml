@@ -27,8 +27,8 @@
             <!--Driver Image-->
             <ImageView
                 android:id="@+id/driver_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:src="@drawable/ic_menu_camera"
                 android:layout_gravity="center"
                 />
@@ -97,8 +97,26 @@
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:orientation="horizontal"
-        android:background="#f00"
         android:layout_weight="10">
+
+        <!--Edit Text area to type messages-->
+        <EditText
+            android:id="@+id/chat_message_edittextview"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Hey now brown cow"
+            android:layout_weight="80"
+            />
+
+        <!--Send Button-->
+        <ImageView
+            android:id="@+id/send_msg_button_imageview"
+            android:layout_width="40dp"
+            android:layout_height="50dp"
+            android:src="@drawable/message_sent"
+            android:layout_weight="20"
+            android:layout_gravity="center"
+            />
 
     </LinearLayout>
 
