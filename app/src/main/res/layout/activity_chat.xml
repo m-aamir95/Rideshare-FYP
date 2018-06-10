@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.andromeda.djzaamir.rideshare.ChatActivity"
     android:orientation="vertical"
+    android:padding="8dp"
     >
 
     <!--Driver Info Display and Request View-->
@@ -54,6 +55,7 @@
             android:layout_weight="60">
 
             <Button
+                android:id="@+id/ride_request_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#2d7dce"
@@ -84,7 +86,6 @@
         android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="#000"
         android:orientation="vertical"
         android:layout_weight="60">
 
@@ -114,8 +115,8 @@
             android:layout_width="40dp"
             android:layout_height="50dp"
             android:src="@drawable/message_sent"
-            android:layout_weight="20"
             android:layout_gravity="center"
+            android:onClick="send_chat_message"
             />
 
     </LinearLayout>
