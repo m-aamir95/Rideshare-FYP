@@ -109,3 +109,4 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
 
                                   key-2/
                                   key-n/
+14) Mention about use of  Haversine formula to calculate distance between two points
