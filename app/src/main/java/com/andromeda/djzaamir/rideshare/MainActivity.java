@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
              public void run() {
 
                  try {
-                     Thread.sleep(1500L);
+                     Thread.sleep(2000L);
                  } catch (InterruptedException e) {
                      e.printStackTrace();
                  }

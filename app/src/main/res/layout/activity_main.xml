@@ -7,14 +7,13 @@
     tools:context="com.andromeda.djzaamir.rideshare.MainActivity"
     android:orientation="vertical"
     android:gravity="center_vertical"
-    android:background="@color/background_color_primary"
     android:padding="20dp">
 
 
       <ImageView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:src="@drawable/ride_share_logo_under_dev_retourched"
+          android:src="@drawable/rideshare_logo_final_new"
           android:layout_gravity="center"
           />
 

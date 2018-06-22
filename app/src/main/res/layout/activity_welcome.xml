@@ -21,7 +21,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ride_share_logo_under_dev_retourched"
+            android:src="@drawable/rideshare_logo_final_new"
             />
     </LinearLayout>
 
