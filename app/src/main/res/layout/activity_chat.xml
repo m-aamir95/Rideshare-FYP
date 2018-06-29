@@ -27,18 +27,19 @@
 
             <!--Driver Image-->
             <ImageView
-                android:id="@+id/driver_image"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:id="@+id/other_person_image"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:src="@drawable/ic_menu_camera"
                 android:layout_gravity="center"
                 />
 
             <!--Driver Name -->
             <TextView
-                android:id="@+id/driver_name"
+                android:id="@+id/other_person_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="Muhammad Aamir"
                 android:layout_gravity="center"
                 android:textAlignment="center"
@@ -54,8 +55,9 @@
             android:layout_gravity="center"
             android:layout_weight="60">
 
+              <!--Functionality button can be used to Request for rides as well as accept                     requests depending If the Screen is for driver or customer-->
             <Button
-                android:id="@+id/ride_request_button"
+                android:id="@+id/function_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#2d7dce"

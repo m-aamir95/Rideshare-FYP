@@ -10,10 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andromeda.djzaamir.rideshare.AdsManager.AdManager;
+import com.andromeda.djzaamir.rideshare.utils.chatUtils.chatUtils;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -30,7 +33,8 @@ public class DisplayDriverDetails extends AppCompatActivity {
     private ImageView driver_image_imageview;
     private TextView driver_name_textview , driver_pickup_address , driver_destination_address,
                      driver_pickup_time,driver_return_time , distance_textview, fair_textview;
-    private String u_id;
+
+    private String u_id; //other person/Driver ID
 
     private LatLng driver_start_point = null, driver_end_point = null;
     private double journey_Distance;
@@ -56,7 +60,9 @@ public class DisplayDriverDetails extends AppCompatActivity {
 
         //grab id from intent
         Intent  intent_data = getIntent();
-        u_id =  intent_data.getStringExtra("id");
+        u_id =  intent_data.getStringExtra("id"); //Other Person/Driver ID
+
+        chatUtils.checkIFChatHistoryExist(u_id);
 
         //grab Driver Picture from firebase
         FirebaseDatabase.getInstance().getReference().child("Users").child(u_id).addValueEventListener(new                                                      ValueEventListener() {
@@ -144,7 +150,7 @@ public class DisplayDriverDetails extends AppCompatActivity {
         });
 
         //get date and time
-        FirebaseDatabase.getInstance().getReference().child("available_drivers_time_info").child(u_id).addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase.getInstance().getReference().child("available_drivers_time_info").child(u_id).addValueEventListener(new                ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot != null && dataSnapshot.getValue() != null){
@@ -174,7 +180,6 @@ public class DisplayDriverDetails extends AppCompatActivity {
 
             }
         });
-
 
 
     }
@@ -249,15 +254,17 @@ public class DisplayDriverDetails extends AppCompatActivity {
 
         }else{
 
+            chatUtils.initChatDbSchemeForBothPersonsIfNotExist(u_id);
+
             //Directly take to Driver-Customer Communication Module
             Intent chatActivityIntent =  new Intent(getApplicationContext() , ChatActivity.class);
-            chatActivityIntent.putExtra("driver_id" ,  u_id);
 
+
+                                            //Other Person can be a driver or customer
+            chatActivityIntent.putExtra("other_person_id" ,  u_id);
             startActivity(chatActivityIntent);
-
         }
     }
-
 
 
     //Calculate Distance between two points On earth using Haversine formula

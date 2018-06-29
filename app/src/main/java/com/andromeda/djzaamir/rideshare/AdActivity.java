@@ -1,21 +1,20 @@
 package com.andromeda.djzaamir.rideshare;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.andromeda.djzaamir.rideshare.AdsManager.AdManager;
+import com.andromeda.djzaamir.rideshare.utils.chatUtils.chatUtils;
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class AdActivity extends AppCompatActivity  {
 
@@ -24,7 +23,8 @@ public class AdActivity extends AppCompatActivity  {
     protected TextView ad_text , ad_countdown;
     private ProgressBar ad_progressBar;
 
-    private  String u_id;
+    private  String u_id; //Other User id
+    private boolean chat_history_exist =  false;
 
     Thread counter_thread;
 
@@ -41,7 +41,7 @@ public class AdActivity extends AppCompatActivity  {
 
         //Get Driver ID , which will be passed to Customer-Driver Communication modules
         Intent intent_data =  getIntent();
-        u_id =  intent_data.getStringExtra("driver_id");
+        u_id =  intent_data.getStringExtra("driver_id"); //other user id
 
 
 
@@ -82,6 +82,7 @@ public class AdActivity extends AppCompatActivity  {
             }
         });
 
+        chatUtils.checkIFChatHistoryExist(u_id);
 
         //Self close timer Invoke
         try {
@@ -105,9 +106,8 @@ public class AdActivity extends AppCompatActivity  {
             public void run() {
                 int count =0;
                 final int ad_duration = 10; // 10 seconds
+
                 while(count  <= ad_duration){
-
-
                  //Update Progress bar and countdown text
                  ad_progressBar.setProgress(count * 10); //count *10 because we are taking progrss from 10% - 100%
                     try {
@@ -121,9 +121,11 @@ public class AdActivity extends AppCompatActivity  {
               //Disable ad for certain time ,  if timer completed and thread not interrupted
                AdManager.setAdShownStateToShown();
 
+               chatUtils.initChatDbSchemeForBothPersonsIfNotExist(u_id);
+
               //Take to another activity
               Intent chatActivityIntent =  new Intent(getApplicationContext() , ChatActivity.class);
-              chatActivityIntent.putExtra("driver_id" ,  u_id);
+              chatActivityIntent.putExtra("other_person_id" ,  u_id);
 
               startActivity(chatActivityIntent);
 
@@ -141,6 +143,10 @@ public class AdActivity extends AppCompatActivity  {
     public void onBackPressed() {
 //        super.onBackPressed();  //  , Remove Default Behavior
     }
+
+
+
+
 
 }
 
