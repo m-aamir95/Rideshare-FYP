@@ -24,9 +24,8 @@ public class AdActivity extends AppCompatActivity  {
     private ProgressBar ad_progressBar;
 
     private  String u_id; //Other User id
-    private boolean chat_history_exist =  false;
 
-    Thread counter_thread;
+    Thread counter_thread; //Ad time counter thread
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +33,9 @@ public class AdActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_ad);
 
         //Init GUI references
-        ad_image =  findViewById(R.id.ad_image);
-        ad_text  =  findViewById(R.id.ad_text);
-        ad_countdown = findViewById(R.id.ad_countdown);
+        ad_image       = findViewById(R.id.ad_image);
+        ad_text        = findViewById(R.id.ad_text);
+        ad_countdown   = findViewById(R.id.ad_countdown);
         ad_progressBar = findViewById(R.id.ad_progressbar);
 
         //Get Driver ID , which will be passed to Customer-Driver Communication modules
@@ -82,7 +81,6 @@ public class AdActivity extends AppCompatActivity  {
             }
         });
 
-        chatUtils.checkIFChatHistoryExist(u_id);
 
         //Self close timer Invoke
         try {
@@ -120,8 +118,6 @@ public class AdActivity extends AppCompatActivity  {
 
               //Disable ad for certain time ,  if timer completed and thread not interrupted
                AdManager.setAdShownStateToShown();
-
-               chatUtils.initChatDbSchemeForBothPersonsIfNotExist(u_id);
 
               //Take to another activity
               Intent chatActivityIntent =  new Intent(getApplicationContext() , ChatActivity.class);

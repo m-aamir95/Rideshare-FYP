@@ -19,10 +19,17 @@ public class chatUtils {
 
 
     private static boolean chat_history_exist;
+    private static IChatHistoryCheckComplete _subscriber = null;
 
-    /*
+        /*
         * IF a previous chat history exist between the two persons
         * */
+
+    public static void checkIFChatHistoryExist(final String other_user_id , IChatHistoryCheckComplete subscriber){
+        _subscriber = subscriber;
+        checkIFChatHistoryExist(other_user_id);
+    }
+
     public static void checkIFChatHistoryExist(final String other_user_id){
        /*
         Compare chat enteries of both persons
@@ -50,17 +57,22 @@ public class chatUtils {
                                                         other_user_chat_history.getChildren()) {
 
                                                     //compare chat history ID's
-                                                    if (snapShot_A.getValue().toString().equals(snapShot_B.getValue().toString())){
+                                                    if (snapShot_A.getKey().toString().equals(snapShot_B.getKey().toString())){
                                                        chat_history_exist = true;
                                                        break;
                                                     }
-
                                                 }
 
                                                 if (chat_history_exist){
                                                     break;
                                                 }
                                             }
+
+                                            //Chat-History Check Complete, Trigger Event
+                                            triggerEvents();
+
+                                        }else{ //No-chat Trigger Event
+                                            triggerEvents();
                                         }
                                      }
 
@@ -72,6 +84,9 @@ public class chatUtils {
                          //endregion
 
                      }
+                     else{ //No chat-history , Trigger Event
+                        triggerEvents();
+                     }
                    }
 
                    @Override
@@ -79,8 +94,16 @@ public class chatUtils {
 
                    }
                });
+
+
     }
 
+    private static void triggerEvents(){
+     if (_subscriber != null){
+        _subscriber.onBackgroundChatCheckComplete();
+        _subscriber = null;
+     }
+    }
 
      /*
      * Will Only Create new Chat Nodes if previous chat nodes does'nt exist between the users
@@ -101,17 +124,18 @@ public class chatUtils {
                     .child("Users")
                     .child(this_user_id)
                     .child("chat_history")
-                    .child(new_char_history_ID).setValue(true); //New Chat Entry In User Node
+                    .child(new_char_history_ID).setValue(other_user_id); //New Chat Entry In User Node
 
             //Make chat history entry for the other user
             FirebaseDatabase.getInstance().getReference()
                     .child("Users")
                     .child(other_user_id)
                     .child("chat_history")
-                    .child(new_char_history_ID).setValue(true); //New Chat Entry In User Node
+                    .child(new_char_history_ID).setValue(this_user_id); //New Chat Entry In User Node
 
-           //Reset
-           chat_history_exist = false;
+
        }
+         //Reset
+         chat_history_exist = false;
     }
 }

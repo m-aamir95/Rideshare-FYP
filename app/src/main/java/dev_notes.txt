@@ -91,12 +91,12 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
 
 13) How i am going to structure the schema for chat module in firebase
     Every User will have a chats Key-value pair like this
-     firebase-root/users/chats/
-                              key-1   => Points a complete chat history between two people
-                              key-2
-                              key-n
+     firebase-root/users/chats_history/
+                              key-1:other_user_id   => Points a complete chat history between two people,other_user_id to load other                                                         user details
+                              key-2:other_user_id
+                              key-n:other_user_id
      This key will point to a unique Chat History within another firebase data node which is
-      firebase-root/chats-history/
+      firebase-root/chats/
                                   key-1/                => A unique chat history between two people
                                        user-name:Aamir
                                        msg:hey now brown cow
@@ -110,3 +110,19 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
                                   key-2/
                                   key-n/
 14) Mention about use of  Haversine formula to calculate distance between two points
+
+15) contact button in driver details does'nt enable unless a background chat history check has been performed
+     mention about custom event handler's for this purpose
+
+16) Always choose a project development structure for example
+    modules
+     module_a
+       main_classes
+       interfaces
+       dependencies
+       notes
+     module_b
+       main_classes
+       interfaces
+       dependencies
+       notes

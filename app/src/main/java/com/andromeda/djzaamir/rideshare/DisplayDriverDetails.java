@@ -6,10 +6,13 @@ import android.location.Geocoder;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andromeda.djzaamir.rideshare.AdsManager.AdManager;
+import com.andromeda.djzaamir.rideshare.utils.ButtonUtils;
+import com.andromeda.djzaamir.rideshare.utils.chatUtils.IChatHistoryCheckComplete;
 import com.andromeda.djzaamir.rideshare.utils.chatUtils.chatUtils;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.model.LatLng;
@@ -33,6 +36,7 @@ public class DisplayDriverDetails extends AppCompatActivity {
     private ImageView driver_image_imageview;
     private TextView driver_name_textview , driver_pickup_address , driver_destination_address,
                      driver_pickup_time,driver_return_time , distance_textview, fair_textview;
+    private Button contact_button;
 
     private String u_id; //other person/Driver ID
 
@@ -57,12 +61,22 @@ public class DisplayDriverDetails extends AppCompatActivity {
         driver_return_time         =  findViewById(R.id.driver_return_time);
         distance_textview          =  findViewById(R.id.distance_textView);
         fair_textview              =  findViewById(R.id.fair_textView);
+        contact_button             =  findViewById(R.id.contact_driver_button);
 
         //grab id from intent
         Intent  intent_data = getIntent();
         u_id =  intent_data.getStringExtra("id"); //Other Person/Driver ID
 
-        chatUtils.checkIFChatHistoryExist(u_id);
+        //Disable button, So can safely perform background chat history check
+        ButtonUtils.disableAndChangeText(contact_button,"...");
+
+        chatUtils.checkIFChatHistoryExist(u_id, new IChatHistoryCheckComplete() {
+            @Override
+            public void onBackgroundChatCheckComplete() {
+                chatUtils.initChatDbSchemeForBothPersonsIfNotExist(u_id);
+                ButtonUtils.enableButtonRestoreTitle();
+            }
+        });
 
         //grab Driver Picture from firebase
         FirebaseDatabase.getInstance().getReference().child("Users").child(u_id).addValueEventListener(new                                                      ValueEventListener() {
@@ -71,7 +85,7 @@ public class DisplayDriverDetails extends AppCompatActivity {
                 if (dataSnapshot != null &&  dataSnapshot.getValue() != null){
                     //grab image url
                     String image_url  = dataSnapshot.child("driver_image").getValue().toString();
-                    Glide.with(DisplayDriverDetails.this).load(image_url).into(driver_image_imageview);
+                    Glide.with(getApplicationContext()).load(image_url).into(driver_image_imageview);
 
                     //grab name
                     String d_name = dataSnapshot.child("name").getValue().toString();
@@ -249,12 +263,9 @@ public class DisplayDriverDetails extends AppCompatActivity {
             //show the add , pass driver ID to it via intent
             Intent adActivityIntent =  new Intent(getApplicationContext(), AdActivity.class);
             adActivityIntent.putExtra("driver_id" ,  u_id);
-
             startActivity(adActivityIntent);
-
         }else{
 
-            chatUtils.initChatDbSchemeForBothPersonsIfNotExist(u_id);
 
             //Directly take to Driver-Customer Communication Module
             Intent chatActivityIntent =  new Intent(getApplicationContext() , ChatActivity.class);

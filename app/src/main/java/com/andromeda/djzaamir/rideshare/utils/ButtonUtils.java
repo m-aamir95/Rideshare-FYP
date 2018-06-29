@@ -5,7 +5,7 @@ import android.widget.Button;
 
 public class ButtonUtils {
 
-    private static Button target_button;
+    private static Button target_button = null;
     private static String button_text_buff;
 
 
