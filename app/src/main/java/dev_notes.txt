@@ -93,6 +93,11 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
     Every User will have a chats Key-value pair like this
      firebase-root/users/chats_history/
                               key-1:other_user_id   => Points a complete chat history between two people,other_user_id to load other                                                         user details
+                                               /chat_node
+                                                /msg
+                                                /user_id => Who sent it
+                                                /timestamp
+
                               key-2:other_user_id
                               key-n:other_user_id
      This key will point to a unique Chat History within another firebase data node which is
@@ -126,3 +131,7 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
        interfaces
        dependencies
        notes
+
+17) Made sure that the heavy running chat activity ValueEventListeners Disconnects
+       when the activity is no longer visible or running
+       and restarts when the activity becomes visible again

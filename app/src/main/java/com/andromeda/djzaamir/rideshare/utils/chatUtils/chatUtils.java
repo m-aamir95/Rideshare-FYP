@@ -21,6 +21,8 @@ public class chatUtils {
     private static boolean chat_history_exist;
     private static IChatHistoryCheckComplete _subscriber = null;
 
+    private static String unique_chat_id;//Will be returned to chat_activity can use it for pushing messages
+
         /*
         * IF a previous chat history exist between the two persons
         * */
@@ -59,6 +61,7 @@ public class chatUtils {
                                                     //compare chat history ID's
                                                     if (snapShot_A.getKey().toString().equals(snapShot_B.getKey().toString())){
                                                        chat_history_exist = true;
+                                                       unique_chat_id = snapShot_A.getKey().toString();
                                                        break;
                                                     }
                                                 }
@@ -108,13 +111,14 @@ public class chatUtils {
      /*
      * Will Only Create new Chat Nodes if previous chat nodes does'nt exist between the users
      * */
-     public static void initChatDbSchemeForBothPersonsIfNotExist(String other_user_id) {
+     public static String initChatDbSchemeForBothPersonsIfNotExist(String other_user_id) {
        if (!chat_history_exist){
 
            //Make a new Chat History entry
             DatabaseReference new_chat_ref = FirebaseDatabase.getInstance().getReference().child("chats").push();
             new_chat_ref.setValue(true);
             String new_char_history_ID = new_chat_ref.getKey();
+            unique_chat_id = new_char_history_ID;
 
 
             //Make chat history entry for this user
@@ -137,5 +141,6 @@ public class chatUtils {
        }
          //Reset
          chat_history_exist = false;
+       return unique_chat_id;
     }
 }

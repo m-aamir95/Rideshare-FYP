@@ -39,6 +39,7 @@ public class DisplayDriverDetails extends AppCompatActivity {
     private Button contact_button;
 
     private String u_id; //other person/Driver ID
+    private String unique_chat_id;
 
     private LatLng driver_start_point = null, driver_end_point = null;
     private double journey_Distance;
@@ -73,7 +74,7 @@ public class DisplayDriverDetails extends AppCompatActivity {
         chatUtils.checkIFChatHistoryExist(u_id, new IChatHistoryCheckComplete() {
             @Override
             public void onBackgroundChatCheckComplete() {
-                chatUtils.initChatDbSchemeForBothPersonsIfNotExist(u_id);
+               unique_chat_id =  chatUtils.initChatDbSchemeForBothPersonsIfNotExist(u_id);
                 ButtonUtils.enableButtonRestoreTitle();
             }
         });
@@ -263,6 +264,7 @@ public class DisplayDriverDetails extends AppCompatActivity {
             //show the add , pass driver ID to it via intent
             Intent adActivityIntent =  new Intent(getApplicationContext(), AdActivity.class);
             adActivityIntent.putExtra("driver_id" ,  u_id);
+            adActivityIntent.putExtra("unique_chat_id" ,unique_chat_id);
             startActivity(adActivityIntent);
         }else{
 
@@ -273,6 +275,7 @@ public class DisplayDriverDetails extends AppCompatActivity {
 
                                             //Other Person can be a driver or customer
             chatActivityIntent.putExtra("other_person_id" ,  u_id);
+            chatActivityIntent.putExtra("unique_chat_id" ,unique_chat_id);
             startActivity(chatActivityIntent);
         }
     }

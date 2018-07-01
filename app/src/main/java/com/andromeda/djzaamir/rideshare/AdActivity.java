@@ -24,6 +24,7 @@ public class AdActivity extends AppCompatActivity  {
     private ProgressBar ad_progressBar;
 
     private  String u_id; //Other User id
+    private String unique_chat_id;
 
     Thread counter_thread; //Ad time counter thread
 
@@ -41,6 +42,7 @@ public class AdActivity extends AppCompatActivity  {
         //Get Driver ID , which will be passed to Customer-Driver Communication modules
         Intent intent_data =  getIntent();
         u_id =  intent_data.getStringExtra("driver_id"); //other user id
+        unique_chat_id = intent_data.getStringExtra("unique_chat_id");
 
 
 
@@ -122,6 +124,7 @@ public class AdActivity extends AppCompatActivity  {
               //Take to another activity
               Intent chatActivityIntent =  new Intent(getApplicationContext() , ChatActivity.class);
               chatActivityIntent.putExtra("other_person_id" ,  u_id);
+              chatActivityIntent.putExtra("unique_chat_id" , unique_chat_id);
 
               startActivity(chatActivityIntent);
 
