@@ -1,9 +1,12 @@
 package com.andromeda.djzaamir.rideshare;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -42,10 +45,10 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
         //Init Gui references
-        other_person_image = findViewById(R.id.other_person_image);
-        other_person_name = findViewById(R.id.other_person_name);
-        function_button = findViewById(R.id.function_button);
-        chats_container = findViewById(R.id.chats_container);
+        other_person_image        = findViewById(R.id.other_person_image);
+        other_person_name         = findViewById(R.id.other_person_name);
+        function_button           = findViewById(R.id.function_button);
+        chats_container           = (LinearLayout) findViewById(R.id.chats_container);
         chat_message_edittextview = findViewById(R.id.chat_message_edittextview);
 
 
@@ -70,6 +73,9 @@ public class ChatActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot != null && dataSnapshot.getValue() != null){
+
+                            chats_container.removeAllViews();
+
                             for (DataSnapshot chat_msg :
                                     dataSnapshot.getChildren()) {
                                 push_chat_message_to_gui(chat_msg);
@@ -137,33 +143,59 @@ public class ChatActivity extends AppCompatActivity {
 
     private void push_chat_message_to_gui(DataSnapshot new_chat_msg){
 
+        //Parse data
+        String msg =  new_chat_msg.child("msg").getValue().toString();
+        String msg_usr_id =  new_chat_msg.child("user_id").getValue().toString();
+        String timestamp =  new_chat_msg.child("timestamp").getValue().toString();
+
+
+
+        //Prepare TextView
+       TextView new_chat_message_textview = new TextView(getApplicationContext());
+       new_chat_message_textview.setText(msg);
+       new_chat_message_textview.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.               LayoutParams.WRAP_CONTENT));
+       new_chat_message_textview.setTextColor(Color.BLACK);
+
+       //Decide Placement, depending on who was the sender this_user or other_user
+        if (msg_usr_id.equals(u_id)) { //if this user
+            new_chat_message_textview.setGravity(Gravity.LEFT);
+        }else{
+            new_chat_message_textview.setGravity(Gravity.RIGHT);
+        }
+
+
+
+        //Append to parent
+       chats_container.addView(new_chat_message_textview);
+
+
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        chats_node_reference.removeEventListener(chats_listener);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-       chats_node_reference.removeEventListener(chats_listener);
-    }
-
-
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        chats_node_reference.addValueEventListener(chats_listener);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        chats_node_reference.addValueEventListener(chats_listener);
-    }
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        chats_node_reference.removeEventListener(chats_listener);
+//    }
+//
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//       chats_node_reference.removeEventListener(chats_listener);
+//    }
+//
+//
+//
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        chats_node_reference.addValueEventListener(chats_listener);
+//    }
+//
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        chats_node_reference.addValueEventListener(chats_listener);
+//    }
 
     //Modal Class for chat messages
     class chat_wrapper {
