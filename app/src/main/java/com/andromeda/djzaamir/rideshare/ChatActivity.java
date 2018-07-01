@@ -74,11 +74,11 @@ public class ChatActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot != null && dataSnapshot.getValue() != null){
 
-                            chats_container.removeAllViews();
+//                            chats_container.removeAllViews();
 
                             for (DataSnapshot chat_msg :
                                     dataSnapshot.getChildren()) {
-                                push_chat_message_to_gui(chat_msg);
+//                                push_chat_message_to_gui(chat_msg);
                             }
                         }
                     }

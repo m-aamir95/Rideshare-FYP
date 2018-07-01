@@ -135,3 +135,5 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
 17) Made sure that the heavy running chat activity ValueEventListeners Disconnects
        when the activity is no longer visible or running
        and restarts when the activity becomes visible again
+
+18) Mention About Dedicated Chat Module
