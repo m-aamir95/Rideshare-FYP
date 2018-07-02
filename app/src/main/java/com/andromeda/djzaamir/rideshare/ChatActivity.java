@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -29,9 +30,12 @@ public class ChatActivity extends AppCompatActivity {
     private String unique_chat_id; //Will be used for pushing messages to a unique chat_history Node
     private ImageView other_person_image;
     private TextView other_person_name;
-    private Button function_button;
-    private LinearLayout chats_container;
+    private Button function_button; //Depending on Driver Or Customer, it can be REQUEST , ACCEPT REQUEST
     private EditText chat_message_edittextview;
+
+    private LinearLayout chats_container;
+    private ScrollView scrollView;
+
 
     private DatabaseReference chats_node_reference;
     ValueEventListener chats_listener;
@@ -48,8 +52,9 @@ public class ChatActivity extends AppCompatActivity {
         other_person_image        = findViewById(R.id.other_person_image);
         other_person_name         = findViewById(R.id.other_person_name);
         function_button           = findViewById(R.id.function_button);
-        chats_container           = (LinearLayout) findViewById(R.id.chats_container);
+        chats_container           = findViewById(R.id.chats_container);
         chat_message_edittextview = findViewById(R.id.chat_message_edittextview);
+        scrollView                = findViewById(R.id.chatS_scroll_view);
 
 
         other_u_id = getIntent().getExtras().getString("other_person_id");
@@ -74,11 +79,11 @@ public class ChatActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot != null && dataSnapshot.getValue() != null){
 
-//                            chats_container.removeAllViews();
+                            chats_container.removeAllViews();
 
                             for (DataSnapshot chat_msg :
                                     dataSnapshot.getChildren()) {
-//                                push_chat_message_to_gui(chat_msg);
+                                push_chat_message_to_gui(chat_msg);
                             }
                         }
                     }
@@ -168,34 +173,34 @@ public class ChatActivity extends AppCompatActivity {
         //Append to parent
        chats_container.addView(new_chat_message_textview);
 
-
+       scrollView.fullScroll(View.FOCUS_DOWN);
     }
 
-//    @Override
-//    protected void onStop() {
-//        super.onStop();
-//        chats_node_reference.removeEventListener(chats_listener);
-//    }
-//
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//       chats_node_reference.removeEventListener(chats_listener);
-//    }
-//
-//
-//
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//        chats_node_reference.addValueEventListener(chats_listener);
-//    }
-//
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        chats_node_reference.addValueEventListener(chats_listener);
-//    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        chats_node_reference.removeEventListener(chats_listener);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+       chats_node_reference.removeEventListener(chats_listener);
+    }
+
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        chats_node_reference.addValueEventListener(chats_listener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        chats_node_reference.addValueEventListener(chats_listener);
+    }
 
     //Modal Class for chat messages
     class chat_wrapper {

@@ -85,7 +85,9 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_weight="60">
+        android:layout_weight="60"
+        android:id="@+id/chatS_scroll_view"
+        >
 
           <!--Chat LinearLayout-->
         <LinearLayout
@@ -278,38 +280,31 @@
     <!--Type Message Container And Send Button-->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_weight="10">
+        android:layout_weight="5"
+        >
 
         <!--Edit Text area to type messages-->
         <EditText
             android:id="@+id/chat_message_edittextview"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="Type your message here..."
             android:layout_weight="80"
-
-            />
+        />
 
         <!--Send Button-->
         <ImageView
             android:id="@+id/send_msg_button_imageview"
             android:layout_width="40dp"
-            android:layout_height="50dp"
+            android:layout_height="40dp"
             android:src="@drawable/message_sent"
             android:layout_gravity="center"
             android:onClick="send_chat_message"
-            />
+        />
 
     </LinearLayout>
-
-
-
-
-
-
-
 
 </LinearLayout>
 <!--End Of Main Linaer Layout-->
