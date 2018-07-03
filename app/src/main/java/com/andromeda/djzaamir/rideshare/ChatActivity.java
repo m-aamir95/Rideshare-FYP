@@ -153,17 +153,12 @@ public class ChatActivity extends AppCompatActivity {
         String msg_usr_id =  new_chat_msg.child("user_id").getValue().toString();
         String timestamp =  new_chat_msg.child("timestamp").getValue().toString();
 
-
-
-
         //Prepare Msg TextView
        TextView new_chat_message_textview = new TextView(getApplicationContext());
        new_chat_message_textview.setText(msg);
        new_chat_message_textview.setTextColor(Color.BLACK);
-       new_chat_message_textview.setTextSize(16);
-
-
-
+       new_chat_message_textview.setTextSize(18);
+       new_chat_message_textview.setPadding(2,2,2,2);
 
        //Prepare time_stamp
        TextView new_chat_message_time = new TextView(getApplicationContext());
@@ -174,31 +169,41 @@ public class ChatActivity extends AppCompatActivity {
        new_chat_message_time.setTextSize(12);
 
 
+       LinearLayout txt_time_container = new LinearLayout(getApplicationContext());
+       txt_time_container.setOrientation(LinearLayout.VERTICAL);
+
        //Decide Placement, depending on who was the sender this_user or other_user
         if (msg_usr_id.equals(u_id)) { //if this user
-            LinearLayout.LayoutParams params =  new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup                        .LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams params =  new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup                        .              LayoutParams.WRAP_CONTENT);
             params.gravity =  Gravity.START;
+            params.setMargins(0,0,0,5);
 
-            new_chat_message_textview.setLayoutParams(params);
             new_chat_message_textview.setGravity(Gravity.START);
-            new_chat_message_time.setLayoutParams(params);
-            new_chat_message_time.setGravity(Gravity.START);
-
-        }else{
-            LinearLayout.LayoutParams params =  new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup                        .LayoutParams.WRAP_CONTENT);
-            params.gravity =  Gravity.END;
-
             new_chat_message_textview.setLayoutParams(params);
-            new_chat_message_textview.setGravity(Gravity.END);
+            new_chat_message_time.setGravity(Gravity.START);
             new_chat_message_time.setLayoutParams(params);
+
+            txt_time_container.setLayoutParams(params);
+            txt_time_container.setBackgroundColor(Color.parseColor("#cbf4dd"));
+        }else{
+            LinearLayout.LayoutParams params =  new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup                        .              LayoutParams.WRAP_CONTENT);
+            params.gravity =  Gravity.END;
+            params.setMargins(0,0,0,5);
+
+            new_chat_message_textview.setGravity(Gravity.END);
+            new_chat_message_textview.setLayoutParams(params);
             new_chat_message_time.setGravity(Gravity.END);
+            new_chat_message_time.setLayoutParams(params);
+
+            txt_time_container.setLayoutParams(params);
         }
 
-
+         //Append Text and time textview to linearlayout
+        txt_time_container.addView(new_chat_message_time);
+        txt_time_container.addView(new_chat_message_textview);
 
         //Append to parent
-       chats_container.addView(new_chat_message_time);
-       chats_container.addView(new_chat_message_textview);
+       chats_container.addView(txt_time_container);
 
        scrollView.fullScroll(View.FOCUS_DOWN);
     }
