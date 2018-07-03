@@ -204,8 +204,10 @@ public class RideSharedFragment extends Fragment {
 
         int hour  = c.get(Calendar.HOUR);
         int min   = c.get(Calendar.MINUTE);
+        int isAm  = c.get(Calendar.AM_PM);
+        String am_pm_decided_str = isAm == Calendar.AM ? "AM":"PM";
 
-        String str_representation = day + "-" + (month+1) + "-" + year + ", " + hour + ":" + formatMinutes(min);
+        String str_representation = day + "-" + (month+1) + "-" + year + ", " + hour + ":" + formatMinutes(min) + " " + am_pm_decided_str;
 
         target_edittext.setText(str_representation);
     }

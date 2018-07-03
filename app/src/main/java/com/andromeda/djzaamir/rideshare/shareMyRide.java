@@ -309,7 +309,9 @@ public class shareMyRide extends AppCompatActivity {
         //Update start calendar
         start_date_and_time.set(Calendar.HOUR_OF_DAY ,hour); //Hour_Of_Day, Indicating a 24 Hour clock
         start_date_and_time.set(Calendar.MINUTE,minutes);
-
+        int isAm = -1;
+        isAm =  start_date_and_time.get(Calendar.AM_PM);
+        String am_pm_decided_str = isAm == Calendar.AM ? "AM":"PM";
 
         //Perform Military to normal time conversion
         if (hour <= 12){ //AM time range
@@ -320,7 +322,7 @@ public class shareMyRide extends AppCompatActivity {
 
         //update gui
         String current_gui_date = start_date_time_edittext.getText().toString(); //To Concatinate Date and time in GUi
-        start_date_time_edittext.setText(current_gui_date + ", " +hour + ":" + FormatMinutes(minutes));
+        start_date_time_edittext.setText(current_gui_date + ", " +hour + ":" + FormatMinutes(minutes) + " " + am_pm_decided_str );
        }
        //Update return/time
        else{
@@ -330,6 +332,9 @@ public class shareMyRide extends AppCompatActivity {
             //Update start calendar
            end_date_and_time.set(Calendar.HOUR_OF_DAY ,hour); //Hour_Of_Day, Indicating a 24 Hour clock
            end_date_and_time.set(Calendar.MINUTE,minutes);
+           int isAm = -1;
+           isAm = end_date_and_time.get(Calendar.AM_PM);
+           String am_pm_decided_str = isAm == Calendar.AM ? "AM":"PM";
 
 
         //Perform Military to normal time conversion
@@ -342,7 +347,7 @@ public class shareMyRide extends AppCompatActivity {
 
         //update gui
         String current_gui_date = end_date_time_edittext.getText().toString();
-        end_date_time_edittext.setText(current_gui_date + ", " +hour + ":" + FormatMinutes(minutes));
+        end_date_time_edittext.setText(current_gui_date + ", " +hour + ":" + FormatMinutes(minutes) + " " + am_pm_decided_str);
        }
     }
     String FormatMinutes(int minutes){
