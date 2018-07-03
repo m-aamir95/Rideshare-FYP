@@ -242,8 +242,12 @@ public class DisplayDriverDetails extends AppCompatActivity {
 
         int hour  = c.get(Calendar.HOUR);
         int min   = c.get(Calendar.MINUTE);
+        int isAm  = c.get(Calendar.AM_PM);
 
-        String str_representation = day + "-" + (month+1) + "-" + year + ", " + hour + ":" + formatMinutes(min);
+        String time_of_day = isAm == Calendar.AM ? "AM":"PM";
+
+
+        String str_representation = day + "-" + (month+1) + "-" + year + ", " + hour + ":" + formatMinutes(min) + " " + time_of_day;
 
         target_textview.setText(str_representation);
     }
