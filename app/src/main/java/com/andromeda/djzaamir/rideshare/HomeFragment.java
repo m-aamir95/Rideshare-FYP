@@ -138,10 +138,11 @@ public class HomeFragment extends Fragment {
                         @Override
                         public void onSuccess(Location location){
 
-                            LatLng updated_loc = new LatLng(location.getLatitude(),location.getLongitude());
-
-                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(updated_loc, 16));
-                            mMap.addMarker(new MarkerOptions().position(updated_loc));
+                            if (location != null){
+                                LatLng updated_loc = new LatLng(location.getLatitude(),location.getLongitude());
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(updated_loc, 16));
+                                mMap.addMarker(new MarkerOptions().position(updated_loc));
+                            }
 
                         }
                     });

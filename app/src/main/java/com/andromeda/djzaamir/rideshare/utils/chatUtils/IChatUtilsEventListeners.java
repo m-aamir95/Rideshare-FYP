@@ -5,7 +5,9 @@ package com.andromeda.djzaamir.rideshare.utils.chatUtils;
  * Responsible for Triggering Background Event's
  */
 
-public interface IChatHistoryCheckComplete {
+public interface IChatUtilsEventListeners {
 
     void onBackgroundChatCheckComplete();
+
+    void onInitDbSchemaComplete(String unique_chat_id);
 }

@@ -12,20 +12,17 @@ import android.widget.TextView;
 
 import com.andromeda.djzaamir.rideshare.AdsManager.AdManager;
 import com.andromeda.djzaamir.rideshare.utils.ButtonUtils;
-import com.andromeda.djzaamir.rideshare.utils.chatUtils.IChatHistoryCheckComplete;
+import com.andromeda.djzaamir.rideshare.utils.chatUtils.IChatUtilsEventListeners;
 import com.andromeda.djzaamir.rideshare.utils.chatUtils.chatUtils;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -71,10 +68,16 @@ public class DisplayDriverDetails extends AppCompatActivity {
         //Disable button, So can safely perform background chat history check
         ButtonUtils.disableAndChangeText(contact_button,"...");
 
-        chatUtils.checkIFChatHistoryExist(u_id, new IChatHistoryCheckComplete() {
+        chatUtils.checkIFChatHistoryExist(u_id, new IChatUtilsEventListeners() {
             @Override
             public void onBackgroundChatCheckComplete() {
-               unique_chat_id =  chatUtils.initChatDbSchemeForBothPersonsIfNotExist(u_id);
+
+                chatUtils.initChatDbSchemeForBothPersonsIfNotExist(u_id);
+            }
+
+            @Override
+            public void onInitDbSchemaComplete(String _unique_chat_id) {
+                unique_chat_id = _unique_chat_id;
                 ButtonUtils.enableButtonRestoreTitle();
             }
         });

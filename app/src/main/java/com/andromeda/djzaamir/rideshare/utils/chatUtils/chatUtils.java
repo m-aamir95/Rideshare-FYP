@@ -1,7 +1,5 @@
 package com.andromeda.djzaamir.rideshare.utils.chatUtils;
 
-import android.util.Log;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,7 +17,7 @@ public class chatUtils {
 
 
     private static boolean chat_history_exist;
-    private static IChatHistoryCheckComplete _subscriber = null;
+    private static IChatUtilsEventListeners _subscriber = null;
 
     private static String unique_chat_id;//Will be returned to chat_activity can use it for pushing messages
 
@@ -27,7 +25,7 @@ public class chatUtils {
         * IF a previous chat history exist between the two persons
         * */
 
-    public static void checkIFChatHistoryExist(final String other_user_id , IChatHistoryCheckComplete subscriber){
+    public static void checkIFChatHistoryExist(final String other_user_id , IChatUtilsEventListeners subscriber){
         _subscriber = subscriber;
         checkIFChatHistoryExist(other_user_id);
     }
@@ -72,10 +70,10 @@ public class chatUtils {
                                             }
 
                                             //Chat-History Check Complete, Trigger Event
-                                            triggerEvents();
+                                            triggerChatCheckCompleteEvent();
 
                                         }else{ //No-chat Trigger Event
-                                            triggerEvents();
+                                            triggerChatCheckCompleteEvent();
                                         }
                                      }
 
@@ -88,7 +86,7 @@ public class chatUtils {
 
                      }
                      else{ //No chat-history , Trigger Event
-                        triggerEvents();
+                        triggerChatCheckCompleteEvent();
                      }
                    }
 
@@ -101,7 +99,7 @@ public class chatUtils {
 
     }
 
-    private static void triggerEvents(){
+    private static void triggerChatCheckCompleteEvent(){
      if (_subscriber != null){
         _subscriber.onBackgroundChatCheckComplete();
         _subscriber = null;
@@ -137,8 +135,15 @@ public class chatUtils {
                     .child("chat_history")
                     .child(new_char_history_ID).setValue(this_user_id); //New Chat Entry In User Node
 
-
        }
+
+
+         //Trigger Events
+         if (_subscriber != null){
+            _subscriber.onInitDbSchemaComplete(unique_chat_id);
+            _subscriber = null;
+         }
+
          //Reset
          chat_history_exist = false;
        return unique_chat_id;
