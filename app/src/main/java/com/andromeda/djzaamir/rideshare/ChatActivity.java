@@ -2,6 +2,7 @@ package com.andromeda.djzaamir.rideshare;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
@@ -39,6 +40,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private DatabaseReference chats_node_reference;
     ValueEventListener chats_listener;
+    String date_str = "";
 
 
 
@@ -93,7 +95,7 @@ public class ChatActivity extends AppCompatActivity {
                     }
                 });
 
-
+         chats_container.requestFocus();
     }
 
     private void fetchOtherPersonData() {
@@ -163,7 +165,7 @@ public class ChatActivity extends AppCompatActivity {
        //Prepare time_stamp
        TextView new_chat_message_time = new TextView(getApplicationContext());
 
-       parseTimestampAndSetupTextView(Long.parseLong(timestamp),new_chat_message_time);
+       String _date_str =  parseTimestampAndSetupTextView(Long.parseLong(timestamp),new_chat_message_time);
 
        new_chat_message_time.setTextColor(Color.BLACK);
        new_chat_message_time.setTextSize(12);
@@ -198,6 +200,21 @@ public class ChatActivity extends AppCompatActivity {
             txt_time_container.setLayoutParams(params);
         }
 
+
+        //Date append
+        if (date_str.equals(_date_str) == false){
+          TextView new_date_textview = new TextView(getApplicationContext());
+          new_date_textview.setText(_date_str);
+          new_date_textview.setTextSize(14);
+          new_date_textview.setTextColor(Color.BLACK);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                new_date_textview.setTextAlignment(TextView.TEXT_ALIGNMENT_CENTER);
+                chats_container.addView(new_date_textview);
+            }
+            date_str = _date_str;
+            int a = 1+1;
+        }
+
          //Append Text and time textview to linearlayout
         txt_time_container.addView(new_chat_message_time);
         txt_time_container.addView(new_chat_message_textview);
@@ -208,7 +225,7 @@ public class ChatActivity extends AppCompatActivity {
        scrollView.fullScroll(View.FOCUS_DOWN);
     }
 
-   private void parseTimestampAndSetupTextView(long timestamp, TextView target_textview){
+   private String parseTimestampAndSetupTextView(long timestamp, TextView target_textview){
         Calendar c =  Calendar.getInstance();
         c.setTimeInMillis(timestamp);
 
@@ -222,10 +239,56 @@ public class ChatActivity extends AppCompatActivity {
 
         String time_of_day = isAm == Calendar.AM ? "AM":"PM";
 
-        //Date Representation day + "-" + (month+1) + "-" + year + ", " +
+        String _date_str  =  day + "-" + getMonthName(month+1) + "-" + year;
+
         String str_representation = hour + ":" + formatMinutes(min) + " " + time_of_day;
 
         target_textview.setText(str_representation);
+
+        return _date_str;
+    }
+
+    private String getMonthName(int i) {
+       String month_name = "";
+       switch (i){
+           case 1:
+               month_name = "January";
+               break;
+           case 2:
+               month_name = "February";
+               break;
+           case 3:
+               month_name = "March";
+               break;
+           case 4:
+               month_name = "April";
+               break;
+           case 5:
+               month_name = "May";
+               break;
+           case 6:
+               month_name = "June";
+               break;
+           case 7:
+               month_name = "July";
+               break;
+           case 8:
+               month_name = "August";
+               break;
+           case 9:
+               month_name = "September";
+               break;
+           case 10:
+               month_name = "October";
+               break;
+           case 11:
+               month_name = "November";
+               break;
+           case 12:
+               month_name = "December";
+               break;
+       }
+     return month_name;
     }
 
     private String formatMinutes(int min) {
