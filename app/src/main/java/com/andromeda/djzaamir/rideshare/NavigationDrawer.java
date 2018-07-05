@@ -235,7 +235,12 @@ public class NavigationDrawer extends AppCompatActivity
             }else{
                 startNewFragmentActivity(new RideSharedFragment());
             }
-        } else if (id == R.id.settings_item) {
+        }else if (id == R.id.messages_item){
+            Toolbar toolbar = findViewById(R.id.toolbar);
+            toolbar.setTitle("Messages");
+            startNewFragmentActivity(new MessagesFragment());
+        }
+        else if (id == R.id.settings_item) {
             Toolbar toolbar = findViewById(R.id.toolbar);
             toolbar.setTitle("Settings");
             startNewFragmentActivity(new SettingsFragment());

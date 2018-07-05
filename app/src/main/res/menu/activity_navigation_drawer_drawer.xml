@@ -12,6 +12,12 @@
             android:id="@+id/home_item"/>
 
         <item
+            android:icon="@drawable/message_sent"
+            android:title="Messages"
+            android:id="@+id/messages_item"/>
+
+
+        <item
             android:icon="@mipmap/settings"
             android:title="Settings"
             android:id="@+id/settings_item"/>
