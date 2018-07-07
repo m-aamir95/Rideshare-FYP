@@ -27,6 +27,7 @@
             android:layout_gravity="left"
             android:orientation="vertical">
 
+            <!--Driver Image-->
             <ImageView
                 android:id="@+id/driver_image_imageview"
                 android:layout_width="160dp"
@@ -34,6 +35,7 @@
                 android:layout_gravity="center"
                  />
 
+            <!--Driver Name-->
             <TextView
                 android:id="@+id/driver_name"
                 android:layout_width="wrap_content"
@@ -57,9 +59,8 @@
             android:id="@+id/distance_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:layout_gravity="left|bottom"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="110dp"
             android:textSize="18sp" />
 
              <!--Approx Fair Calculation-->
@@ -67,7 +68,6 @@
             android:id="@+id/fair_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
             android:layout_gravity="left|bottom"
             android:layout_marginTop="6dp"
             android:textSize="18sp" />

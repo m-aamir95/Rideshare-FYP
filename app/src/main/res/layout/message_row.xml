@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+xmlns:android="http://schemas.android.com/apk/res/android"                                  android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:orientation="vertical"
+      android:padding="8dp"
+    >
+
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+               <!--Driver Image-->
+                <ImageView
+                    android:id="@+id/chat_msg_image"
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    android:src="@drawable/ic_launcher_background" />
+
+                <!--Linaer layout for text data-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:orientation="vertical"
+                    android:padding="3dp">
+
+
+                    <!--Driver Name-->
+                    <TextView
+                        android:id="@+id/driver_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:text="Hey now bron cow"
+                        android:textColor="#000"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Hey mow brow cow whats up what are youi dong sir and thisnis some kldgdgdfkndfklghfnkhdfklnkhklnhsfgnklgfnhklnhklglhhngklhnhkllk"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/hidden_id_field_chat_msg"
+                        android:layout_width="0sp"
+                        android:layout_height="0sp"
+                        android:visibility="invisible"/>
+
+                </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_marginTop="7dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"/>
+
+
+</LinearLayout>

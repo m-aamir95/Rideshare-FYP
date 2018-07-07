@@ -231,7 +231,7 @@ public class DisplayDriverDetails extends AppCompatActivity {
            //Perform Decimal Formatting before sending to display
            String formatted_distance = new DecimalFormat("#0.0").format(journey_Distance);
 
-           distance_textview.setText("Distance: " + formatted_distance + " km");
+           distance_textview.setText("Min-Distance: " + formatted_distance + " km");
         }
     }
 
