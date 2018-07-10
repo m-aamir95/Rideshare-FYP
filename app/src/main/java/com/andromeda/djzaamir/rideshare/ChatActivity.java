@@ -21,6 +21,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
@@ -143,6 +144,28 @@ public class ChatActivity extends AppCompatActivity {
                     .push()
                     .setValue(new_chat_wrapper);
 
+            //Update TimeStamps for both users chat history so, when i fetch Chat List in ChatListView I can display the most recent
+            // chats
+
+            //for this user
+            FirebaseDatabase.getInstance().getReference()
+                    .child("Users")
+                    .child(u_id)
+                    .child("chat_history")
+                    .child(unique_chat_id)
+                    .child("server_timestamp").setValue(ServerValue.TIMESTAMP);
+
+
+            //for other user
+            FirebaseDatabase.getInstance().getReference()
+                    .child("Users")
+                    .child(other_u_id)
+                    .child("chat_history")
+                    .child(unique_chat_id)
+                    .child("server_timestamp").setValue(ServerValue.TIMESTAMP);
+
+
+
             chat_message_edittextview.setText("");
         }
     }
@@ -152,7 +175,7 @@ public class ChatActivity extends AppCompatActivity {
 
         //Parse data
         String msg =  new_chat_msg.child("msg").getValue().toString();
-        String msg_usr_id =  new_chat_msg.child("user_id").getValue().toString();
+        String msg_usr_id =  new_chat_msg.child("sender_id").getValue().toString();
         String timestamp =  new_chat_msg.child("timestamp").getValue().toString();
 
         //Prepare Msg TextView
@@ -326,12 +349,12 @@ public class ChatActivity extends AppCompatActivity {
 
     //Modal Class for chat messages
     class chat_wrapper {
-        public String msg, user_id;
+        public String msg, sender_id;
         public long timestamp;
 
         public chat_wrapper(String msg, String user_id ,long timestamp) {
             this.msg = msg;
-            this.user_id = user_id;
+            this.sender_id = user_id;
             this.timestamp =  timestamp;
         }
     }

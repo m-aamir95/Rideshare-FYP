@@ -5,7 +5,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ServerValue;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by djzaamir on 6/29/2018.
@@ -115,25 +119,29 @@ public class chatUtils {
            //Make a new Chat History entry
             DatabaseReference new_chat_ref = FirebaseDatabase.getInstance().getReference().child("chats").push();
             new_chat_ref.setValue(true);
-            String new_char_history_ID = new_chat_ref.getKey();
-            unique_chat_id = new_char_history_ID;
+            String new_chat_history_ID = new_chat_ref.getKey();
+            unique_chat_id = new_chat_history_ID;
 
 
             //Make chat history entry for this user
             String this_user_id  = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-            FirebaseDatabase.getInstance().getReference()
+            DatabaseReference ref1 =  FirebaseDatabase.getInstance().getReference()
                     .child("Users")
                     .child(this_user_id)
                     .child("chat_history")
-                    .child(new_char_history_ID).setValue(other_user_id); //New Chat Entry In User Node
+                    .child(new_chat_history_ID);
+              ref1.child("other_user_id").setValue(other_user_id);
+              ref1.child("server_timestamp").setValue(ServerValue.TIMESTAMP);
 
             //Make chat history entry for the other user
-            FirebaseDatabase.getInstance().getReference()
+            DatabaseReference ref2  = FirebaseDatabase.getInstance().getReference()
                     .child("Users")
                     .child(other_user_id)
                     .child("chat_history")
-                    .child(new_char_history_ID).setValue(this_user_id); //New Chat Entry In User Node
+                    .child(new_chat_history_ID);
+            ref2.child("other_user_id").setValue(this_user_id);
+            ref2.child("server_timestamp").setValue(ServerValue.TIMESTAMP);
 
        }
 
@@ -148,4 +156,7 @@ public class chatUtils {
          chat_history_exist = false;
        return unique_chat_id;
     }
+
+
 }
+

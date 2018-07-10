@@ -53,20 +53,22 @@ public class MessagesFragment extends Fragment {
 
         chat_messages_listview = getView().findViewById(R.id.messages_listview);
 
+        //Load Chat history for this user
         FirebaseDatabase.getInstance().getReference()
                 .child("Users")
                 .child(u_id)
-                .child("chat_history").addValueEventListener(new ValueEventListener() {
+                .child("chat_history").orderByChild("server_timestamp").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                if (dataSnapshot != null && dataSnapshot.getValue() != null ){
 
+                   chat_messages.clear();
                     //Generate Chat-Messages Model
                    for (DataSnapshot chat_message:
                         dataSnapshot.getChildren()) {
 
                        String  msg_id = chat_message.getKey().toString();
-                       String  other_usr_id = chat_message.getValue().toString();
+                       String  other_usr_id = chat_message.child("other_user_id").getValue().toString();
 
                        ChatMessageDataModel new_chat_model  = new ChatMessageDataModel(other_usr_id, msg_id);
 
@@ -74,9 +76,11 @@ public class MessagesFragment extends Fragment {
 
                    }
 
-                   //Load it into ListView
-                   ChatMessageRowAdapter adapter = new ChatMessageRowAdapter(chat_messages , getContext());
-                   chat_messages_listview.setAdapter(adapter);
+                  if (getContext() != null){
+                    //Load it into ListView
+                    ChatMessageRowAdapter adapter = new ChatMessageRowAdapter(chat_messages , getContext());
+                    chat_messages_listview.setAdapter(adapter);
+                  }
                }
             }
 
