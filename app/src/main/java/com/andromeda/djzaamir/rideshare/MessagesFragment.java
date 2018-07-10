@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class MessagesFragment extends Fragment {
 
@@ -75,6 +76,10 @@ public class MessagesFragment extends Fragment {
                        chat_messages.add(new_chat_model);
 
                    }
+
+                   //Sort in Reverse Order , Because due to orderByChild List is in acsending order
+                   //And contains the Most Oldest chat node at the very top
+                   Collections.reverse(chat_messages);
 
                   if (getContext() != null){
                     //Load it into ListView
