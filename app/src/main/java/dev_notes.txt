@@ -137,3 +137,6 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
        and restarts when the activity becomes visible again
 
 18) Mention About Dedicated Chat Module
+
+19) Using Firebase OrderBy And LimitTo Functions to work on timestamp , in order to only fetch latest messages
+    while displaying the most recent message in Chat-Messages-ListView
