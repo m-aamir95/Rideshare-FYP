@@ -139,4 +139,6 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
 18) Mention About Dedicated Chat Module
 
 19) Using Firebase OrderBy And LimitTo Functions to work on timestamp , in order to only fetch latest messages
-    while displaying the most recent message in Chat-Messages-ListView
+    while displaying the most recent message in Chat-Messages-ListView ,  it works fine but now i am not using it
+
+20) it would be great to use different enums constants in places of Strings-tags for examples while putting data in different intent      putExtra fields i have to remember the exact String-tag name , if i use enums the Intellisense of the IDE will quickly pick it up     and help me type it and different places without switching to different files again and again

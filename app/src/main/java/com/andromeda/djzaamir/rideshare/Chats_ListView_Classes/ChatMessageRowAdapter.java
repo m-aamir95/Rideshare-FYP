@@ -2,6 +2,7 @@ package com.andromeda.djzaamir.rideshare.Chats_ListView_Classes;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.andromeda.djzaamir.rideshare.ChatActivity;
 import com.andromeda.djzaamir.rideshare.R;
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
@@ -51,16 +53,37 @@ public class ChatMessageRowAdapter extends ArrayAdapter<ChatMessageDataModel> im
 
         final View rowView =  inflater.inflate(R.layout.message_row, parent, false);
 
+        //Put event listener
+        rowView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                 TextView hidden_unique_chat_key      = (TextView)view.findViewById(R.id.hidden_id_field_unique_chat_msg);
+                TextView hidden_other_user_id        = (TextView)view.findViewById(R.id.hidden_id_field_other_user_id);
+                String hidden_unique_chat_key_str    =  hidden_unique_chat_key.getText().toString();
+                String hidden_user_id                =  hidden_other_user_id.getText().toString();
+
+                Intent chatActivityIntent =  new Intent(getContext(), ChatActivity.class);
+                chatActivityIntent.putExtra("other_person_id" , hidden_user_id);
+                chatActivityIntent.putExtra("unique_chat_id" , hidden_unique_chat_key_str);
+                getContext().startActivity(chatActivityIntent);
+            }
+        });
+
         //Grab different childern views of this Row
         final ImageView imageView = rowView.findViewById(R.id.chat_msg_image);
         final TextView sender_name = rowView.findViewById(R.id.driver_name);
         final TextView chat_msg = rowView.findViewById(R.id.last_chat_msg);
         TextView hidden_unique_chat_id =  rowView.findViewById(R.id.hidden_id_field_unique_chat_msg);
+        TextView hidden_other_user_id  = rowView.findViewById(R.id.hidden_id_field_other_user_id);
 
         //Begin Loading data from model to fields
         final ChatMessageDataModel dataModel = chat_messages.get(position);
 
+        //Load data in hidden fields
         hidden_unique_chat_id.setText(dataModel.msg_id);
+        hidden_other_user_id.setText(dataModel.msg_sender_id);
+
+
 
         //Load data related to user
         FirebaseDatabase.getInstance().getReference()
@@ -93,7 +116,7 @@ public class ChatMessageRowAdapter extends ArrayAdapter<ChatMessageDataModel> im
         //Load data related to chat-msg
         FirebaseDatabase.getInstance().getReference()
                 .child("chats")
-                .child(dataModel.msg_id).orderByChild("timestamp").limitToFirst(1).addValueEventListener(new ValueEventListener() {
+                .child(dataModel.msg_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -119,6 +142,8 @@ public class ChatMessageRowAdapter extends ArrayAdapter<ChatMessageDataModel> im
 
             }
         });
+
+
 
       return rowView;
     }
