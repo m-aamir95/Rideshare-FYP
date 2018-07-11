@@ -12,8 +12,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.andromeda.djzaamir.rideshare.RideshareLocationManager.RideShareLocationManager;
+import com.andromeda.djzaamir.rideshare.RideshareLocationManager.onLocationUpdateInterface;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
@@ -24,32 +25,24 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 public class grabLocationMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     //region Vars
     private GoogleMap mMap;
-    private FusedLocationProviderClient fusedLocationProviderClient;
     private LatLng last_known_loc;
     private final int REQ_FINE_LOC = 1;
     private Marker current_marker_location;
+    private RideShareLocationManager rideShareLocationManager;
     //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grab_location_maps);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        //TODO this is probably because i have commented the compile of Google Play location services
-        fusedLocationProviderClient = new FusedLocationProviderClient(this);
 
 
-        //grab last known location
+           //grab last known location
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager                .PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) !=              PackageManager.PERMISSION_GRANTED) {
             //Ask for permission
             ActivityCompat.requestPermissions(this, new String[]{Manifest
@@ -58,54 +51,27 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
         }
 
 
-        ////////////////////////       Buffer Zone for Code ///////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+        //init Continuous location update
+        rideShareLocationManager  = new RideShareLocationManager();
+        rideShareLocationManager.setOnLocationUpdate(new onLocationUpdateInterface() {
             @Override
-            public void onSuccess(Location location) {
-                last_known_loc = new LatLng(location.getLatitude(), location.getLongitude());
+            public void onLocationUpdate(LatLng lng) {
+                last_known_loc = new LatLng(lng.latitude, lng.longitude);
+
+                //TODO : Multiple markers being added , please take of that, and also although the location is quite accurate, but it                   takes a little while before it update's it ,also the very fast Location Update's are causing issues with map Render,                    we can probably slow down the location update Interval
                 current_marker_location = mMap.addMarker(new MarkerOptions().position(last_known_loc).title("You are here"));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(last_known_loc, 16));
-
             }
-        });
+        } , this);
 
 
 
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                                                             .findFragmentById(R.id.map);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        ////////////////////////       Buffer Zone for Code END  ///////////////////////////////////////////////////////////////
+        mapFragment.getMapAsync(this);
 
 
         //Google Place Autocomplete Fragment
