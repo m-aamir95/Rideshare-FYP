@@ -3,7 +3,6 @@ package com.andromeda.djzaamir.rideshare;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -55,8 +54,8 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
         rideShareLocationManager  = new RideShareLocationManager();
         rideShareLocationManager.setOnLocationUpdate(new onLocationUpdateInterface() {
             @Override
-            public void onLocationUpdate(LatLng lng) {
-                last_known_loc = new LatLng(lng.latitude, lng.longitude);
+            public void onLocationUpdate(LatLng latLng) {
+                last_known_loc = new LatLng(latLng.latitude, latLng.longitude);
 
                 //TODO : Multiple markers being added , please take of that, and also although the location is quite accurate, but it                   takes a little while before it update's it ,also the very fast Location Update's are causing issues with map Render,                    we can probably slow down the location update Interval
                 current_marker_location = mMap.addMarker(new MarkerOptions().position(last_known_loc).title("You are here"));
