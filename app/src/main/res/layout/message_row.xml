@@ -27,15 +27,39 @@ xmlns:android="http://schemas.android.com/apk/res/android"                      
                     android:padding="3dp">
 
 
-                    <!--Driver Name-->
-                    <TextView
+                     <LinearLayout
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:orientation="horizontal"
+                         >
+
+                        <!--Driver Name-->
+                        <TextView
                         android:id="@+id/driver_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLines="1"
                         android:textColor="#000"
-                        android:textSize="20sp"
-                        android:textStyle="bold" />
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:layout_gravity="start"
+                        android:layout_weight="70"
+                         />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/date_of_msg"
+                            android:textSize="12sp"
+                            android:textColor="#000"
+                            android:layout_gravity="end"
+                            android:gravity="end"
+                            />
+
+                     </LinearLayout>
+
+
 
                     <!--Last Chat Message-->
                     <TextView

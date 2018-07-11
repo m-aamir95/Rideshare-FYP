@@ -22,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ChatMessageRowAdapter extends ArrayAdapter<ChatMessageDataModel> implements View.OnClickListener{
 
@@ -75,6 +76,7 @@ public class ChatMessageRowAdapter extends ArrayAdapter<ChatMessageDataModel> im
         final TextView chat_msg = rowView.findViewById(R.id.last_chat_msg);
         TextView hidden_unique_chat_id =  rowView.findViewById(R.id.hidden_id_field_unique_chat_msg);
         TextView hidden_other_user_id  = rowView.findViewById(R.id.hidden_id_field_other_user_id);
+        final TextView date_of_msg = rowView.findViewById(R.id.date_of_msg);
 
         //Begin Loading data from model to fields
         final ChatMessageDataModel dataModel = chat_messages.get(position);
@@ -126,6 +128,8 @@ public class ChatMessageRowAdapter extends ArrayAdapter<ChatMessageDataModel> im
                     for (DataSnapshot chat_data_node :
                             dataSnapshot.getChildren()) {
                         String msg = chat_data_node.child("msg").getValue().toString();
+                        String timestamp =chat_data_node.child("timestamp").getValue().toString();
+                        parseDateAndSetupTextView(Long.parseLong(timestamp),date_of_msg);
                         chat_msg.setText(msg);
 
                         new_msg_recieved = true;
@@ -148,5 +152,61 @@ public class ChatMessageRowAdapter extends ArrayAdapter<ChatMessageDataModel> im
       return rowView;
     }
 
+
+    private void parseDateAndSetupTextView(long timestamp, TextView target_textview){
+        Calendar c =  Calendar.getInstance();
+        c.setTimeInMillis(timestamp);
+
+        int day   = c.get(Calendar.DAY_OF_MONTH);
+        int month = c.get(Calendar.MONTH);
+        int year  = c.get(Calendar.YEAR);
+
+        String _date_str  =  day + "-" + getMonthName(month+1) + "-" + year;
+
+        target_textview.setText(_date_str);
+    }
+
+    private String getMonthName(int i) {
+       String month_name = "";
+       switch (i){
+           case 1:
+               month_name = "January";
+               break;
+           case 2:
+               month_name = "February";
+               break;
+           case 3:
+               month_name = "March";
+               break;
+           case 4:
+               month_name = "April";
+               break;
+           case 5:
+               month_name = "May";
+               break;
+           case 6:
+               month_name = "June";
+               break;
+           case 7:
+               month_name = "July";
+               break;
+           case 8:
+               month_name = "August";
+               break;
+           case 9:
+               month_name = "September";
+               break;
+           case 10:
+               month_name = "October";
+               break;
+           case 11:
+               month_name = "November";
+               break;
+           case 12:
+               month_name = "December";
+               break;
+       }
+     return month_name;
+    }
 
 }

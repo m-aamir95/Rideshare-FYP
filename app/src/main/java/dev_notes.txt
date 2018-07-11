@@ -141,4 +141,9 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
 19) Using Firebase OrderBy And LimitTo Functions to work on timestamp , in order to only fetch latest messages
     while displaying the most recent message in Chat-Messages-ListView ,  it works fine but now i am not using it
 
-20) it would be great to use different enums constants in places of Strings-tags for examples while putting data in different intent      putExtra fields i have to remember the exact String-tag name , if i use enums the Intellisense of the IDE will quickly pick it up     and help me type it and different places without switching to different files again and again
+20) it would be great to use different enums constants in places of Strings-tags for examples while putting data in different intent      putExtra fields i have to remember the exact String-tag name , if i use enums the Intellisense of the IDE will quickly pick it up     and help me type it and different places without switching to different files again and
+
+21) Talk about different unique features of chatActivity and Chat ListView , how it sorts and displays the most recent chats
+    and how i am using timestamps to organize things very neatly
+
+22) Make sure to secure Firebase Rules, if you ever decide to use firebase in a production scenario
