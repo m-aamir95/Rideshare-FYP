@@ -56,6 +56,23 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
                     .permission.ACCESS_FINE_LOCATION}, REQ_FINE_LOC);
 
         }
+
+
+        ////////////////////////       Buffer Zone for Code ///////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
@@ -65,6 +82,30 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
 
             }
         });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ////////////////////////       Buffer Zone for Code END  ///////////////////////////////////////////////////////////////
 
 
         //Google Place Autocomplete Fragment
