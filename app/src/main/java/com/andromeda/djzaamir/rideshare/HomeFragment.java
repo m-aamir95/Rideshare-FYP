@@ -105,6 +105,9 @@ public class HomeFragment extends Fragment {
         rideShareLocationManager.setOnLocationUpdate(new onLocationUpdateInterface() {
             @Override
             public void onLocationUpdate(LatLng latLng) {
+
+                rideShareLocationManager.stopLocationUpdates();
+
                 LatLng updated_loc = new LatLng(latLng.latitude,latLng.longitude);
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(updated_loc, 16));
                 mMap.addMarker(new MarkerOptions().position(updated_loc));

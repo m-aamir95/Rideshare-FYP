@@ -33,35 +33,13 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
     private final int REQ_FINE_LOC = 1;
     private Marker current_marker_location;
     private RideShareLocationManager rideShareLocationManager;
+    private boolean latlng_from_manual_loc = false;
     //endregion
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_grab_location_maps);
-
-
-           //grab last known location
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager                .PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) !=              PackageManager.PERMISSION_GRANTED) {
-            //Ask for permission
-            ActivityCompat.requestPermissions(this, new String[]{Manifest
-                    .permission.ACCESS_FINE_LOCATION}, REQ_FINE_LOC);
-
-        }
-
-
-        //init Continuous location update
-        rideShareLocationManager  = new RideShareLocationManager();
-        rideShareLocationManager.setOnLocationUpdate(new onLocationUpdateInterface() {
-            @Override
-            public void onLocationUpdate(LatLng latLng) {
-                last_known_loc = new LatLng(latLng.latitude, latLng.longitude);
-
-                //TODO : Multiple markers being added , please take of that, and also although the location is quite accurate, but it                   takes a little while before it update's it ,also the very fast Location Update's are causing issues with map Render,                    we can probably slow down the location update Interval
-                current_marker_location = mMap.addMarker(new MarkerOptions().position(last_known_loc).title("You are here"));
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(last_known_loc, 16));
-            }
-        } , this);
 
 
 
@@ -81,7 +59,14 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
             @Override
             public void onPlaceSelected(Place place) {
                 last_known_loc = place.getLatLng();
-                current_marker_location.remove();
+
+                latlng_from_manual_loc = true;
+                rideShareLocationManager.stopLocationUpdates();
+
+                if(current_marker_location != null){
+                    current_marker_location.remove();
+                }
+
                 current_marker_location = mMap.addMarker(new MarkerOptions().position(last_known_loc));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(last_known_loc, 16));
 
@@ -95,23 +80,7 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
         });
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQ_FINE_LOC:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    //Cool FINE Location Access Provided
-                } else {
-                    //Because location access is required
-                     Toast.makeText(getApplicationContext(), "Location Services Are Required...", Toast.LENGTH_LONG).show();
-                    System.exit(0);
-                }
-                break;
-            default:
-                break;
-        }
-    }
+
 
     /**
      * Manipulates the map once available.
@@ -132,8 +101,13 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
             public void onMapClick(LatLng latLng) {
                 last_known_loc = latLng;
 
+                latlng_from_manual_loc = true;
+                rideShareLocationManager.stopLocationUpdates();
+
                 //Move camera
-                current_marker_location.remove();
+                if (current_marker_location != null){
+                  current_marker_location.remove();
+                }
                 current_marker_location = mMap.addMarker(new MarkerOptions().position(latLng));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
             }
@@ -156,5 +130,40 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
         setResult(RESULT_OK, shareMyRideAcitivityIntent);
         //Because we are returning result to previous activity,hence we don't need to start a brand new activity
         finish();
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (rideShareLocationManager == null){
+            //init Continuous location update
+            rideShareLocationManager  = new RideShareLocationManager();
+            rideShareLocationManager.setOnLocationUpdate(new onLocationUpdateInterface() {
+                @Override
+                public void onLocationUpdate(LatLng latLng) {
+                    if (!latlng_from_manual_loc){
+                        last_known_loc = new LatLng(latLng.latitude, latLng.longitude);
+
+
+                        if (current_marker_location != null){
+                           current_marker_location.remove();
+                        }
+
+                        current_marker_location = mMap.addMarker(new MarkerOptions().position(last_known_loc).title("You are here"));
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(last_known_loc, 16));
+                        }
+                }
+            } , this);
+        }else{
+            rideShareLocationManager.resumeLocationUpdate();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        rideShareLocationManager.stopLocationUpdates();
     }
 }

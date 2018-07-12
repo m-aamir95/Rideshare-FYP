@@ -147,3 +147,10 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
     and how i am using timestamps to organize things very neatly
 
 22) Make sure to secure Firebase Rules, if you ever decide to use firebase in a production scenario
+
+23) Due to a bad design decision i am stuck with the problem of Empty Conversation Nodes Inside Chat-List Activity
+    because its not very big deal, and very much time consuming thats why i am keeping it the way it is
+    i-e fetching all conversations from Firebase Even if they don't have any messages
+
+24) Detaching and re-attaching locationRequest event listener's when the Activity goes to background or comes to foreground
+    mention about why this is important and how this saves battery life and bandwidth in the documentation and presentation

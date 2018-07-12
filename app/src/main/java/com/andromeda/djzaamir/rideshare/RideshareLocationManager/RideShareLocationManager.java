@@ -71,13 +71,21 @@ public class RideShareLocationManager extends com.google.android.gms.location.Lo
     private LocationRequest prepareLocationRequest(){
         @SuppressLint("RestrictedApi") LocationRequest locationRequest =  new LocationRequest();
 
-         long interval_period = 500l;
+         long interval_period = 3000l;
          locationRequest.setInterval(interval_period); //After Every Second
-         locationRequest.setFastestInterval(interval_period);
+         locationRequest.setFastestInterval(interval_period/2);
          locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
 
         return locationRequest;
     }
 
+    public void stopLocationUpdates() {
+        fusedLocationProviderClient.removeLocationUpdates(locationCallback);
+    }
+
+    @SuppressLint("MissingPermission")
+    public void resumeLocationUpdate(){
+        fusedLocationProviderClient.requestLocationUpdates(prepareLocationRequest() , locationCallback,null);
+    }
 }
