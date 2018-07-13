@@ -154,3 +154,6 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
 
 24) Detaching and re-attaching locationRequest event listener's when the Activity goes to background or comes to foreground
     mention about why this is important and how this saves battery life and bandwidth in the documentation and presentation
+
+25) i Believe it'd be a better idea to move the Permission code to RideShareLocationManager Class
+    and let this class check for Permissions everytime it tries to access location data

@@ -21,10 +21,6 @@ import com.google.android.gms.maps.model.LatLng;
 *        core Activity , that is the activity which is presented to the user when the APP is launched and waiting for further
 *        User Interaction
 *
-*        Since my application do not make alot of background location requests
-*        that why i am  not going to be worried about Excess battery or bandwidth usage
-*        If in future you need to take care of this issue please use following code snippet
-*
 *         mFusedLocationClient.removeLocationUpdates(mLocationCallback);
 *
 *
