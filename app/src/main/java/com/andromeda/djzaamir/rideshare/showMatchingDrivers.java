@@ -7,6 +7,7 @@ import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import com.andromeda.djzaamir.rideshare.RecyclerViewClasses.DriverDataModel;
 import com.andromeda.djzaamir.rideshare.RecyclerViewClasses.MatchingDriversRecyclerViewAdapter;
@@ -222,11 +223,15 @@ public class showMatchingDrivers extends AppCompatActivity {
 
             }
 
-            matchingDriversRecyclerViewAdapter = new MatchingDriversRecyclerViewAdapter(getApplicationContext(),data_for_RecyclerView);
-            recyclerView.setAdapter(matchingDriversRecyclerViewAdapter);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-
+            if (data_for_RecyclerView.size() > 0){
+             recyclerView.setVisibility(View.VISIBLE);
+             matchingDriversRecyclerViewAdapter = new MatchingDriversRecyclerViewAdapter(getApplicationContext(),data_for_RecyclerView);
+             recyclerView.setAdapter(matchingDriversRecyclerViewAdapter);
+             recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+            }else{
+                findViewById(R.id.error_message_no_drivers_found).setVisibility(View.VISIBLE);
+            }
 
         }
     }
@@ -245,7 +250,6 @@ public class showMatchingDrivers extends AppCompatActivity {
             this.location = location;
         }
     }
-
 
 
     //Data Model for matched driver's

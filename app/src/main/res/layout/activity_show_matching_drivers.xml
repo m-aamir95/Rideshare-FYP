@@ -8,11 +8,22 @@
     tools:context="com.andromeda.djzaamir.rideshare.showMatchingDrivers">
 
 
+    <!--RecyclerView by Default GONE(Not taking screen space)-->
+    <!--Will be set to visible if drivers found-->
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/matching_drivers_container">
-
+        android:id="@+id/matching_drivers_container"
+        android:visibility="gone">
     </android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Driver's Found!"
+        android:layout_centerInParent="true"
+        android:id="@+id/error_message_no_drivers_found"
+        android:visibility="gone"
+        android:textSize="30sp"/>
 
 </RelativeLayout>
