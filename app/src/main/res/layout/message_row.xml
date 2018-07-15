@@ -15,7 +15,11 @@ xmlns:android="http://schemas.android.com/apk/res/android"                      
                 <ImageView
                     android:id="@+id/chat_msg_image"
                     android:layout_width="80dp"
+                    android:maxWidth="80dp"
+                    android:minWidth="80dp"
                     android:layout_height="80dp"
+                    android:maxHeight="80dp"
+                    android:minHeight="80dp"
                     android:src="@drawable/ic_launcher_background" />
 
                 <!--Linaer layout for text data-->

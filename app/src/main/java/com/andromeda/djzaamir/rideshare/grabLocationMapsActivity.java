@@ -181,7 +181,9 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
                 }
             } , this);
         }else{
-            rideShareLocationManager.resumeLocationUpdate();
+            if (!latlng_from_manual_loc){
+                rideShareLocationManager.resumeLocationUpdate();
+            }
         }
     }
 

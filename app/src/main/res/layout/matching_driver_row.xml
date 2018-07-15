@@ -13,7 +13,11 @@
                 <ImageView
                     android:id="@+id/driver_image"
                     android:layout_width="125dp"
+                    android:maxWidth="125dp"
+                    android:minWidth="80dp"
                     android:layout_height="125dp"
+                    android:maxHeight="125dp"
+                    android:minHeight="80dp"
                     android:src="@drawable/ic_launcher_background" />
 
                 <!--Linaer layout for text data-->

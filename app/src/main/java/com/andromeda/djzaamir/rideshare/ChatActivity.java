@@ -235,7 +235,6 @@ public class ChatActivity extends AppCompatActivity {
                 chats_container.addView(new_date_textview);
             }
             date_str = _date_str;
-            int a = 1+1;
         }
 
          //Append Text and time textview to linearlayout
@@ -245,7 +244,12 @@ public class ChatActivity extends AppCompatActivity {
         //Append to parent
        chats_container.addView(txt_time_container);
 
-       scrollView.fullScroll(View.FOCUS_DOWN);
+       scrollView.post(new Runnable() {
+           @Override
+           public void run() {
+             scrollView.fullScroll(View.FOCUS_DOWN);
+           }
+       });
     }
 
    private String parseTimestampAndSetupTextView(long timestamp, TextView target_textview){
