@@ -157,3 +157,18 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
 
 25) i Believe it'd be a better idea to move the Permission code to RideShareLocationManager Class
     and let this class check for Permissions everytime it tries to access location data
+
+26) Ok so here's a thing for getting fast-one-location
+    inside RideShareLocationManager I can get Location with two methods
+    1) getLastKnownLocation()   => One time Location update, very quick , but not very accurate
+    2 requestLocationUpdates(...)  => Perdiodic Location Updates, takes little time , but pretty Accurate
+
+    I can design the class in such a way that at first i get location via getLastKnownLocation() for Quick Inaccurate Location data
+    and after that subscribe for time consuming Periodic Updates for accurate Location data
+
+
+    Or i can eliminate the inaccurate Location data by just Using requestLocationUpdates() , and display some kinda
+    progressBar while waiting for Location Results
+
+    i think for now , i will be using the second approach the one which takes a little while but provides very accurate results
+    requestLocationUpdates() , and show a little progressbar while waiting or Location data

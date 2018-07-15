@@ -3,6 +3,7 @@ package com.andromeda.djzaamir.rideshare.RideshareLocationManager;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.location.Location;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -10,6 +11,7 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 
 /*
@@ -33,6 +35,7 @@ public class RideShareLocationManager extends com.google.android.gms.location.Lo
     private onLocationUpdateInterface location_update_susbcriber;
     private LocationCallback locationCallback;
     private Context context;
+    private boolean QUICK_LESS_ACCURATE_LOCATION_RETERIVAL = false;
     //endregion
 
 
@@ -51,14 +54,33 @@ public class RideShareLocationManager extends com.google.android.gms.location.Lo
          };
     }
 
+    public void setOnLocationUpdate(onLocationUpdateInterface new_subscriber , Context context , boolean                                                                QUICK_LESS_ACCURATE_LOCATION_RETERIVAL)
+    {
+        this.QUICK_LESS_ACCURATE_LOCATION_RETERIVAL = QUICK_LESS_ACCURATE_LOCATION_RETERIVAL;
+        setOnLocationUpdate(new_subscriber , context);
+    }
+
     @SuppressLint("MissingPermission")
-    public void setOnLocationUpdate(onLocationUpdateInterface new_subscriber , Context context){
+    public void setOnLocationUpdate(final onLocationUpdateInterface new_subscriber , Context context){
 
             this.context =  context;
             this.location_update_susbcriber = new_subscriber;
 
             //Initiate FusedLocationAPI
             fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
+
+
+            if (QUICK_LESS_ACCURATE_LOCATION_RETERIVAL){
+                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                     new_subscriber.onLocationUpdate(new LatLng(location.getLatitude(),location.getLongitude()));
+                    }
+                });
+            }
+
+
+            //Init Periodic Location Updates
             fusedLocationProviderClient.requestLocationUpdates(prepareLocationRequest(),locationCallback,null);
 
     }

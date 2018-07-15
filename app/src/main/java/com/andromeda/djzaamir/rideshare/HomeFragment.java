@@ -13,10 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.andromeda.djzaamir.rideshare.RideshareLocationManager.RideShareLocationManager;
 import com.andromeda.djzaamir.rideshare.RideshareLocationManager.onLocationUpdateInterface;
+import com.andromeda.djzaamir.rideshare.utils.InputUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -36,6 +39,8 @@ public class HomeFragment extends Fragment {
     //Gui references
     private Button findADriver,shareMyRide;
     private GoogleMap mMap;
+    private ProgressBar map_load_progress_bar;
+    private FrameLayout root_homeFragment_layout;
 
     //Firebase
     private ValueEventListener driverDataListener;
@@ -100,26 +105,12 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        checkIfUserHasGivenLocationAccessPermissions();
-        rideShareLocationManager = new RideShareLocationManager();
-        rideShareLocationManager.setOnLocationUpdate(new onLocationUpdateInterface() {
-            @Override
-            public void onLocationUpdate(LatLng latLng) {
-
-                rideShareLocationManager.stopLocationUpdates();
-
-                LatLng updated_loc = new LatLng(latLng.latitude,latLng.longitude);
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(updated_loc, 16));
-                mMap.addMarker(new MarkerOptions().position(updated_loc));
-            }
-        } ,  getView().getContext());
-
-
-
         //Init gui references
         //Since We are in a fragment, we'll have to take slightly different approach to init gui's
         findADriver = (Button)getView().findViewById(R.id.findADriver);
         shareMyRide = (Button)getView().findViewById(R.id.shareMyRide);
+        root_homeFragment_layout = getView().findViewById(R.id.home_fragment_map_framelayout);
+        map_load_progress_bar = getView().findViewById(R.id.map_loading_progressbar);
 
          //init google maps
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.home_screen_map);
@@ -129,6 +120,29 @@ public class HomeFragment extends Fragment {
                mMap =  googleMap;
             }
         });
+
+        InputUtils.disableInputControls(root_homeFragment_layout ,findADriver,shareMyRide);
+        
+
+        checkIfUserHasGivenLocationAccessPermissions();
+        rideShareLocationManager = new RideShareLocationManager();
+        rideShareLocationManager.setOnLocationUpdate(new onLocationUpdateInterface() {
+            @Override
+            public void onLocationUpdate(LatLng latLng) {
+
+                map_load_progress_bar.setVisibility(View.GONE);
+                InputUtils.enableInputControls();
+                rideShareLocationManager.stopLocationUpdates();
+
+                LatLng updated_loc = new LatLng(latLng.latitude,latLng.longitude);
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(updated_loc, 16));
+                mMap.addMarker(new MarkerOptions().position(updated_loc));
+            }
+        } ,  getView().getContext(),true);
+
+
+
+
 
         //setup Event listener's on both buttons
         findADriver.setOnClickListener(new View.OnClickListener() {
