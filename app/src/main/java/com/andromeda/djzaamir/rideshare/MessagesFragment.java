@@ -77,15 +77,20 @@ public class MessagesFragment extends Fragment {
 
                    }
 
-                   //Sort in Reverse Order , Because due to orderByChild List is in acsending order
-                   //And contains the Most Oldest chat node at the very top
-                   Collections.reverse(chat_messages);
-
-                  if (getContext() != null){
-                    //Load it into ListView
-                    ChatMessageRowAdapter adapter = new ChatMessageRowAdapter(chat_messages , getContext());
-                    chat_messages_listview.setAdapter(adapter);
-                  }
+                        //Sort in Reverse Order , Because due to orderByChild List is in acsending order
+                        //And contains the Most Oldest chat node at the very top
+                       Collections.reverse(chat_messages);
+                      if (getContext() != null){
+                        //Load it into ListView
+                        ChatMessageRowAdapter adapter = new ChatMessageRowAdapter(chat_messages , getContext());
+                        chat_messages_listview.setAdapter(adapter);
+                      }
+               }else{
+                    //Show No Messages Fragment
+                       getFragmentManager()
+                               .beginTransaction()
+                               .replace(R.id.activity_container_framelayout,new NoMessagesFoundFragment())
+                               .commit();
                }
             }
 
