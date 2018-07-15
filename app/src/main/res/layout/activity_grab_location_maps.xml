@@ -33,6 +33,7 @@
   </android.support.v7.widget.CardView>
 
     <Button
+        android:id="@+id/grabMyLocation_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Confirm Location"
@@ -43,6 +44,15 @@
         android:background="@color/button_color_primary"
         android:textColor="@color/button_txt_color_primary"
         android:onClick="confirm_location_button"/>
+
+
+    <ProgressBar
+        android:id="@+id/map_loading_progressbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_gravity="center"
+        />
 
 
 </FrameLayout>
