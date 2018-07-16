@@ -9,13 +9,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.andromeda.djzaamir.rideshare.utils.InputUtils;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.PropertyName;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Calendar;
+import java.util.HashMap;
 
 public class FeedbackFragment extends Fragment {
 
@@ -24,6 +33,7 @@ public class FeedbackFragment extends Fragment {
     private TextView gretting_msg;
     private EditText feedback_msg;
     private Button submit_button;
+    private ProgressBar feedback_submission_progressbar;
 
     public FeedbackFragment() {
         // Required empty public constructor
@@ -49,6 +59,7 @@ public class FeedbackFragment extends Fragment {
         gretting_msg  =  getView().findViewById(R.id.feedback_greeting_msg);
         feedback_msg  =  getView().findViewById(R.id.feedback_text);
         submit_button =  getView().findViewById(R.id.feedback_submit_button);
+        feedback_submission_progressbar = getView().findViewById(R.id.data_submission_progressbar_feedback);
 
         u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -72,5 +83,77 @@ public class FeedbackFragment extends Fragment {
             }
         });
 
+
+        //Event listener for submit button
+        submit_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (feedback_msg.getText().toString().trim().length() > 0){
+
+                    feedback_submission_progressbar.setVisibility(View.VISIBLE);
+                    InputUtils.disableInputControls(submit_button , feedback_msg);
+                    feedback_msg.setError(null);
+
+                    String msg_to_submit =  feedback_msg.getText().toString();
+                    long timestamp = Calendar.getInstance().getTimeInMillis();
+
+                    Feedback_data feedback_data = new Feedback_data(Long.toString(timestamp) , msg_to_submit);
+
+                    DatabaseReference new_feedback_ref = FirebaseDatabase.getInstance().getReference()
+                            .child("Feedback")
+                            .child(u_id).push();
+
+
+                        new_feedback_ref.setValue(feedback_data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+
+                            feedback_submission_progressbar.setVisibility(View.GONE);
+                            InputUtils.enableInputControls();
+                            feedback_msg.setText("");
+
+                            //Show Success Modal
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        feedback_submission_progressbar.setVisibility(View.GONE);
+                            InputUtils.enableInputControls();
+                            //Show Failure Modal
+                        }
+                    });
+
+
+                }else{
+                    feedback_msg.setError("Invalid Feedback!");
+                }
+
+            }
+        });
+
+    }
+}
+
+
+
+//Modal Class
+class Feedback_data{
+
+    /*
+    * ProperName annotation is being used, in order for firebase to serialize this class
+    * */
+
+    @PropertyName("timestamp")
+    public String timestamp;
+
+    @PropertyName("msg")
+    public String msg;
+
+    public Feedback_data(String timestamp, String msg) {
+        this.timestamp = timestamp;
+        this.msg = msg;
     }
 }
