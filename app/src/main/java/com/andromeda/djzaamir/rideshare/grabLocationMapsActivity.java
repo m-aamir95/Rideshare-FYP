@@ -137,7 +137,8 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
 
     public void confirm_location_button(View view) {
 
-        ButtonUtils.disableAndChangeText(grabMyLocation_button, "Processing...");
+        ButtonUtils.disableAndChangeText(grabMyLocation_button, "Processing..." , "#dcf279" , "#000000");
+
 
         Intent shareMyRideAcitivityIntent = new Intent();
         LatLng selected_location = new LatLng(last_known_loc.latitude, last_known_loc.longitude);

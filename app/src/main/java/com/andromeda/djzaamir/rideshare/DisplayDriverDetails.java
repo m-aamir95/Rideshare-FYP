@@ -71,7 +71,6 @@ public class DisplayDriverDetails extends AppCompatActivity {
         chatUtils.checkIFChatHistoryExist(u_id, new IChatUtilsEventListeners() {
             @Override
             public void onBackgroundChatCheckComplete() {
-
                 chatUtils.initChatDbSchemeForBothPersonsIfNotExist(u_id);
             }
 

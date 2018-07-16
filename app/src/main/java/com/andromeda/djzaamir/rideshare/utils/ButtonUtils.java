@@ -1,5 +1,6 @@
 package com.andromeda.djzaamir.rideshare.utils;
 
+import android.graphics.Color;
 import android.widget.Button;
 
 
@@ -8,6 +9,12 @@ public class ButtonUtils {
     private static Button target_button = null;
     private static String button_text_buff;
 
+
+    public static void disableAndChangeText(Button button,String text,String backgroundColor,String textColor){
+       button.setBackgroundColor(Color.parseColor(backgroundColor));
+       button.setTextColor(Color.parseColor(textColor));
+       disableAndChangeText(button, text);
+    }
 
     public static void disableAndChangeText(Button button,String text){
      target_button = button;
