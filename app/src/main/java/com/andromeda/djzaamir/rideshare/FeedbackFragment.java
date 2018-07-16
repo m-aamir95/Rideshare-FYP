@@ -1,5 +1,6 @@
 package com.andromeda.djzaamir.rideshare;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -114,6 +115,11 @@ public class FeedbackFragment extends Fragment {
                             feedback_msg.setText("");
 
                             //Show Success Modal
+                            AlertDialog.Builder dialog_builder =  new AlertDialog.Builder(getContext());
+                            dialog_builder
+                                    .setIcon(R.drawable.ic_check_black_success_24dp)
+                                    .setTitle("Success!")
+                                    .setMessage("Thank you for your Feedback :)").create().show();
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -123,6 +129,12 @@ public class FeedbackFragment extends Fragment {
                         feedback_submission_progressbar.setVisibility(View.GONE);
                             InputUtils.enableInputControls();
                             //Show Failure Modal
+                            AlertDialog.Builder dialog_builder =  new AlertDialog.Builder(getContext());
+                            dialog_builder
+                                    .setIcon(R.drawable.ic_error_black_24dp)
+                                    .setTitle("Failure!")
+                                    .setMessage("There was some problem\nSubmitting your feedback").create().show();
+
                         }
                     });
 

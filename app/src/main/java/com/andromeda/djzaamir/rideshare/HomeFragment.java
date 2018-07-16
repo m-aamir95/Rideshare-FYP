@@ -142,8 +142,6 @@ public class HomeFragment extends Fragment {
 
 
 
-
-
         //setup Event listener's on both buttons
         findADriver.setOnClickListener(new View.OnClickListener() {
             @Override
