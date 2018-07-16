@@ -2,15 +2,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.andromeda.djzaamir.rideshare.FeedbackFragment">
+    tools:context="com.andromeda.djzaamir.rideshare.FeedbackFragment"
+    android:padding="5dp"
+    >
 
-     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Feedback Fragment"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"/>
 
+     <LinearLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:orientation="vertical"
+         android:layout_gravity="center_vertical">
+
+         <TextView
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:textAlignment="center"
+         android:textSize="18sp"
+         android:textStyle="italic|bold"
+             android:id="@+id/feedback_greeting_msg"
+             />
+         
+         <TextView
+             android:layout_marginTop="10dp"
+             android:layout_width="match_parent"
+             android:layout_height="1dp"
+             android:layout_marginHorizontal="40dp"
+             android:background="#00f"
+             />
+
+         <EditText
+         android:id="@+id/feedback_text"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:hint="Write your feedback here..."
+         android:inputType="textMultiLine"
+         android:gravity="top"
+         android:minLines="15"
+         android:layout_marginTop="15dp"
+         />
+
+     <Button
+         android:id="@+id/feedback_submit_button"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="Submit Feedback"
+         android:textAlignment="center"
+         android:paddingHorizontal="80dp"
+         android:textSize="15sp"
+         android:paddingVertical="20dp"
+         android:layout_marginTop="10dp"
+         android:layout_gravity="center_horizontal"
+         />
+
+     </LinearLayout>
 
 </FrameLayout>
