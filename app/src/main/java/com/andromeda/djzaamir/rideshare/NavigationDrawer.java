@@ -252,7 +252,14 @@ public class NavigationDrawer extends AppCompatActivity
         } else if (id == R.id.signout_item) {
             signout();
         } else if (id == R.id.nav_share_item) {
-            //Todo, Need to decide the future of it
+
+            Intent sharingIntent = new Intent(android.content.Intent.ACTION_SEND);
+            sharingIntent.setType("text/plain");
+            String shareBody = "Share Rideshare with friends , URL";
+            sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "Share");
+            sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+            startActivity(Intent.createChooser(sharingIntent, "Share via"));
+
         } else if (id == R.id.feedback_item) {
             Toolbar toolbar = findViewById(R.id.toolbar);
             toolbar.setTitle("Feedback");
