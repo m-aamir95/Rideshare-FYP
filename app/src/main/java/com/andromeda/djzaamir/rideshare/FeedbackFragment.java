@@ -1,6 +1,7 @@
 package com.andromeda.djzaamir.rideshare;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -119,7 +120,14 @@ public class FeedbackFragment extends Fragment {
                             dialog_builder
                                     .setIcon(R.drawable.ic_check_black_success_24dp)
                                     .setTitle("Success!")
-                                    .setMessage("Thank you for your Feedback :)").create().show();
+                                    .setMessage("Thank you for your Feedback :)")
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            //Do nothing
+                                        }
+                                    })
+                                    .create().show();
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -133,7 +141,14 @@ public class FeedbackFragment extends Fragment {
                             dialog_builder
                                     .setIcon(R.drawable.ic_error_black_24dp)
                                     .setTitle("Failure!")
-                                    .setMessage("There was some problem\nSubmitting your feedback").create().show();
+                                    .setMessage("There was some problem\nSubmitting your feedback")
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            //Do nothing
+                                        }
+                                    })
+                                    .create().show();
 
                         }
                     });

@@ -115,6 +115,7 @@ public class RideSharedFragment extends Fragment {
               if (dataSnapshot != null && dataSnapshot.getValue() != null){
                    //Extract data
                   Geocoder start_point_address =  new Geocoder(getContext(), Locale.getDefault());
+
                   String latitude  =  dataSnapshot.child("0").getValue().toString();
                   String longitude =  dataSnapshot.child("1").getValue().toString();
                   try {
@@ -148,7 +149,6 @@ public class RideSharedFragment extends Fragment {
                   } catch (IOException e) {
                       e.printStackTrace();
                   }
-
               }
             }
 

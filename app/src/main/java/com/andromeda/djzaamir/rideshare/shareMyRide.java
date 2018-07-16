@@ -1,8 +1,10 @@
 package com.andromeda.djzaamir.rideshare;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -453,7 +455,17 @@ public class shareMyRide extends AppCompatActivity {
         if (start_loc_data_send_good && end_loc_data_send_good && date_and_time_send_state_good){
              loading_spinner.setVisibility(View.GONE);
 
-            //Take to RideSharedActivity
+//            AlertDialog.Builder dialog_builder =  new AlertDialog.Builder(this)
+//                    .setTitle("Success")
+//                    .setMessage("Your Ride Has been\nSuccessfully shared :)")
+//                    .setIcon(R.drawable.ic_check_black_success_24dp)
+//                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            finish();
+//                        }
+//                    });
+//            dialog_builder.create().show();
             finish();
         }
     }
