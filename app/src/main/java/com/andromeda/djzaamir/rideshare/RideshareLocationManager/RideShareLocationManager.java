@@ -18,12 +18,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 *        =====================   IMPORTANT NOTE ========================
 *
 *
-*        This class is high level class to simply the fusedLocationAPI access from different classes in the APP
+*        This class is high level class to simplify the fusedLocationAPI access from different classes in the APP
 *        since fusedLocationAPI requires Runtime User Permissions and i will be taking those at the very Beginning of launch of
-*        core Activity , that is the activity which is presented to the user when the APP is launched and waiting for further
+*        core HomeFragment, that is the Fragment which is presented to the user when the APP is launched and waiting for further
 *        User Interaction
 *
-*         mFusedLocationClient.removeLocationUpdates(mLocationCallback);
 *
 *
 * */
