@@ -5,13 +5,21 @@
     tools:context="com.andromeda.djzaamir.rideshare.SettingsFragment">
 
 
+    <!--Top-Level Linear Layout Parent-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
 
-        <!--Header Text-->
+        <!--Profile Settings-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <!--Header Text For Profile Settings-->
         <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -176,7 +184,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp"
             android:layout_marginBottom="20dp"
             android:orientation="horizontal"
             android:clickable="true"
@@ -205,6 +216,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
+                    android:text="Change Password"
                     android:textColor="#000"
                     />
 
@@ -213,6 +225,73 @@
             </LinearLayout>
 
         </LinearLayout>
+
+        </LinearLayout>
+
+
+        <!--About Section-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#0000ab"
+                />
+
+            <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="About App"
+            android:textSize="17sp"
+            android:textColor="#0068b2"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+             />
+
+            <!--Version , Main Layout-->
+            <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:orientation="horizontal"
+            >
+
+
+            <!--Person Email Change Sub-layout-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="App Version"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="17sp"
+                    android:text="1.0.0"
+                    android:maxLines="2"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
