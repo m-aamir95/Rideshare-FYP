@@ -27,8 +27,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:layout_marginBottom="30dp"
+            android:padding="10dp"
             android:orientation="horizontal"
             android:clickable="true"
             android:focusable="true"
@@ -64,7 +63,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Muhammad Aamir"
                     android:maxLines="2"
                     android:textSize="20sp"
                     android:id="@+id/person_name_textview"
@@ -79,8 +77,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:layout_marginBottom="20dp"
+            android:padding="10dp"
             android:orientation="horizontal"
             android:clickable="true"
             android:focusable="true"
@@ -116,7 +113,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="djzaamir@gmail.com"
                     android:textSize="20sp"
                     android:maxLines="2"
                     android:id="@+id/person_email_textview"
@@ -130,8 +126,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:layout_marginBottom="25dp"
+            android:padding="10dp"
             android:orientation="horizontal"
             android:clickable="true"
             android:focusable="true"
@@ -167,7 +162,6 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="03465101432"
                     android:textSize="20sp"
                     android:maxLines="1"
                     android:id="@+id/person_cell_textview"
@@ -182,7 +176,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:padding="20dp"
             android:layout_marginBottom="20dp"
             android:orientation="horizontal"
             android:clickable="true"
@@ -210,7 +204,6 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Change Password"
                     android:textSize="20sp"
                     android:textColor="#000"
                     />
