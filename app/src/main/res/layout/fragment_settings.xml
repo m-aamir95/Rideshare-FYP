@@ -9,7 +9,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="10dp"
         >
 
         <!--Header Text-->
@@ -19,7 +18,8 @@
         android:text="Profile Settings"
         android:textSize="17sp"
         android:textColor="#0068b2"
-            android:layout_marginBottom="20dp"
+        android:padding="10dp"
+        android:layout_marginBottom="20dp"
         />
 
 
@@ -27,7 +27,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:paddingLeft="10dp"
             android:layout_marginBottom="30dp"
             android:orientation="horizontal"
             android:clickable="true"
@@ -65,6 +65,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Muhammad Aamir"
+                    android:maxLines="2"
                     android:textSize="20sp"
                     android:id="@+id/person_name_textview"
                     />
@@ -74,11 +75,11 @@
         </LinearLayout>
 
 
-        <!--Person Cell , Main Layout-->
+        <!--Person Email , Main Layout-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:paddingLeft="10dp"
             android:layout_marginBottom="20dp"
             android:orientation="horizontal"
             android:clickable="true"
@@ -117,8 +118,104 @@
                     android:layout_height="wrap_content"
                     android:text="djzaamir@gmail.com"
                     android:textSize="20sp"
+                    android:maxLines="2"
                     android:id="@+id/person_email_textview"
                     />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+         <!--Person Cell , Main Layout-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:layout_marginBottom="25dp"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:id="@+id/cell_layout"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_phone_android_black_24dp"
+                />
+
+            <!--Person Cell Change Sub-layout-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Cell"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="#000"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="03465101432"
+                    android:textSize="20sp"
+                    android:maxLines="1"
+                    android:id="@+id/person_cell_textview"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+        <!--Person Password , Main Layout-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?android:attr/selectableItemBackground"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:id="@+id/password_layout"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_lock_black_24dp"
+                />
+
+            <!--Person Password Change Sub-layout-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:orientation="vertical"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Change Password"
+                    android:textSize="20sp"
+                    android:textColor="#000"
+                    />
+
+
 
             </LinearLayout>
 
