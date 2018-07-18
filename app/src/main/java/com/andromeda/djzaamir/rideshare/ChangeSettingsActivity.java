@@ -20,6 +20,7 @@ import com.andromeda.djzaamir.rideshare.utils.InputUtils;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -198,6 +199,9 @@ public class ChangeSettingsActivity extends AppCompatActivity {
           }else{ //Access Email Node from FirebaseAuth
 
               update_background_task =  FirebaseAuth.getInstance().getCurrentUser().updateEmail(new_data_str);
+
+              //TODO , Show DialogBox to properly ReAuthenticate User
+//              FirebaseAuth.getInstance().getCurrentUser().reauthenticate();
           }
 
           //Execute Task
@@ -219,7 +223,7 @@ public class ChangeSettingsActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                      showAlertDialog("FAILURE",
-                                "Error updating "  + alertDialog_msg_filler_Text +"\nPlease try again...",
+                                "Error updating "  + alertDialog_msg_filler_Text +".Please try again...",
                                 R.drawable.ic_error_black_24dp,
                                 "OK",
                                 new DialogInterface.OnClickListener() {
@@ -281,7 +285,7 @@ public class ChangeSettingsActivity extends AppCompatActivity {
 
 
 
-    private void showAlertDialog(String header_title, String msg, @DrawableRes int drawable_icon_id,String button_msg, DialogInterface.OnClickListener btn_callback){
+    private void showAlertDialog(String header_title, String msg, @DrawableRes int drawable_icon_id,String button_msg, DialogInterface      .OnClickListener btn_callback){
         AlertDialog.Builder dialog_builder = new AlertDialog.Builder(this);
          dialog_builder.setTitle(header_title)
                  .setMessage(msg)
@@ -289,7 +293,7 @@ public class ChangeSettingsActivity extends AppCompatActivity {
                  .setPositiveButton(button_msg,btn_callback).create().show();
     }
 
-    private void showAlertDialog(String header_title, String msg, @DrawableRes int drawable_icon_id,String button_msg,DialogInterface.OnClickListener btn_callback,boolean setCancelableOnOutSideTouch){
+    private void showAlertDialog(String header_title, String msg, @DrawableRes int drawable_icon_id,String button_msg,DialogInterface       .OnClickListener btn_callback,boolean setCancelableOnOutSideTouch){
 
         AlertDialog.Builder dialog_builder = new AlertDialog.Builder(this);
          dialog_builder.setTitle(header_title)
@@ -298,6 +302,8 @@ public class ChangeSettingsActivity extends AppCompatActivity {
                  .setCancelable(setCancelableOnOutSideTouch)
                  .setPositiveButton(button_msg, btn_callback).create().show();
     }
+
+
 }
 
 //Data Model Class, To keep track of old user data
