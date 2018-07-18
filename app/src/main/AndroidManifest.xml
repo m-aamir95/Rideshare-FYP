@@ -81,12 +81,10 @@
         </activity>
         <activity android:name=".DisplayDriverDetails" />
         <activity android:name=".AdActivity" />
-
-        <activity android:name=".ChatActivity"
-                  android:windowSoftInputMode="adjustResize"
-            >
-
-        </activity>
+        <activity
+            android:name=".ChatActivity"
+            android:windowSoftInputMode="adjustResize"></activity>
+        <activity android:name=".ChangeSettingsActivity"></activity>
     </application>
 
 </manifest>
