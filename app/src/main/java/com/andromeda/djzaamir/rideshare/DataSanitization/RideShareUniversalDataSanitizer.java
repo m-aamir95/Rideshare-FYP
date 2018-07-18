@@ -47,6 +47,9 @@ public class RideShareUniversalDataSanitizer {
         return cellGood;
     }
 
+
+
+
     public static boolean sanitizePassword(EditText editTextPassword , EditText editTextComfirmPassowrd) {
         boolean passwordGood;
         String pass = editTextPassword.getText().toString().trim();
@@ -54,8 +57,21 @@ public class RideShareUniversalDataSanitizer {
 
         if (pass.equals(pass_comfirm)) {
 
-            //Make sure that they are not small passwords
-            if (pass.length() >= 7) {
+            //Further Rules check
+            passwordGood =  sanitizePassword(editTextPassword);
+
+        } else {
+            passwordGood = false;
+            editTextPassword.setError("Password's don't match!");
+        }
+        return passwordGood;
+    }
+
+    public static boolean sanitizePassword(EditText editTextPassword){
+        boolean passwordGood;
+
+         //Make sure that they are not small passwords
+            if (editTextPassword.getText().toString().length() >= 7) {
                 passwordGood = true;
                 editTextPassword.setError(null);
                 editTextPassword.clearFocus();
@@ -63,11 +79,6 @@ public class RideShareUniversalDataSanitizer {
                 passwordGood = false;
                 editTextPassword.setError("Weak Password!");
             }
-
-        } else {
-            passwordGood = false;
-            editTextPassword.setError("Password's don't match!");
-        }
-        return passwordGood;
+            return passwordGood;
     }
 }

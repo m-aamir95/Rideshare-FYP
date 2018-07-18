@@ -1,6 +1,8 @@
 package com.andromeda.djzaamir.rideshare;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -54,6 +56,14 @@ public class SignupActivity extends AppCompatActivity {
         signupButton = findViewById(R.id.signup_button);
         loading_spinner =  findViewById(R.id.loading_spinner);
 
+
+        //check if email was setup as intent param
+        //if so , fill in email EditText
+        Intent incoming_intent = getIntent();
+        if (incoming_intent.getStringExtra("potential_email") != null){
+          editTextEmail.setText(incoming_intent.getStringExtra("potential_email"));
+        }
+
         //init auth instance
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -99,6 +109,14 @@ public class SignupActivity extends AppCompatActivity {
                 loading_spinner.setVisibility(View.GONE);
                 finish();
             }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                AlertDialog.Builder alertDialogBuilder =  new AlertDialog.Builder(getApplicationContext());
+                alertDialogBuilder.setTitle("Error!")
+                        .setMessage("Error Sending data to server!\nPlease try again\nMake sure you are connected to internet")
+                        .setIcon(R.drawable.ic_error_black_24dp).create().show();
+            }
         });
 
     }
@@ -128,7 +146,6 @@ public class SignupActivity extends AppCompatActivity {
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email_to_register, password_to_register).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(SignupActivity.this, "Email is in use by\nanother account!", Toast.LENGTH_LONG).show();
                 loading_spinner.setVisibility(View.GONE);
                 editTextEmail.requestFocus();
                 editTextEmail.setError("Email is in use by another account");

@@ -78,6 +78,21 @@
             android:id="@+id/button_login"
             />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OR"
+            android:textSize="20sp"
+            android:textAlignment="center"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SIGNUP"
+            android:onClick="on_signup"
+            />
+
     </LinearLayout>
         <!--Email,Password,Button Container End-->
 

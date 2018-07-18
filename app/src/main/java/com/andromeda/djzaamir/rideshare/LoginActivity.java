@@ -16,11 +16,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import static com.andromeda.djzaamir.rideshare.DataSanitization.RideShareUniversalDataSanitizer.sanitizeEmail;
+import static com.andromeda.djzaamir.rideshare.DataSanitization.RideShareUniversalDataSanitizer.sanitizePassword;
+
 public class LoginActivity extends AppCompatActivity {
 
     //Gui references
     private EditText editTextEmail,editTextPassword;
-    private boolean passwordGood=false,emailGood=false;
     private ProgressBar loading_spinner;
 
     @Override
@@ -71,7 +73,6 @@ public class LoginActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     loading_spinner.setVisibility(View.GONE);
-                    editTextEmail.setText("");
                     editTextPassword.setText("");
                     editTextEmail.setError("Invalid Email or Password!");
 
@@ -82,35 +83,17 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    boolean sanitizeEmail(){
-              String email = editTextEmail.getText().toString().trim();
-              String email_regex_RFC_5322 = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
-              if (!email.equals("") && email.matches(email_regex_RFC_5322)){
-                  editTextEmail.setError(null);
-                  editTextEmail.clearFocus();
-                  emailGood =  true;
-              }else{
-                  editTextEmail.setError("Invalid Email");
-                  emailGood = false;
-              }
-      return emailGood;
-    }
-    boolean sanitizePassword(){
-       String pass = editTextPassword.getText().toString().trim();
 
-           //Make sure that they are not small passwords
-           if (pass.length() >= 7){
-               passwordGood = true;
-               editTextPassword.setError(null);
-               editTextPassword.clearFocus();
-           }else{
-               passwordGood = false;
-               editTextPassword.setError("Please enter a valid password");
-           }
-
-        return passwordGood;
-    }
     boolean sanitizeAllData(){
-        return sanitizeEmail() && sanitizePassword();
+        return sanitizeEmail(editTextEmail) && sanitizePassword(editTextPassword);
+    }
+
+    public void on_signup(View view) {
+
+        //Put email as intent data and start signup Activity
+        Intent signupActivityIntent  = new Intent(getApplicationContext(),SignupActivity.class);
+        signupActivityIntent.putExtra("potential_email" ,  editTextEmail.getText().toString());
+        startActivity(signupActivityIntent);
+        finish();
     }
 }

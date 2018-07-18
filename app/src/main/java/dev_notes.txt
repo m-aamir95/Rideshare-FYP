@@ -172,3 +172,8 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
 
     i think for now , i will be using the second approach the one which takes a little while but provides very accurate results
     requestLocationUpdates() , and show a little progressbar while waiting or Location data
+
+27) Mention about universal Sanitization class
+28) Mention about how signup activity automatically fills in email when tries to access from sign-in activity
+
+29) Mention about How Settings Activity is using Code Reusebility beautifully
