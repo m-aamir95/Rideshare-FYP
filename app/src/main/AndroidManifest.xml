@@ -84,7 +84,9 @@
         <activity
             android:name=".ChatActivity"
             android:windowSoftInputMode="adjustResize"></activity>
-        <activity android:name=".ChangeSettingsActivity"></activity>
+        <activity android:name=".ChangeSettingsActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            ></activity>
     </application>
 
 </manifest>

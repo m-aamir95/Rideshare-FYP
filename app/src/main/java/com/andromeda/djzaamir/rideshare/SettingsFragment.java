@@ -1,5 +1,6 @@
 package com.andromeda.djzaamir.rideshare;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -80,7 +81,9 @@ public class SettingsFragment extends Fragment {
         name_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+              startIntentForSettingChange("Update your Name" ,
+                      "Please use your real `Full Name` , Using a fake name may result in account termination",
+                      "NAME_CHANGE");
             }
         });
 
@@ -89,7 +92,9 @@ public class SettingsFragment extends Fragment {
         email_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startIntentForSettingChange("Update your Email" ,
+                      "Please use a valid Email, This will be used incase you forget your password",
+                      "EMAIL_CHANGE");
             }
         });
 
@@ -97,7 +102,9 @@ public class SettingsFragment extends Fragment {
         cell_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                  startIntentForSettingChange("Update your Cell Number" ,
+                      "Please use a valid Cell Number, Because this will be used to contact you for any complaints or queries",
+                      "CELL_CHANGE");
             }
         });
 
@@ -112,5 +119,13 @@ public class SettingsFragment extends Fragment {
 
 
 
+    }
+
+    private void  startIntentForSettingChange(String header_title, String description , String intent_type){
+        Intent settingsUpdateIntent = new Intent(getActivity().getApplicationContext() ,ChangeSettingsActivity.class);
+        settingsUpdateIntent.putExtra("content_header_title" , header_title);
+        settingsUpdateIntent.putExtra("content_description" , description);
+        settingsUpdateIntent.putExtra("intent_type" , intent_type);
+        startActivity(settingsUpdateIntent);
     }
 }

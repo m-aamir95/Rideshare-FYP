@@ -1,16 +1,12 @@
 package com.andromeda.djzaamir.rideshare;
 
-import android.app.Activity;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.andromeda.djzaamir.rideshare.utils.ButtonUtils;
@@ -27,6 +23,11 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 
+import static com.andromeda.djzaamir.rideshare.DataSanitization.RideShareUniversalDataSanitizer.sanitizeCell;
+import static com.andromeda.djzaamir.rideshare.DataSanitization.RideShareUniversalDataSanitizer.sanitizeEmail;
+import static com.andromeda.djzaamir.rideshare.DataSanitization.RideShareUniversalDataSanitizer.sanitizeName;
+import static com.andromeda.djzaamir.rideshare.DataSanitization.RideShareUniversalDataSanitizer.sanitizePassword;
+
 
 public class SignupActivity extends AppCompatActivity {
 
@@ -35,8 +36,6 @@ public class SignupActivity extends AppCompatActivity {
     private Button signupButton;
     private ProgressBar loading_spinner;
 
-    //Flags to make sure good data is being entered
-    private boolean nameGood, emailGood, cellGood, passwordGood, primary_pass_field_visited = false;
 
     //Firebase
     FirebaseAuth firebaseAuth;
@@ -66,23 +65,10 @@ public class SignupActivity extends AppCompatActivity {
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null) {//Successful signup
                     //Take back to login Activity and display message account created successfully
-
                     Toast.makeText(SignupActivity.this, "Successful Signup :)", Toast.LENGTH_SHORT).show();
 
-
-
                     //Push Other Signup info to Firebase
-                    pushOtherSignupDataToFirebase();
-
-                    //Hide spinner
-                    loading_spinner.setVisibility(View.GONE);
-
-                    Intent welcomeActiviyIntent = new Intent(SignupActivity.this, WelcomeActivity.class);
-
-                    startActivity(welcomeActiviyIntent);
-                    //Dispose this activity
-                    finish();
-                    return;
+                    pushOtherSignupDataToFirebaseAndFinish();
                 }
             }
         };
@@ -92,7 +78,7 @@ public class SignupActivity extends AppCompatActivity {
     * Will be called when user's auth status change
     *
     * */
-    private void pushOtherSignupDataToFirebase() {
+    private void pushOtherSignupDataToFirebaseAndFinish() {
 //       Grab Data
         String name = editTextName.getText().toString();
         String cell = editTextCell.getText().toString();
@@ -110,6 +96,8 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 FirebaseAuth.getInstance().signOut();
+                loading_spinner.setVisibility(View.GONE);
+                finish();
             }
         });
 
@@ -118,10 +106,9 @@ public class SignupActivity extends AppCompatActivity {
 
     public void performSignup(View view) {
 
-
-        //Perform firebase auth request and other data upload's
-        if (!isDataGood()) {//Run error checks
-            return; //Exit Singup function
+        //Run error checks
+        if (!isDataGood()) {
+            return; //Exit Sign up function
         }
 
 
@@ -173,70 +160,13 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     //Data Sanitizers
-    boolean sanitizeName() {
-        //Enforce Minimum nameStringBuilder length = 3
-        if (editTextName.getText().toString().trim().length() >= 3) {
-            editTextName.setError(null);
-            editTextName.clearFocus();
-            nameGood = true;
-        } else {
-            editTextName.setError("Name can't be this short");
-            nameGood = false;
-        }
-        return nameGood;
-    }
 
-    boolean sanitizeEmail() {
-        String email = editTextEmail.getText().toString().trim();
-        String email_regex_RFC_5322 = "(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
-        if (!email.equals("") && email.matches(email_regex_RFC_5322)) {
-            editTextEmail.setError(null);
-            editTextEmail.clearFocus();
-            emailGood = true;
-        } else {
-            editTextEmail.setError("Invalid Email");
-            emailGood = false;
-        }
-        return emailGood;
-    }
-
-    boolean sanitizeCell() {
-        if (editTextCell.getText().toString().trim().length() == 11) {
-            cellGood = true;
-            editTextCell.setError(null);
-            editTextCell.clearFocus();
-        } else {
-            cellGood = false;
-            editTextCell.setError("Invalid Cell No");
-        }
-        return cellGood;
-    }
-
-    boolean sanitizePassword() {
-        String pass = editTextPassword.getText().toString().trim();
-        String pass_comfirm = editTextComfirmPassowrd.getText().toString().trim();
-
-        if (pass.equals(pass_comfirm)) {
-
-            //Make sure that they are not small passwords
-            if (pass.length() >= 7) {
-                passwordGood = true;
-                editTextPassword.setError(null);
-                editTextPassword.clearFocus();
-            } else {
-                passwordGood = false;
-                editTextPassword.setError("Weak Password!");
-            }
-
-        } else {
-            passwordGood = false;
-            editTextPassword.setError("Password's don't match!");
-        }
-        return passwordGood;
-    }
 
     boolean isDataGood() {
-        return sanitizeName() && sanitizeEmail() && sanitizeCell() && sanitizePassword();
+        return sanitizeName(editTextName) &&
+                sanitizeEmail(editTextEmail) &&
+                sanitizeCell(editTextCell) &&
+                sanitizePassword(editTextPassword,editTextComfirmPassowrd);
     }
 
 }

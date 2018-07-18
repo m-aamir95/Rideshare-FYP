@@ -56,6 +56,7 @@
        >
 
         <Button
+        android:id="@+id/content_submit_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Update"
@@ -64,6 +65,7 @@
         android:background="#10ba87"
         style="android:attr"
         android:textColor="#fff"
+        android:onClick="on_submit_data"
         />
 
    </LinearLayout>

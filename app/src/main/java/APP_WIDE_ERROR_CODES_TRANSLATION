@@ -1,0 +1,5 @@
+FILE : ChangeSettingsActivity.java
+ Error Code : 1000 => Intent type Missing
+ Error Code : 1001 => Intent Content header Message missing
+ Error Code : 1002 => Intent Content Description Missing
+
