@@ -124,15 +124,15 @@ public class ChangeSettingsActivity extends AppCompatActivity {
         //Put hint according to intent type
         if (intent_type.equals("NAME_CHANGE")) {
 
-            user_input_editext.setHint("Enter your Full Name");
+            user_input_editext.setHint("Enter New Full Name");
         } else if (intent_type.equals("EMAIL_CHANGE")) {
 
-            user_input_editext.setHint("Enter your Email");
+            user_input_editext.setHint("Enter New Email");
             user_input_editext.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 
         } else if (intent_type.equals("CELL_CHANGE")) {
 
-            user_input_editext.setHint("Enter your Cell number");
+            user_input_editext.setHint("Enter New Cell number");
             user_input_editext.setInputType(InputType.TYPE_CLASS_NUMBER);
         }
 
@@ -168,7 +168,7 @@ public class ChangeSettingsActivity extends AppCompatActivity {
 
                     new_modified_dataHistory = new New_Modified_Data_History(intent_type, current_user_data.cell, user_input_editext.getText().toString());
 
-                    updateDataAtFirebase("cell", "Cell", false);
+                    updateDataAtFirebase("cell", "Cell No", false);
 
                 }
 

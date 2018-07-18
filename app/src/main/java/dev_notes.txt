@@ -184,3 +184,7 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
 31) Mention , why I'm not exchanging cell numbers, and using my own chat engine, to protect users privacy
 
 32) Why login dialog is needed when changing Email, Because Firebase Only Permits Email changing operation to recent logins
+
+33) You could have avoided all the spagehtii code while updating email and re-authenticating email via user
+    by just comparing it From FirebaseAuth().getInstance().getCurrentUser().getEmail()
+    instead of querying Firebase Servers :( , could have saved 3 hours
