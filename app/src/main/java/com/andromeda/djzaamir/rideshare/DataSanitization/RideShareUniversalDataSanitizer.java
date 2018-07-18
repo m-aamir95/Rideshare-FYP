@@ -71,7 +71,7 @@ public class RideShareUniversalDataSanitizer {
         boolean passwordGood;
 
          //Make sure that they are not small passwords
-            if (editTextPassword.getText().toString().length() >= 7) {
+            if (editTextPassword.getText().toString().trim().length() >= 7) {
                 passwordGood = true;
                 editTextPassword.setError(null);
                 editTextPassword.clearFocus();

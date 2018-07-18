@@ -177,3 +177,6 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
 28) Mention about how signup activity automatically fills in email when tries to access from sign-in activity
 
 29) Mention about How Settings Activity is using Code Reusebility beautifully
+
+30) Also mention how you are making sure that the mose recent data is loaded from firebase while Updating data from
+    ChangeSettingsActivity, Look at variables if you forget what i am talking about

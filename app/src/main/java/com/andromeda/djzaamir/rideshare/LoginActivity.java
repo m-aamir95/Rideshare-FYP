@@ -94,6 +94,5 @@ public class LoginActivity extends AppCompatActivity {
         Intent signupActivityIntent  = new Intent(getApplicationContext(),SignupActivity.class);
         signupActivityIntent.putExtra("potential_email" ,  editTextEmail.getText().toString());
         startActivity(signupActivityIntent);
-        finish();
     }
 }
