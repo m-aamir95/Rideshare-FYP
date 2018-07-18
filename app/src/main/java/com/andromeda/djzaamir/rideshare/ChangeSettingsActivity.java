@@ -281,21 +281,22 @@ public class ChangeSettingsActivity extends AppCompatActivity {
 
 
 
-    private void showAlertDialog(String header_title, String msg, @DrawableRes int drawable_icon_id,String ok_button_msg,                                              DialogInterface.OnClickListener ok_callback){
-        AlertDialog.Builder dialog_builder = new AlertDialog.Builder(getApplicationContext());
+    private void showAlertDialog(String header_title, String msg, @DrawableRes int drawable_icon_id,String button_msg, DialogInterface.OnClickListener btn_callback){
+        AlertDialog.Builder dialog_builder = new AlertDialog.Builder(this);
          dialog_builder.setTitle(header_title)
                  .setMessage(msg)
                  .setIcon(drawable_icon_id)
-                 .setPositiveButton(ok_button_msg,ok_callback).create().show();
+                 .setPositiveButton(button_msg,btn_callback).create().show();
     }
 
-    private void showAlertDialog(String header_title, String msg, @DrawableRes int drawable_icon_id,String ok_button_msg,                                              DialogInterface.OnClickListener ok_callback,boolean setCancelableOnOutSideTouch){
-        AlertDialog.Builder dialog_builder = new AlertDialog.Builder(getApplicationContext());
+    private void showAlertDialog(String header_title, String msg, @DrawableRes int drawable_icon_id,String button_msg,DialogInterface.OnClickListener btn_callback,boolean setCancelableOnOutSideTouch){
+
+        AlertDialog.Builder dialog_builder = new AlertDialog.Builder(this);
          dialog_builder.setTitle(header_title)
                  .setMessage(msg)
                  .setIcon(drawable_icon_id)
                  .setCancelable(setCancelableOnOutSideTouch)
-                 .setPositiveButton(ok_button_msg,ok_callback).create().show();
+                 .setPositiveButton(button_msg, btn_callback).create().show();
     }
 }
 
