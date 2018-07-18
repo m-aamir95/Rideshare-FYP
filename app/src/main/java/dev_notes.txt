@@ -181,4 +181,6 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
 30) Also mention how you are making sure that the mose recent data is loaded from firebase while Updating data from
     ChangeSettingsActivity, Look at variables if you forget what i am talking about
 
-31) Mention , why I'm not exhanging cell numbers, and using my own chat engine, to protect users privacy
+31) Mention , why I'm not exchanging cell numbers, and using my own chat engine, to protect users privacy
+
+32) Why login dialog is needed when changing Email, Because Firebase Only Permits Email changing operation to recent logins

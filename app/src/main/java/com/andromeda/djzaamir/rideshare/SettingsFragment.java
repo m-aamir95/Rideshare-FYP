@@ -25,6 +25,8 @@ public class SettingsFragment extends Fragment {
     private TextView name_textview ,  email_textview ,  cell_textview;
     private LinearLayout name_layout ,  email_layout , cell_layout, password_layout;
 
+    private FirebaseAuth.AuthStateListener authStateListener;
+
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -34,6 +36,17 @@ public class SettingsFragment extends Fragment {
                              Bundle savedInstanceState) {
         u_id    = FirebaseAuth.getInstance().getCurrentUser().getUid();
         u_email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+        authStateListener =  new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                 u_email =  firebaseAuth.getCurrentUser().getEmail();
+                 email_textview.setText(u_email);
+            }
+        };
+
+        FirebaseAuth.getInstance().addAuthStateListener(authStateListener);
+
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_settings, container, false);
@@ -119,6 +132,18 @@ public class SettingsFragment extends Fragment {
 
 
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseAuth.getInstance().addAuthStateListener(authStateListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        FirebaseAuth.getInstance().removeAuthStateListener(authStateListener);
     }
 
     private void  startIntentForSettingChange(String header_title, String description , String intent_type){
