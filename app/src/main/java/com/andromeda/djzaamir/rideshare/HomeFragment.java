@@ -19,12 +19,14 @@ import android.widget.Toast;
 
 import com.andromeda.djzaamir.rideshare.RideshareLocationManager.RideShareLocationManager;
 import com.andromeda.djzaamir.rideshare.RideshareLocationManager.onLocationUpdateInterface;
+import com.andromeda.djzaamir.rideshare.utils.App_Wide_Static_Vars;
 import com.andromeda.djzaamir.rideshare.utils.InputUtils;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -37,10 +39,11 @@ public class HomeFragment extends Fragment {
 
     //region VARS
     //Gui references
-    private Button findADriver,shareMyRide;
+    private Button findADriver, shareMyRide;
     private GoogleMap mMap;
     private ProgressBar map_load_progress_bar;
     private FrameLayout root_homeFragment_layout;
+    private Marker marker = null;
 
     //Firebase
     private ValueEventListener driverDataListener;
@@ -53,7 +56,7 @@ public class HomeFragment extends Fragment {
     //has At least fired once, i'm going to put another bool here
     //It will be set to true once the ValueEventListener has fired once
     private boolean valueEventListenerFiredOnce = false;
-    private final int DRIVER_DETAILS_RESULT =  12; //For intent result
+    private final int DRIVER_DETAILS_RESULT = 12; //For intent result
 
     private RideShareLocationManager rideShareLocationManager;
 
@@ -64,6 +67,7 @@ public class HomeFragment extends Fragment {
     public HomeFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
@@ -83,9 +87,9 @@ public class HomeFragment extends Fragment {
 
                 //Check if any of the driver profile properties are available
                 //For simplicity sake i am going to check for vehicle no
-                if (dataSnapshot.child("vehicle_no").getValue() != null){
-                    isDriver =  true; //let the App know that, Driver Profile Exist
-                }else{
+                if (dataSnapshot.child("vehicle_no").getValue() != null) {
+                    isDriver = true; //let the App know that, Driver Profile Exist
+                } else {
                     isDriver = false;
                 }
 
@@ -107,47 +111,74 @@ public class HomeFragment extends Fragment {
 
         //Init gui references
         //Since We are in a fragment, we'll have to take slightly different approach to init gui's
-        findADriver = (Button)getView().findViewById(R.id.findADriver);
-        shareMyRide = (Button)getView().findViewById(R.id.shareMyRide);
+        findADriver = (Button) getView().findViewById(R.id.findADriver);
+        shareMyRide = (Button) getView().findViewById(R.id.shareMyRide);
         root_homeFragment_layout = getView().findViewById(R.id.home_fragment_map_framelayout);
         map_load_progress_bar = getView().findViewById(R.id.map_loading_progressbar);
 
-         //init google maps
+        //init google maps
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.home_screen_map);
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
-               mMap =  googleMap;
+                mMap = googleMap;
             }
         });
 
-        InputUtils.disableInputControls(root_homeFragment_layout ,findADriver,shareMyRide);
-        
+        InputUtils.disableInputControls(root_homeFragment_layout, findADriver, shareMyRide);
+
 
         checkIfUserHasGivenLocationAccessPermissions();
-        rideShareLocationManager = new RideShareLocationManager();
-        rideShareLocationManager.setOnLocationUpdate(new onLocationUpdateInterface() {
-            @Override
-            public void onLocationUpdate(LatLng latLng) {
+        if (App_Wide_Static_Vars.is_first_run) {
+            App_Wide_Static_Vars.is_first_run = false;
 
-                map_load_progress_bar.setVisibility(View.GONE);
-                InputUtils.enableInputControls();
-                rideShareLocationManager.stopLocationUpdates();
+            //Get High Accuracy Map for the first time
+            rideShareLocationManager = new RideShareLocationManager();
+            rideShareLocationManager.setOnLocationUpdate(new onLocationUpdateInterface() {
+                @Override
+                public void onLocationUpdate(LatLng latLng) {
+                    map_load_progress_bar.setVisibility(View.GONE);
+                    InputUtils.enableInputControls();
+                    rideShareLocationManager.stopLocationUpdates();
 
-                LatLng updated_loc = new LatLng(latLng.latitude,latLng.longitude);
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(updated_loc, 16));
-                mMap.addMarker(new MarkerOptions().position(updated_loc));
-            }
-        } ,  getView().getContext(),true);
+                    LatLng updated_loc = new LatLng(latLng.latitude, latLng.longitude);
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(updated_loc, 16));
+                    marker = mMap.addMarker(new MarkerOptions().position(updated_loc));
+                }
+            }, getView().getContext());
 
+        } else {
+
+
+            //Now attach the less Accurate Event Listener
+            rideShareLocationManager = new RideShareLocationManager();
+            rideShareLocationManager.setOnLocationUpdate(new onLocationUpdateInterface() {
+                @Override
+                public void onLocationUpdate(LatLng latLng) {
+
+                    if (marker != null) {
+                        marker.remove();
+                    }
+
+                    map_load_progress_bar.setVisibility(View.GONE);
+                    InputUtils.enableInputControls();
+                    rideShareLocationManager.stopLocationUpdates();
+
+                    LatLng updated_loc = new LatLng(latLng.latitude, latLng.longitude);
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(updated_loc, 16));
+                    mMap.addMarker(new MarkerOptions().position(updated_loc));
+                }
+            }, getView().getContext(), true);
+
+        }
 
 
         //setup Event listener's on both buttons
         findADriver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //Open Activity to get params for route and then find the matching driver's
-                Intent findADriverActivityIntent =  new Intent(getActivity().getApplicationContext(),FindARide.class);
+                //Open Activity to get params for route and then find the matching driver's
+                Intent findADriverActivityIntent = new Intent(getActivity().getApplicationContext(), FindARide.class);
                 startActivity(findADriverActivityIntent);
             }
         });
@@ -155,29 +186,29 @@ public class HomeFragment extends Fragment {
         shareMyRide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-             //Open Activity to get Route Param's, and then share the ride
-             //But first make sure that, Driver Profile exist
-             if (!isDriver && valueEventListenerFiredOnce){
-                 //Prompt to fill up driver details, in another activity
-                 Intent driverDetailsActivityIntent =  new Intent(getActivity().getApplicationContext(),DriverDetailActivity.class);
-                 startActivityForResult(driverDetailsActivityIntent,DRIVER_DETAILS_RESULT);
-             }else{
-                 //Take to driver route/journey enter Activity
-                 Intent shareMyRideActivityIntent =  new Intent(getActivity().getApplicationContext(), com.andromeda.djzaamir.rideshare.                                shareMyRide.class);
-                 startActivity(shareMyRideActivityIntent);
-             }
+                //Open Activity to get Route Param's, and then share the ride
+                //But first make sure that, Driver Profile exist
+                if (!isDriver && valueEventListenerFiredOnce) {
+                    //Prompt to fill up driver details, in another activity
+                    Intent driverDetailsActivityIntent = new Intent(getActivity().getApplicationContext(), DriverDetailActivity.class);
+                    startActivityForResult(driverDetailsActivityIntent, DRIVER_DETAILS_RESULT);
+                } else {
+                    //Take to driver route/journey enter Activity
+                    Intent shareMyRideActivityIntent = new Intent(getActivity().getApplicationContext(), com.andromeda.djzaamir.rideshare.shareMyRide.class);
+                    startActivity(shareMyRideActivityIntent);
+                }
             }
         });
     }
 
-    private void checkIfUserHasGivenLocationAccessPermissions(){
-     if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) !=                                 PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission                      .ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
-      {
-       //Ask for permission
-       ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},                      REQ_FINE_LOC_PERMISSION_TAG);
+    private void checkIfUserHasGivenLocationAccessPermissions() {
+        if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            //Ask for permission
+            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, REQ_FINE_LOC_PERMISSION_TAG);
 
-      }
+        }
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -197,15 +228,13 @@ public class HomeFragment extends Fragment {
     }
 
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == DRIVER_DETAILS_RESULT && resultCode == Activity.RESULT_OK){
-            isDriver = data.getBooleanExtra("driverDetailsOk",false);
+        if (requestCode == DRIVER_DETAILS_RESULT && resultCode == Activity.RESULT_OK) {
+            isDriver = data.getBooleanExtra("driverDetailsOk", false);
         }
     }
-
 
 
     @Override
@@ -213,9 +242,10 @@ public class HomeFragment extends Fragment {
         super.onStart();
         driverDataNodeRef.addValueEventListener(driverDataListener);
     }
+
     @Override
     public void onStop() {
         super.onStop();
-       driverDataNodeRef.removeEventListener(driverDataListener);
+        driverDataNodeRef.removeEventListener(driverDataListener);
     }
 }

@@ -86,7 +86,7 @@
             android:textSize="20sp"
             android:textAlignment="center"
             />
-        
+
 
         <Button
             android:layout_width="match_parent"
