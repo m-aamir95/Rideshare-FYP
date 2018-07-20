@@ -2,11 +2,11 @@ package com.andromeda.djzaamir.rideshare;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +18,11 @@ import android.widget.TextView;
 import com.andromeda.djzaamir.rideshare.DataSanitization.RideShareUniversalDataSanitizer;
 import com.andromeda.djzaamir.rideshare.utils.ButtonUtils;
 import com.andromeda.djzaamir.rideshare.utils.InputUtils;
+import com.andromeda.djzaamir.rideshare.utils.PasswordManager;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.EmailAuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -74,6 +72,7 @@ public class ChangeSettingsActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                    most_recent_user_data_loaded = true;
 
                     current_user_data = new Current_User_data();
 
@@ -81,7 +80,6 @@ public class ChangeSettingsActivity extends AppCompatActivity {
                     current_user_data.name = dataSnapshot.child("name").getValue().toString();
                     current_user_data.cell = dataSnapshot.child("cell").getValue().toString();
 
-                    most_recent_user_data_loaded = true;
 
                     //Check if there is a pending request to update data
                     if (pending_request_to_call_Update_data) {
@@ -283,78 +281,86 @@ public class ChangeSettingsActivity extends AppCompatActivity {
                             //Data sanitize
                             if (sanitizeEmail(email_edittext) && sanitizePassword(pass_edittext)) {
 
+                                final String btn_text = button_positive.getText().toString();
                                 pass_email_being_authenticated = true;
 
                                 button_positive.setEnabled(false);
-                                final String btn_text = button_positive.getText().toString();
                                 button_positive.setText("Authenticating...");
                                 button_negative.setEnabled(false);
                                 email_edittext.setEnabled(false);
                                 pass_edittext.setEnabled(false);
 
-                                AuthCredential credential = EmailAuthProvider.getCredential(email_edittext.getText().toString().trim(),
-                                        pass_edittext.getText().toString().trim());
+                                if (localAuthCheckComplete(email_edittext.getText().toString().trim(), pass_edittext.getText().toString().trim())) {
 
 
-                                FirebaseAuth.getInstance().getCurrentUser()
-                                        .reauthenticate(credential).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        email_pass_verfication_state = true;
-                                        FirebaseAuth.getInstance().getCurrentUser().updateEmail(email_to_update)
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        progressBar.setVisibility(View.GONE);
-                                                        ButtonUtils.enableButtonRestoreTitle();
-                                                        InputUtils.enableInputControls();
-                                                        showAlertDialog("SUCCESS",
-                                                                "Email updated Successfully",
-                                                                R.drawable.ic_check_black_success_24dp,
-                                                                "OK",
-                                                                new DialogInterface.OnClickListener() {
-                                                                    @Override
-                                                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                                                        finish();
-                                                                    }
-                                                                }, false);
-                                                    }
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                showAlertDialog("FAILURE",
-                                                        "Error updating Email.Please try again...",
-                                                        R.drawable.ic_error_black_24dp,
-                                                        "OK",
-                                                        new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                                                progressBar.setVisibility(View.GONE);
-                                                                ButtonUtils.enableButtonRestoreTitle();
-                                                                InputUtils.enableInputControls();
-                                                            }
-                                                        }, false);
-                                            }
-                                        });
-                                        ;
-                                        dialogInterface.dismiss();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        pass_email_being_authenticated = false;
-                                        pass_edittext.setText("");
-                                        email_edittext.setError("Invalid Username Or Password!");
-
-                                        button_positive.setEnabled(true);
-                                        button_positive.setText(btn_text);
-                                        button_negative.setEnabled(true);
-                                        email_edittext.setEnabled(true);
-                                        pass_edittext.setEnabled(true);
+                                    AuthCredential credential = EmailAuthProvider.getCredential(email_edittext.getText().toString().trim(),
+                                            pass_edittext.getText().toString().trim());
 
 
-                                    }
-                                });
+                                    FirebaseAuth.getInstance().getCurrentUser()
+                                            .reauthenticate(credential)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    email_pass_verfication_state = true;
+                                                    FirebaseAuth.getInstance().getCurrentUser().updateEmail(email_to_update)
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void aVoid) {
+                                                                    progressBar.setVisibility(View.GONE);
+                                                                    ButtonUtils.enableButtonRestoreTitle();
+                                                                    InputUtils.enableInputControls();
+                                                                    showAlertDialog("SUCCESS",
+                                                                            "Email updated Successfully",
+                                                                            R.drawable.ic_check_black_success_24dp,
+                                                                            "OK",
+                                                                            new DialogInterface.OnClickListener() {
+                                                                                @Override
+                                                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                                                    //Update Password Manager
+
+                                                                                    PasswordManager.saveChanges(email_to_update,
+                                                                                            pass_edittext.getText().toString().trim(),
+                                                                                            getApplicationContext()
+                                                                                    );
+
+                                                                                    finish();
+                                                                                }
+                                                                            }, false);
+                                                                }
+                                                            }).addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            showAlertDialog("FAILURE",
+                                                                    "Error updating Email.Please try again...",
+                                                                    R.drawable.ic_error_black_24dp,
+                                                                    "OK",
+                                                                    new DialogInterface.OnClickListener() {
+                                                                        @Override
+                                                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                                                            progressBar.setVisibility(View.GONE);
+                                                                            ButtonUtils.enableButtonRestoreTitle();
+                                                                            InputUtils.enableInputControls();
+                                                                        }
+                                                                    }, false);
+                                                        }
+                                                    });
+                                                    ;
+                                                    dialogInterface.dismiss();
+                                                }
+                                            });
+
+
+                                } else {
+                                    pass_email_being_authenticated = false;
+                                    pass_edittext.setText("");
+                                    email_edittext.setError("Invalid Username Or Password!");
+                                    button_positive.setEnabled(true);
+                                    button_positive.setText(btn_text);
+                                    button_negative.setEnabled(true);
+                                    email_edittext.setEnabled(true);
+                                    pass_edittext.setEnabled(true);
+                                }
                             }
                         }
                     }
@@ -380,6 +386,10 @@ public class ChangeSettingsActivity extends AppCompatActivity {
 
 
         return email_pass_verfication_state;
+    }
+
+    private boolean localAuthCheckComplete(String email, String pass) {
+        return (email.equals(PasswordManager.raw_email) && pass.equals(PasswordManager.raw_password));
     }
 
     private boolean sanitizeData() {

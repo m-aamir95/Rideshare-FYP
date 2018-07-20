@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.andromeda.djzaamir.rideshare.utils.InputUtils;
@@ -42,6 +43,7 @@ public class DriverDetailActivity extends AppCompatActivity {
     private EditText vehicle_no, cnic;
     private Spinner color_spinner;
     private ImageView profile_image;
+    private ProgressBar progressBar;
 
     private Button profile_image_button,submit_data_button;
 
@@ -67,6 +69,7 @@ public class DriverDetailActivity extends AppCompatActivity {
         profile_image = findViewById(R.id.user_image);
         profile_image_button = findViewById(R.id.profile_image_button);
         submit_data_button = findViewById(R.id.submit_Data_button);
+        progressBar  = findViewById(R.id.driver_data_submitted_progress_bar);
 
         //Fill up spinner with Array Adapter
         ArrayAdapter<String> colors_adapter =  new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,colors);
@@ -94,6 +97,8 @@ public class DriverDetailActivity extends AppCompatActivity {
         if (dataValidationGood()){
 
             //Disable input controls
+
+            progressBar.setVisibility(View.VISIBLE);
             InputUtils.disableInputControls(vehicle_no,cnic,profile_image,profile_image_button,submit_data_button);
 
 
@@ -108,8 +113,8 @@ public class DriverDetailActivity extends AppCompatActivity {
             ref.setValue(data_model).addOnSuccessListener(new OnSuccessListener<Void>() {
                 @Override
                 public void onSuccess(Void aVoid) {
-                  //Start the Activity to get the driver route/jouney info
-                    //and make sure that on pressing back user doesnt fall back on this activity
+                  //Start the Activity to get the driver route/journey info
+                    //and make sure that on pressing back user doesn't fall back on this activity
                      Intent shareMyRideActivityIntent =  new Intent(getApplicationContext(), com.andromeda.djzaamir                                        .rideshare.shareMyRide.class);
                      startActivity(shareMyRideActivityIntent);
 

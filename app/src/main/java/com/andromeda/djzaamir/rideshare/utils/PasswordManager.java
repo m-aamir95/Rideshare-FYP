@@ -1,0 +1,46 @@
+package com.andromeda.djzaamir.rideshare.utils;
+
+/*
+*  This class is only intended to store Successful login time
+*  Email and Password
+*  This info can be later used before re-authticaing with Firebase
+*  for the purposes of Email and Password Change
+*
+*  Because reauthenticaing with a False `Email Or Password` results in Null User object
+*  inside FirebaseAuth and FirebaseAuth is being used APP-WIDE for different purpose
+*
+*  to avoid it returning a NULL user we can first compare data present in this class
+*  and on TRUE comparison re-authenticate via Firebase
+* */
+
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import static android.content.Context.MODE_PRIVATE;
+
+public class PasswordManager {
+    public static String raw_password;
+    public static String raw_email;
+
+    public static void saveChanges(String email, String pass, Context context) {
+
+        //update data in ram
+        raw_password = pass;
+        raw_email = email;
+
+        //Store data inside SharedPreferences
+        SharedPreferences email_and_pass_Preferences = context.getSharedPreferences("settings", MODE_PRIVATE);
+        SharedPreferences.Editor email_and_pass_editor = email_and_pass_Preferences.edit();
+
+        email_and_pass_editor.putString("usr_email", email);
+        email_and_pass_editor.putString("usr_pass", pass);
+
+        email_and_pass_editor.apply();
+    }
+
+    public static void loadData(Context context) {
+        SharedPreferences email_pass_preferences = context.getSharedPreferences("settings", MODE_PRIVATE);
+        raw_email = email_pass_preferences.getString("usr_email", "NULL");
+        raw_password = email_pass_preferences.getString("usr_pass", "NULL");
+    }
+}

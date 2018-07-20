@@ -86,11 +86,13 @@
             android:textSize="20sp"
             android:textAlignment="center"
             />
+        
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="SIGNUP"
+            android:id="@+id/embeded_signup_inside_login_activity"
             android:onClick="on_signup"
             />
 
