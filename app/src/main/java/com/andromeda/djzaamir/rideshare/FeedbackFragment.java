@@ -1,6 +1,7 @@
 package com.andromeda.djzaamir.rideshare;
 
 import android.app.AlertDialog;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -12,7 +13,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.andromeda.djzaamir.rideshare.utils.InputUtils;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,7 +29,6 @@ import com.google.firebase.database.PropertyName;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
-import java.util.HashMap;
 
 public class FeedbackFragment extends Fragment {
 
@@ -36,6 +38,7 @@ public class FeedbackFragment extends Fragment {
     private EditText feedback_msg;
     private Button submit_button;
     private ProgressBar feedback_submission_progressbar;
+    private RatingBar ratingBar;
 
     public FeedbackFragment() {
         // Required empty public constructor
@@ -62,6 +65,10 @@ public class FeedbackFragment extends Fragment {
         feedback_msg  =  getView().findViewById(R.id.feedback_text);
         submit_button =  getView().findViewById(R.id.feedback_submit_button);
         feedback_submission_progressbar = getView().findViewById(R.id.data_submission_progressbar_feedback);
+        ratingBar = getView().findViewById(R.id.rating_bar);
+
+        //initial rating 0
+        ratingBar.setRating(0f);
 
         u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -98,9 +105,10 @@ public class FeedbackFragment extends Fragment {
                     feedback_msg.setError(null);
 
                     String msg_to_submit =  feedback_msg.getText().toString();
+                    float ratings =  ratingBar.getRating();
                     long timestamp = Calendar.getInstance().getTimeInMillis();
 
-                    Feedback_data feedback_data = new Feedback_data(Long.toString(timestamp) , msg_to_submit);
+                    Feedback_data feedback_data = new Feedback_data(Long.toString(timestamp) , msg_to_submit , ratings);
 
                     DatabaseReference new_feedback_ref = FirebaseDatabase.getInstance().getReference()
                             .child("Feedback")
@@ -128,6 +136,14 @@ public class FeedbackFragment extends Fragment {
                                         }
                                     })
                                     .create().show();
+
+
+                            //switch to home fragment
+                            getFragmentManager()
+                                    .beginTransaction()
+                                    .replace(R.id.activity_container_framelayout , new HomeFragment())
+                                    .commitAllowingStateLoss();
+
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -179,8 +195,13 @@ class Feedback_data{
     @PropertyName("msg")
     public String msg;
 
-    public Feedback_data(String timestamp, String msg) {
+
+    @PropertyName("rating")
+    public float rating;
+
+    public Feedback_data(String timestamp, String msg ,float rating) {
         this.timestamp = timestamp;
         this.msg = msg;
+        this.rating = rating;
     }
 }

@@ -39,12 +39,6 @@ public class NavigationDrawer extends AppCompatActivity
     private DatabaseReference userDataNodeRef ,  isUserSharingRideNodeRef;
     private ValueEventListener userDataValueEventListener;
 
-    //For location
-    //Manages underlying technology to access location based on permissions given in Manifest
-    private FusedLocationProviderClient fusedLocationProviderClient;
-    private Location lastKnownLocation;
-    private final int LOCATION_REQ_CODE = 1;
-
     //Toolbar
     private Toolbar toolbar;
 
@@ -156,47 +150,6 @@ public class NavigationDrawer extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-
-
-
-        //init fusedLocationProviderAPI
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-        //get last know location
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=         PackageManager       .PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) !=          PackageManager.PERMISSION_GRANTED) {
-
-            //Ask for permission
-             ActivityCompat.requestPermissions(NavigationDrawer.this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},                      LOCATION_REQ_CODE);
-        }
-
-        //Ask for last known location
-        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                lastKnownLocation = location;
-            }
-        });
-    }
-
-    //Callback For Permission's Response form the user
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode){
-            case LOCATION_REQ_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    //Permissions granted, may be continue
-                    Toast.makeText(getApplicationContext(), "Permissiosn Granted", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(getApplicationContext(), "Location Permissions Required", Toast.LENGTH_SHORT).show();
-                    finish();
-                    return;
-                }
-                break;
-            default:
-                break;
-        }
     }
 
     //When the user presses DEFAULT back button on Android

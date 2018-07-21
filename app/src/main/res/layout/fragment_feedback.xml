@@ -18,8 +18,8 @@
          android:layout_height="wrap_content"
          android:textAlignment="center"
          android:textSize="18sp"
-         android:textStyle="italic|bold"
-             android:id="@+id/feedback_greeting_msg"
+         android:textStyle="bold"
+         android:id="@+id/feedback_greeting_msg"
              />
          
          <TextView
@@ -30,6 +30,15 @@
              android:background="#00f"
              />
 
+         <RatingBar
+             android:id="@+id/rating_bar"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:numStars="5"
+             android:stepSize="1"
+             android:layout_gravity="center"
+             />
+
          <EditText
          android:id="@+id/feedback_text"
          android:layout_width="match_parent"
@@ -37,7 +46,7 @@
          android:hint="Write your feedback here..."
          android:inputType="textMultiLine"
          android:gravity="top"
-         android:minLines="15"
+         android:minLines="10"
          android:layout_marginTop="15dp"
          />
 
