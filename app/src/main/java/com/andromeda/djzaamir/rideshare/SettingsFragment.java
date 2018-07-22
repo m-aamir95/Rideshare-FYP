@@ -126,7 +126,8 @@ public class SettingsFragment extends Fragment {
         password_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+              Intent passwordChangeActivityIntent =  new Intent(getContext() ,  ChangePasswordActivity.class);
+              startActivity(passwordChangeActivityIntent);
             }
         });
 

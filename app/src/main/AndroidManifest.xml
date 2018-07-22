@@ -83,10 +83,11 @@
         <activity android:name=".AdActivity" />
         <activity
             android:name=".ChatActivity"
-            android:windowSoftInputMode="adjustResize"></activity>
-        <activity android:name=".ChangeSettingsActivity"
-            android:windowSoftInputMode="adjustPan|adjustResize"
-            ></activity>
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ChangeSettingsActivity"
+            android:windowSoftInputMode="adjustPan|adjustResize" />
+        <activity android:name=".ChangePasswordActivity"></activity>
     </application>
 
 </manifest>

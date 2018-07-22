@@ -22,6 +22,18 @@ public class PasswordManager {
     public static String raw_password;
     public static String raw_email;
 
+
+    //Only Update Email or password
+    public static void saveChanges(String update_data, Update_Type update_type, Context context) {
+        if (update_type == Update_Type.EMAIL) {
+            saveChanges(update_data, raw_password, context);
+        } else {
+            saveChanges(raw_email, update_data, context);
+        }
+    }
+
+
+    //Update both email and password
     public static void saveChanges(String email, String pass, Context context) {
 
         //update data in ram
@@ -38,9 +50,14 @@ public class PasswordManager {
         email_and_pass_editor.apply();
     }
 
+
     public static void loadData(Context context) {
         SharedPreferences email_pass_preferences = context.getSharedPreferences("settings", MODE_PRIVATE);
         raw_email = email_pass_preferences.getString("usr_email", "NULL");
         raw_password = email_pass_preferences.getString("usr_pass", "NULL");
+    }
+
+    public enum Update_Type {
+        EMAIL, PASSWORD
     }
 }
