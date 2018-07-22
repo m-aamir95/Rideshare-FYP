@@ -1,5 +1,6 @@
 package com.andromeda.djzaamir.rideshare;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -32,7 +33,7 @@ public class ChatActivity extends AppCompatActivity {
     private String unique_chat_id; //Will be used for pushing messages to a unique chat_history Node
     private ImageView other_person_image;
     private TextView other_person_name;
-    private Button function_button; //Depending on Driver Or Customer, it can be REQUEST , ACCEPT REQUEST
+    private Button function_button , driver_info_button; //Depending on Driver Or Customer, it can be REQUEST , ACCEPT REQUEST
     private EditText chat_message_edittextview;
 
     private LinearLayout chats_container;
@@ -55,6 +56,7 @@ public class ChatActivity extends AppCompatActivity {
         other_person_image        = findViewById(R.id.other_person_image);
         other_person_name         = findViewById(R.id.other_person_name);
         function_button           = findViewById(R.id.function_button);
+        driver_info_button        = findViewById(R.id.display_driver_info);
         chats_container           = findViewById(R.id.chats_container);
         chat_message_edittextview = findViewById(R.id.chat_message_edittextview);
         scrollView                = findViewById(R.id.chatS_scroll_view);
@@ -95,6 +97,36 @@ public class ChatActivity extends AppCompatActivity {
 
                     }
                 });
+
+          //Attach one time listener to see, if the driver is sharing Ride info
+          FirebaseDatabase.getInstance().getReference()
+                  .child("available_drivers_start_point")
+                  .child(other_u_id).addListenerForSingleValueEvent(new ValueEventListener() {
+              @Override
+              public void onDataChange(DataSnapshot dataSnapshot) {
+                 if (dataSnapshot != null && dataSnapshot.getValue() != null){
+                   driver_info_button.setVisibility(View.VISIBLE);
+                 }
+              }
+
+              @Override
+              public void onCancelled(DatabaseError databaseError) {
+
+              }
+          });
+
+
+
+          //Attach button Listeners
+          driver_info_button.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  Intent startDriverDetailsActivity = new Intent(getApplicationContext(), DisplayDriverDetails.class);
+                  startDriverDetailsActivity.putExtra("id" , other_u_id);
+                  startActivity(startDriverDetailsActivity);
+              }
+          });
+
 
          chats_container.requestFocus();
     }
