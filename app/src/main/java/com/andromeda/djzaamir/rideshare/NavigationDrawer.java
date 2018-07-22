@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -32,13 +33,15 @@ import com.google.firebase.database.ValueEventListener;
 
 
 public class NavigationDrawer extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener, TriggerMenuSwitch {
 
     //region Variables
     //Firebase
-    private DatabaseReference userDataNodeRef ,  isUserSharingRideNodeRef;
+    private DatabaseReference userDataNodeRef, isUserSharingRideNodeRef;
     private ValueEventListener userDataValueEventListener;
 
+
+    NavigationView navigationView;
     //Toolbar
     private Toolbar toolbar;
 
@@ -53,25 +56,25 @@ public class NavigationDrawer extends AppCompatActivity
 
         //Firebase Node Ref For user data only
         userDataNodeRef = FirebaseDatabase.getInstance().getReference().child("Users").child(u_id);
-        isUserSharingRideNodeRef =  FirebaseDatabase.getInstance().getReference().child("available_drivers_start_point").child(u_id);
+        isUserSharingRideNodeRef = FirebaseDatabase.getInstance().getReference().child("available_drivers_start_point").child(u_id);
 
         //If This Person is sharing His/her Ride then switch to RideShared Fragment
         isUserSharingRideNodeRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-               if (dataSnapshot != null && dataSnapshot.getValue() != null ){
-                       startNewFragmentActivity(new RideSharedFragment());
-                       switch_to_rideShared_fragment = true;
-               }else{
-                   //Switch to default homeFragment
-                  startNewFragmentActivity(new HomeFragment());
-                  switch_to_rideShared_fragment = false;
-                  //set home as checked item
-                   NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-                   navigationView.setCheckedItem(R.id.home_item);
+                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                    startNewFragmentActivity(new RideSharedFragment());
+                    switch_to_rideShared_fragment = true;
+                } else {
+                    //Switch to default homeFragment
+                    startNewFragmentActivity(new HomeFragment());
+                    switch_to_rideShared_fragment = false;
+                    //set home as checked item
+                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                    navigationView.setCheckedItem(R.id.home_item);
                     //change toolbar title
-                  toolbar.setTitle("Home");
-               }
+                    toolbar.setTitle("Home");
+                }
             }
 
             @Override
@@ -81,8 +84,6 @@ public class NavigationDrawer extends AppCompatActivity
         });
 
         //Firebase Node Ref to check if the person is sharing his/her Ride
-
-
         //Setup Event listener on user data node
         userDataValueEventListener = new ValueEventListener() {
             @Override
@@ -110,12 +111,12 @@ public class NavigationDrawer extends AppCompatActivity
         };
 
         //Get and set image data , if available
-        DatabaseReference image_url =  FirebaseDatabase.getInstance().getReference().child("Users").child(u_id);
+        DatabaseReference image_url = FirebaseDatabase.getInstance().getReference().child("Users").child(u_id);
         image_url.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //if driver data is resent then this snapshot wont be empty
-                if (dataSnapshot.child("driver_image").getValue() != null){
+                if (dataSnapshot.child("driver_image").getValue() != null) {
 
                     String driver_image_url = dataSnapshot.child("driver_image").getValue().toString();
 
@@ -147,7 +148,7 @@ public class NavigationDrawer extends AppCompatActivity
         toggle.syncState();
 
         //Navigation view
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
     }
@@ -183,18 +184,17 @@ public class NavigationDrawer extends AppCompatActivity
 
             Toolbar toolbar = findViewById(R.id.toolbar);
             toolbar.setTitle("Home");
-            if (!switch_to_rideShared_fragment){
-              startNewFragmentActivity(new HomeFragment());
-            }else{
+            if (!switch_to_rideShared_fragment) {
+                startNewFragmentActivity(new HomeFragment());
+            } else {
                 startNewFragmentActivity(new RideSharedFragment());
             }
 
-        }else if (id == R.id.messages_item){
+        } else if (id == R.id.messages_item) {
             Toolbar toolbar = findViewById(R.id.toolbar);
             toolbar.setTitle("Messages");
             startNewFragmentActivity(new MessagesFragment());
-        }
-        else if (id == R.id.settings_item) {
+        } else if (id == R.id.settings_item) {
             Toolbar toolbar = findViewById(R.id.toolbar);
             toolbar.setTitle("Settings");
             startNewFragmentActivity(new SettingsFragment());
@@ -242,7 +242,7 @@ public class NavigationDrawer extends AppCompatActivity
     }
 
 
-     //region Activity Life-Cycle Callbacks
+    //region Activity Life-Cycle Callbacks
     @Override
     protected void onStart() {
         super.onStart();
@@ -257,6 +257,20 @@ public class NavigationDrawer extends AppCompatActivity
 
         //Stop Listener when activity is on background
         userDataNodeRef.removeEventListener(userDataValueEventListener);
+    }
+
+    @Override
+    public void triggerMenuSwitchToHomeFragment() {
+
+        //Take care of Title
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Home");
+
+        //check home item
+        navigationView.getMenu().getItem(0).setChecked(true);
+
+        //Start Home Fragment
+        startNewFragmentActivity(new HomeFragment());
     }
     //endregion
 }

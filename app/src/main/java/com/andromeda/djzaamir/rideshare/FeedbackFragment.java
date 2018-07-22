@@ -1,11 +1,13 @@
 package com.andromeda.djzaamir.rideshare;
 
 import android.app.AlertDialog;
-import android.app.FragmentManager;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.andromeda.djzaamir.rideshare.utils.InputUtils;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -32,6 +33,7 @@ import java.util.Calendar;
 
 public class FeedbackFragment extends Fragment {
 
+    //region VARS
     private String u_id;
 
     private TextView gretting_msg;
@@ -39,6 +41,8 @@ public class FeedbackFragment extends Fragment {
     private Button submit_button;
     private ProgressBar feedback_submission_progressbar;
     private RatingBar ratingBar;
+    private TriggerMenuSwitch  triggerMenuSwitch;
+    //endregion
 
     public FeedbackFragment() {
         // Required empty public constructor
@@ -101,7 +105,7 @@ public class FeedbackFragment extends Fragment {
                 if (feedback_msg.getText().toString().trim().length() > 0){
 
                     feedback_submission_progressbar.setVisibility(View.VISIBLE);
-                    InputUtils.disableInputControls(submit_button , feedback_msg);
+                    InputUtils.disableInputControls(submit_button , feedback_msg,ratingBar);
                     feedback_msg.setError(null);
 
                     String msg_to_submit =  feedback_msg.getText().toString();
@@ -116,6 +120,7 @@ public class FeedbackFragment extends Fragment {
 
 
                         new_feedback_ref.setValue(feedback_data).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                         @Override
                         public void onSuccess(Void aVoid) {
 
@@ -138,12 +143,7 @@ public class FeedbackFragment extends Fragment {
                                     .create().show();
 
 
-                            //switch to home fragment
-                            getFragmentManager()
-                                    .beginTransaction()
-                                    .replace(R.id.activity_container_framelayout , new HomeFragment())
-                                    .commitAllowingStateLoss();
-
+                              triggerMenuSwitch.triggerMenuSwitchToHomeFragment();
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -176,6 +176,14 @@ public class FeedbackFragment extends Fragment {
 
             }
         });
+
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        triggerMenuSwitch = (TriggerMenuSwitch)context;
 
     }
 }
