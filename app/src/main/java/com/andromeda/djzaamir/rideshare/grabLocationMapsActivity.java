@@ -11,9 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 
-
 import com.andromeda.djzaamir.rideshare.RideshareLocationManager.RideShareLocationManager;
 import com.andromeda.djzaamir.rideshare.RideshareLocationManager.onLocationUpdateInterface;
+import com.andromeda.djzaamir.rideshare.utils.ButtonUtils;
+import com.andromeda.djzaamir.rideshare.utils.InputUtils;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
@@ -25,8 +26,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import com.andromeda.djzaamir.rideshare.utils.*;
 
 public class grabLocationMapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -48,21 +47,21 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
         setContentView(R.layout.activity_grab_location_maps);
 
 
-         map_loading_progressbar =  findViewById(R.id.map_loading_progressbar);
-         grabMyLocation_button   = findViewById(R.id.grabMyLocation_button);
+        map_loading_progressbar = findViewById(R.id.map_loading_progressbar);
+        grabMyLocation_button = findViewById(R.id.grabMyLocation_button);
 
-         ButtonUtils.disableAndChangeText(grabMyLocation_button ,"Getting Location...");
+        ButtonUtils.disableAndChangeText(grabMyLocation_button, "Getting Location...");
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                                                             .findFragmentById(R.id.map);
+                .findFragmentById(R.id.map);
 
 
         mapFragment.getMapAsync(this);
 
 
         //Google Place Autocomplete Fragment
-        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id                 .place_autocomplete_fragment);
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment) getFragmentManager().findFragmentById(R.id.place_autocomplete_fragment);
 
 
         autocompleteFragment.setMenuVisibility(true);
@@ -74,7 +73,7 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
                 latlng_from_manual_loc = true;
                 rideShareLocationManager.stopLocationUpdates();
 
-                if(current_marker_location != null){
+                if (current_marker_location != null) {
                     current_marker_location.remove();
                 }
 
@@ -90,7 +89,6 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
             }
         });
     }
-
 
 
     /**
@@ -111,19 +109,19 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-               if (one_time_GPS_location_obtained){
+                if (one_time_GPS_location_obtained) {
                     latlng_from_manual_loc = true;
 
                     last_known_loc = latLng;
                     rideShareLocationManager.stopLocationUpdates();
 
                     //Move camera
-                    if (current_marker_location != null){
-                      current_marker_location.remove();
+                    if (current_marker_location != null) {
+                        current_marker_location.remove();
                     }
                     current_marker_location = mMap.addMarker(new MarkerOptions().position(latLng));
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
-               }
+                }
             }
         });
 
@@ -137,7 +135,7 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
 
     public void confirm_location_button(View view) {
 
-        ButtonUtils.disableAndChangeText(grabMyLocation_button, "Processing..." , "#dcf279" , "#000000");
+        ButtonUtils.disableAndChangeText(grabMyLocation_button, "Processing...", "#dcf279", "#000000");
 
 
         Intent shareMyRideAcitivityIntent = new Intent();
@@ -154,35 +152,37 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
     protected void onStart() {
         super.onStart();
 
-        if (rideShareLocationManager == null){
+        if (rideShareLocationManager == null) {
             //init Continuous location update
-            rideShareLocationManager  = new RideShareLocationManager();
+            rideShareLocationManager = new RideShareLocationManager();
             rideShareLocationManager.setOnLocationUpdate(new onLocationUpdateInterface() {
                 @Override
                 public void onLocationUpdate(LatLng latLng) {
 
-                    map_loading_progressbar.setVisibility(View.GONE);
-                    InputUtils.enableInputControls();
-                    mMap.getUiSettings().setAllGesturesEnabled(true);
-                    one_time_GPS_location_obtained =  true;
-                    ButtonUtils.enableButtonRestoreTitle();
+                    if (latLng != null) {
+                        map_loading_progressbar.setVisibility(View.GONE);
+                        InputUtils.enableInputControls();
+                        mMap.getUiSettings().setAllGesturesEnabled(true);
+                        one_time_GPS_location_obtained = true;
+                        ButtonUtils.enableButtonRestoreTitle();
 
-                    if (!latlng_from_manual_loc){
+                        if (!latlng_from_manual_loc) {
 
-                        last_known_loc = new LatLng(latLng.latitude, latLng.longitude);
+                            last_known_loc = new LatLng(latLng.latitude, latLng.longitude);
 
 
-                        if (current_marker_location != null){
-                           current_marker_location.remove();
+                            if (current_marker_location != null) {
+                                current_marker_location.remove();
+                            }
+
+                            current_marker_location = mMap.addMarker(new MarkerOptions().position(last_known_loc).title("You are here"));
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(last_known_loc, 16));
                         }
-
-                        current_marker_location = mMap.addMarker(new MarkerOptions().position(last_known_loc).title("You are here"));
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(last_known_loc, 16));
-                        }
+                    }
                 }
-            } , this);
-        }else{
-            if (!latlng_from_manual_loc){
+            }, this);
+        } else {
+            if (!latlng_from_manual_loc) {
                 rideShareLocationManager.resumeLocationUpdate();
             }
         }

@@ -76,11 +76,13 @@ public class RideShareLocationManager extends com.google.android.gms.location.Lo
                      new_subscriber.onLocationUpdate(new LatLng(location.getLatitude(),location.getLongitude()));
                     }
                 });
+            }else{
+
+                //Init Periodic Location Updates
+                fusedLocationProviderClient.requestLocationUpdates(prepareLocationRequest(), locationCallback, null);
             }
 
 
-            //Init Periodic Location Updates
-            fusedLocationProviderClient.requestLocationUpdates(prepareLocationRequest(),locationCallback,null);
 
     }
 

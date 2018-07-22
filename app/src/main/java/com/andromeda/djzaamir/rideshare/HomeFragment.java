@@ -129,6 +129,7 @@ public class HomeFragment extends Fragment {
 
 
         checkIfUserHasGivenLocationAccessPermissions();
+        //Get Accurate Location
         if (App_Wide_Static_Vars.is_first_run) {
             App_Wide_Static_Vars.is_first_run = false;
 
@@ -137,17 +138,21 @@ public class HomeFragment extends Fragment {
             rideShareLocationManager.setOnLocationUpdate(new onLocationUpdateInterface() {
                 @Override
                 public void onLocationUpdate(LatLng latLng) {
-                    map_load_progress_bar.setVisibility(View.GONE);
-                    InputUtils.enableInputControls();
-                    rideShareLocationManager.stopLocationUpdates();
+                    if (latLng != null) {
+                        map_load_progress_bar.setVisibility(View.GONE);
+                        InputUtils.enableInputControls();
+                        rideShareLocationManager.stopLocationUpdates();
 
-                    LatLng updated_loc = new LatLng(latLng.latitude, latLng.longitude);
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(updated_loc, 16));
-                    marker = mMap.addMarker(new MarkerOptions().position(updated_loc));
+                        LatLng updated_loc = new LatLng(latLng.latitude, latLng.longitude);
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(updated_loc, 16));
+                        marker = mMap.addMarker(new MarkerOptions().position(updated_loc));
+                    }
                 }
             }, getView().getContext());
 
-        } else {
+        }
+        //Use Less accurate Last Location For the rest of App run
+        else {
 
 
             //Now attach the less Accurate Event Listener
@@ -156,17 +161,19 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onLocationUpdate(LatLng latLng) {
 
-                    if (marker != null) {
-                        marker.remove();
+                    if (latLng != null) {
+                        if (marker != null) {
+                            marker.remove();
+                        }
+
+                        map_load_progress_bar.setVisibility(View.GONE);
+                        InputUtils.enableInputControls();
+                        rideShareLocationManager.stopLocationUpdates();
+
+                        LatLng updated_loc = new LatLng(latLng.latitude, latLng.longitude);
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(updated_loc, 16));
+                        mMap.addMarker(new MarkerOptions().position(updated_loc));
                     }
-
-                    map_load_progress_bar.setVisibility(View.GONE);
-                    InputUtils.enableInputControls();
-                    rideShareLocationManager.stopLocationUpdates();
-
-                    LatLng updated_loc = new LatLng(latLng.latitude, latLng.longitude);
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(updated_loc, 16));
-                    mMap.addMarker(new MarkerOptions().position(updated_loc));
                 }
             }, getView().getContext(), true);
 
