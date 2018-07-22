@@ -91,38 +91,42 @@ public class FindARide extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode){
             case start_loc_intent:
-                 if (resultCode == Activity.RESULT_OK){
-                    //grab lat,lng
-                   if (data != null){
-                     String latitude  = data.getExtras().getString("latitude");
-                     String longitude = data.getExtras().getString("longitude");
-                      start_loc_point = new LatLng(Double.valueOf(latitude) , Double.valueOf(longitude));
-                     List<Address> addresses = null;
-                       try {
-                           addresses = geocoder.getFromLocation(start_loc_point.latitude,start_loc_point.longitude,1);
-                       } catch (IOException e) {
-                           e.printStackTrace();
-                       }
-                       start_point_edittext.setText(addresses.get(0).getAddressLine(0));
-                   }
-                 }
+                if (data != null) {
+                    if (resultCode == Activity.RESULT_OK){
+                       //grab lat,lng
+                      if (data != null){
+                        String latitude  = data.getExtras().getString("latitude");
+                        String longitude = data.getExtras().getString("longitude");
+                         start_loc_point = new LatLng(Double.valueOf(latitude) , Double.valueOf(longitude));
+                        List<Address> addresses = null;
+                          try {
+                              addresses = geocoder.getFromLocation(start_loc_point.latitude,start_loc_point.longitude,1);
+                          } catch (IOException e) {
+                              e.printStackTrace();
+                          }
+                          start_point_edittext.setText(addresses.get(0).getAddressLine(0));
+                      }
+                    }
+                }
                 break;
             case end_loc_intent:
-                 if (resultCode == Activity.RESULT_OK){
-                 //grab lat,lng
-                   if (data != null){
-                     String latitude  = data.getExtras().getString("latitude");
-                     String longitude = data.getExtras().getString("longitude");
-                     end_loc_point = new LatLng(Double.valueOf(latitude) , Double.valueOf(longitude));
-                     List<Address> addresses = null;
-                       try {
-                           addresses = geocoder.getFromLocation(end_loc_point.latitude,end_loc_point.longitude,1);
-                       } catch (IOException e) {
-                           e.printStackTrace();
-                       }
-                       end_point_edittext.setText(addresses.get(0).getAddressLine(0));
-                   }
-                 }
+                if (data != null) {
+                    if (resultCode == Activity.RESULT_OK){
+                    //grab lat,lng
+                      if (data != null){
+                        String latitude  = data.getExtras().getString("latitude");
+                        String longitude = data.getExtras().getString("longitude");
+                        end_loc_point = new LatLng(Double.valueOf(latitude) , Double.valueOf(longitude));
+                        List<Address> addresses = null;
+                          try {
+                              addresses = geocoder.getFromLocation(end_loc_point.latitude,end_loc_point.longitude,1);
+                          } catch (IOException e) {
+                              e.printStackTrace();
+                          }
+                          end_point_edittext.setText(addresses.get(0).getAddressLine(0));
+                      }
+                    }
+                }
                 break;
             default:
                 break;

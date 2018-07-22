@@ -70,7 +70,10 @@ public class grabLocationMapsActivity extends FragmentActivity implements OnMapR
             public void onPlaceSelected(Place place) {
                 last_known_loc = place.getLatLng();
 
+
                 latlng_from_manual_loc = true;
+                ButtonUtils.enableButtonRestoreTitle();
+                map_loading_progressbar.setVisibility(View.GONE);
                 rideShareLocationManager.stopLocationUpdates();
 
                 if (current_marker_location != null) {
