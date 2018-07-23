@@ -128,10 +128,12 @@ public class ChatMessageRowAdapter extends ArrayAdapter<ChatMessageDataModel> im
                     for (DataSnapshot chat_data_node :
                             dataSnapshot.getChildren()) {
 
-                        String msg = chat_data_node.child("msg").getValue().toString();
-                        String timestamp =chat_data_node.child("timestamp").getValue().toString();
-                        parseDateAndSetupTextView(Long.parseLong(timestamp),date_of_msg);
-                        chat_msg.setText(msg);
+                        if (chat_data_node.child("msg").getValue() != null) {
+                            String msg = chat_data_node.child("msg").getValue().toString();
+                            String timestamp =chat_data_node.child("timestamp").getValue().toString();
+                            parseDateAndSetupTextView(Long.parseLong(timestamp),date_of_msg);
+                            chat_msg.setText(msg);
+                        }
 
                         new_msg_recieved = true;
                     }
