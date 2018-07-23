@@ -493,7 +493,6 @@ class Current_User_data {
     public String email;
     public String cell;
 
-
     public Current_User_data() {
     }
 

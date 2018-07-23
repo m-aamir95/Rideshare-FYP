@@ -1,91 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
- xmlns:app="http://schemas.android.com/apk/res-auto"
- xmlns:tools="http://schemas.android.com/tools"
- android:layout_width="match_parent"
- android:layout_height="match_parent"
- tools:context="com.andromeda.djzaamir.rideshare.ChangeSettingsActivity"
- android:padding="10dp"
- xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:padding="10dp"
+    tools:context="com.andromeda.djzaamir.rideshare.ChangeSettingsActivity">
 
-
-    <LinearLayout
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentTop="true"
-        >
-
-         <TextView
-        android:id="@+id/content_header_msg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Update your Name"
-        style="bold"
-        android:textColor="#000"
-        android:textSize="25sp"
-        />
-
-    <TextView
-        android:id="@+id/content_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="15sp"
-        android:layout_marginTop="10dp"
-        android:text="Please use your real `Full Name` , Using a fake name may result in account termination"
-        />
-
-    <EditText
-        android:id="@+id/content_editextbox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:maxLines="2"
-        android:hint="Enter your Full Name"
-        />
+        android:layout_height="match_parent">
 
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/content_header_msg"
+                style="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Update your Name"
+                android:textColor="#000"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/content_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Please use your real `Full Name` , Using a fake name may result in account termination"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/content_editextbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:hint="Enter your Full Name"
+                android:maxLines="2" />
 
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:layout_alignParentBottom="true"
-       >
-
-        <Button
-        android:id="@+id/content_submit_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Update"
-        android:textSize="20sp"
-        android:textAlignment="center"
-        android:background="#10ba87"
-        style="android:attr"
-        android:textColor="#fff"
-        android:onClick="on_submit_data"
-        />
-
-   </LinearLayout>
+        </LinearLayout>
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/content_submit_button"
+                style="android:attr"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#10ba87"
+                android:onClick="on_submit_data"
+                android:text="Update"
+                android:textAlignment="center"
+                android:textColor="#fff"
+                android:textSize="20sp" />
+
+        </LinearLayout>
 
 
-</RelativeLayout>
+    </RelativeLayout>
 
     <ProgressBar
         android:id="@+id/update_data_progress_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 </FrameLayout>
