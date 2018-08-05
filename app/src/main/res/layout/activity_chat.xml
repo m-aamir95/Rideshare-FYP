@@ -28,7 +28,7 @@
                 android:layout_width="90dp"
                 android:layout_height="90dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_menu_camera" />
+                android:src="@drawable/rideshare_logo_final_new" />
 
             <!--Driver Name -->
             <TextView
@@ -37,7 +37,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="2dp"
-                android:text="Muhammad Aamir"
                 android:textAlignment="center" />
 
         </LinearLayout>
@@ -73,8 +72,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#2d7dce"
-                android:text="REQUEST"
                 android:textColor="#fff"
+                android:visibility="invisible"
                 android:textSize="15dp" />
 
         </LinearLayout>
