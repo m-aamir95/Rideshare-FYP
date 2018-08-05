@@ -13,9 +13,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.andromeda.djzaamir.rideshare.utils.InputUtils;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -29,12 +31,14 @@ import java.util.Calendar;
 
 public class ChatActivity extends AppCompatActivity {
 
+    //region VARS
     private String u_id, other_u_id; //Other u_ud_id can be a driver or a customer
     private String unique_chat_id; //Will be used for pushing messages to a unique chat_history Node
     private ImageView other_person_image;
     private TextView other_person_name;
     private Button function_button, driver_info_button; //Depending on Driver Or Customer, it can be REQUEST , ACCEPT REQUEST
     private EditText chat_message_edittextview;
+    private ProgressBar data_load_progressbar;
 
     private LinearLayout chats_container;
     private ScrollView scrollView;
@@ -45,6 +49,7 @@ public class ChatActivity extends AppCompatActivity {
     private String date_str = "";
     private boolean is_driver, is_driver_status_check_complete = false;
     private boolean is_request_exist = false, is_request_exist_status_check_complete = false;
+    //endregion
 
 
     @Override
@@ -57,6 +62,9 @@ public class ChatActivity extends AppCompatActivity {
         other_u_id = getIntent().getExtras().getString("other_person_id");
         unique_chat_id = getIntent().getExtras().getString("unique_chat_id");
         u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        InputUtils.disableInputControls(chats_container, chat_message_edittextview, scrollView);
+        data_load_progressbar.setVisibility(View.VISIBLE);
 
         /*
         * Fetch other person's
@@ -140,9 +148,9 @@ public class ChatActivity extends AppCompatActivity {
         function_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (is_driver){
+                if (is_driver) {
                     //Init Ride-Scheduling Procedure
-                }else{
+                } else {
                     //Init RideShare Request
                     function_button.setEnabled(false);
                     FirebaseDatabase.getInstance().getReference()
@@ -166,7 +174,7 @@ public class ChatActivity extends AppCompatActivity {
         chats_container = findViewById(R.id.chats_container);
         chat_message_edittextview = findViewById(R.id.chat_message_edittextview);
         scrollView = findViewById(R.id.chatS_scroll_view);
-
+        data_load_progressbar = findViewById(R.id.data_load_progressbar);
     }
 
     //region Methods Related to Function_Button Functionality and Ride-Scheduling
@@ -190,12 +198,13 @@ public class ChatActivity extends AppCompatActivity {
                     function_button.setText("Request");
                 }
             }
+            InputUtils.enableInputControls();
+            data_load_progressbar.setVisibility(View.GONE);
         }
     }
     //endregion
 
     private void fetchOtherPersonData() {
-
         //Get Image and Name
         FirebaseDatabase.getInstance().getReference().child("Users").child(other_u_id).addValueEventListener(new ValueEventListener() {
             @Override
@@ -263,7 +272,6 @@ public class ChatActivity extends AppCompatActivity {
             chat_message_edittextview.setText("");
         }
     }
-
 
     private void push_chat_message_to_gui(DataSnapshot new_chat_msg) {
 
