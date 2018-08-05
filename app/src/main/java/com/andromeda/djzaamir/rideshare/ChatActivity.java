@@ -52,19 +52,10 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        //Init Gui references
-        other_person_image = findViewById(R.id.other_person_image);
-        other_person_name = findViewById(R.id.other_person_name);
-        function_button = findViewById(R.id.function_button);
-        driver_info_button = findViewById(R.id.display_driver_info);
-        chats_container = findViewById(R.id.chats_container);
-        chat_message_edittextview = findViewById(R.id.chat_message_edittextview);
-        scrollView = findViewById(R.id.chatS_scroll_view);
-
+        initGuiReferences();
 
         other_u_id = getIntent().getExtras().getString("other_person_id");
         unique_chat_id = getIntent().getExtras().getString("unique_chat_id");
-
         u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         /*
@@ -73,12 +64,11 @@ public class ChatActivity extends AppCompatActivity {
         fetchOtherPersonData();
 
 
+        //region Firebase Data Grab For Is_Driver , Is_Request_exist , and for chat data
         //Attach listeners for loading chat
         chats_node_reference = FirebaseDatabase.getInstance().getReference()
                 .child("chats")
                 .child(unique_chat_id);
-
-
         chats_listener = chats_node_reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -110,6 +100,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
+
         //Attach one time listener to see, if the driver is sharing Ride info
         FirebaseDatabase.getInstance().getReference()
                 .child("available_drivers_start_point")
@@ -132,6 +123,7 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
+        //endregion
 
 
         //region Button Event Listeners
@@ -143,12 +135,41 @@ public class ChatActivity extends AppCompatActivity {
                 startActivity(startDriverDetailsActivity);
             }
         });
+
+
+        function_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (is_driver){
+                    //Init Ride-Scheduling Procedure
+                }else{
+                    //Init RideShare Request
+                    function_button.setEnabled(false);
+                    FirebaseDatabase.getInstance().getReference()
+                            .child("chats")
+                            .child(unique_chat_id)
+                            .child("REQUESTED_BY").setValue(u_id);
+                }
+            }
+        });
         //endregion
 
 
         chats_container.requestFocus();
     }
 
+    private void initGuiReferences() {
+        other_person_image = findViewById(R.id.other_person_image);
+        other_person_name = findViewById(R.id.other_person_name);
+        function_button = findViewById(R.id.function_button);
+        driver_info_button = findViewById(R.id.display_driver_info);
+        chats_container = findViewById(R.id.chats_container);
+        chat_message_edittextview = findViewById(R.id.chat_message_edittextview);
+        scrollView = findViewById(R.id.chatS_scroll_view);
+
+    }
+
+    //region Methods Related to Function_Button Functionality and Ride-Scheduling
     //Go-No-Go pattern , waits for results from Multiple Async calls
     private void tryToInvokeFunctionButtonPostProcessing() {
         if (is_driver_status_check_complete && is_request_exist_status_check_complete) {
@@ -163,6 +184,7 @@ public class ChatActivity extends AppCompatActivity {
                     function_button.setVisibility(View.VISIBLE);
                     function_button.setText("REQUESTED");
                     function_button.setBackgroundColor(Color.GREEN);
+                    function_button.setEnabled(false);
                 } else {
                     function_button.setVisibility(View.VISIBLE);
                     function_button.setText("Request");
@@ -170,6 +192,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         }
     }
+    //endregion
 
     private void fetchOtherPersonData() {
 
