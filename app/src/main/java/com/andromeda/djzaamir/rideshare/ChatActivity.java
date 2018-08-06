@@ -49,6 +49,9 @@ public class ChatActivity extends AppCompatActivity {
     private String date_str = "";
     private boolean is_driver, is_driver_status_check_complete = false;
     private boolean is_request_exist = false, is_request_exist_status_check_complete = false;
+
+    private Latlng_wrapper start_position = null, end_position = null;
+    private Start_End_Timestamps_Wrapper start_end_timestamps = null;
     //endregion
 
 
@@ -149,7 +152,9 @@ public class ChatActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (is_driver) {
-                    //Init Ride-Scheduling Procedure
+                    InputUtils.disableInputControls(chats_container, chat_message_edittextview, scrollView);
+                    data_load_progressbar.setVisibility(View.VISIBLE);
+                    initRideScheduleProcedure();
                 } else {
                     //Init RideShare Request
                     function_button.setEnabled(false);
@@ -164,6 +169,124 @@ public class ChatActivity extends AppCompatActivity {
 
 
         chats_container.requestFocus();
+    }
+
+    private void initRideScheduleProcedure() {
+        DatabaseReference unique_RideScheduled_Node = FirebaseDatabase
+                .getInstance().getReference().child("scheduled_rides").push();
+        final String unique_rideScheduled_id = unique_RideScheduled_Node.getKey();
+
+
+        //region Make entries for new unique scheduled ride both for driver and customer , also set Driver status to booked
+
+        //For Driver
+        FirebaseDatabase.getInstance().getReference()
+                .child("Users")
+                .child(u_id)//U_id because only a driver can call `initRideScheduleProcedure`
+                .child("scheduled_ride_id").setValue(unique_rideScheduled_id);
+
+        //set Driver status to Booked
+        FirebaseDatabase.getInstance().getReference()
+                .child("Users")
+                .child(u_id)
+                .child("is_booked").setValue(true);
+
+        //For customer
+        FirebaseDatabase.getInstance().getReference()
+                .child("Users")
+                .child(other_u_id) //Always points to customer inside `initRideScheduleProcedure` method
+                .child("scheduled_ride_id").setValue(unique_rideScheduled_id);
+        //endregion
+
+        //region Move data from Ride-Shared Nodes to Ride-Scheduled Nodes
+
+        //Start position data grab and deletion from available_drivers_start_point
+        FirebaseDatabase.getInstance().getReference()
+                .child("available_drivers_start_point")
+                .child(u_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                    double lat = Double.parseDouble(dataSnapshot.child("l").child("0").getValue().toString());
+                    double lng = Double.parseDouble(dataSnapshot.child("l").child("1").getValue().toString());
+                    start_position = new Latlng_wrapper(lat, lng);
+
+                    //Data deletion
+                    FirebaseDatabase.getInstance().getReference()
+                            .child("available_drivers_start_point")
+                            .child(u_id).removeValue();
+
+                    tryToInvokeRideScheduledDataPush(unique_rideScheduled_id);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //End position data grab and deletion from available_drivers_start_point
+        FirebaseDatabase.getInstance().getReference()
+                .child("available_drivers_end_point")
+                .child(u_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                    double lat = Double.parseDouble(dataSnapshot.child("l").child("0").getValue().toString());
+                    double lng = Double.parseDouble(dataSnapshot.child("l").child("1").getValue().toString());
+                    end_position = new Latlng_wrapper(lat, lng);
+
+                    //Data deletion
+                    FirebaseDatabase.getInstance().getReference()
+                            .child("available_drivers_end_point")
+                            .child(u_id).removeValue();
+
+                    tryToInvokeRideScheduledDataPush(unique_rideScheduled_id);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        //End position data grab and deletion from available_drivers_start_point
+        FirebaseDatabase.getInstance().getReference()
+                .child("available_drivers_time_info")
+                .child(u_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                    long start_timestamp = Long.parseLong(dataSnapshot.child("start_time_stamp").getValue().toString());
+                    long end_timestamp = Long.parseLong(dataSnapshot.child("end_time_stamp").getValue().toString());
+                    start_end_timestamps = new Start_End_Timestamps_Wrapper(start_timestamp ,end_timestamp);
+
+                    //Data deletion
+                    FirebaseDatabase.getInstance().getReference()
+                            .child("available_drivers_time_info")
+                            .child(u_id).removeValue();
+
+                    tryToInvokeRideScheduledDataPush(unique_rideScheduled_id);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+        //endregion
+
+    }
+
+    private void tryToInvokeRideScheduledDataPush(String unique_rideSchedueld_id) {
+        if (start_position != null && end_position != null && start_end_timestamps != null) {
+
+        }
     }
 
     private void initGuiReferences() {
@@ -467,6 +590,26 @@ public class ChatActivity extends AppCompatActivity {
             this.msg = msg;
             this.sender_id = user_id;
             this.timestamp = timestamp;
+        }
+    }
+
+    class Latlng_wrapper {
+        public double lat;
+        public double lng;
+
+        public Latlng_wrapper(double lat, double lng) {
+            this.lat = lat;
+            this.lng = lng;
+        }
+    }
+
+    class Start_End_Timestamps_Wrapper {
+        public long start_timestamp;
+        public long end_timestamp;
+
+        public Start_End_Timestamps_Wrapper(long start_timestamp, long end_timestamp) {
+            this.start_timestamp = start_timestamp;
+            this.end_timestamp = end_timestamp;
         }
     }
 }
