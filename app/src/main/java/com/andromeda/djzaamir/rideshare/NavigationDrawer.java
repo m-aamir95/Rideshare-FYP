@@ -1,14 +1,9 @@
 package com.andromeda.djzaamir.rideshare;
 
-import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,10 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.andromeda.djzaamir.rideshare.utils.App_Wide_Static_Vars;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,6 +39,7 @@ public class NavigationDrawer extends AppCompatActivity
     private Toolbar toolbar;
 
     private boolean switch_to_rideShared_fragment = false; //Will be used to decide should the app Display Home Or RideShared Fragment
+    private boolean switch_to_rideScheduled_fragment = false;
     //endregion
 
     @Override
@@ -63,17 +57,21 @@ public class NavigationDrawer extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                    startNewFragmentActivity(new RideSharedFragment());
+
+                    RideSharedFragment rideSharedFragment = new RideSharedFragment();
+                    startNewFragmentActivity(rideSharedFragment);
+
                     switch_to_rideShared_fragment = true;
-                } else {
-                    //Switch to default homeFragment
-                    startNewFragmentActivity(new HomeFragment());
-                    switch_to_rideShared_fragment = false;
+
+
                     //set home as checked item
                     NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
                     navigationView.setCheckedItem(R.id.home_item);
                     //change toolbar title
                     toolbar.setTitle("Home");
+
+                } else {
+                    tryToSwitchToHomeFragmentIfNoRideScheduled();
                 }
             }
 
@@ -83,16 +81,23 @@ public class NavigationDrawer extends AppCompatActivity
             }
         });
 
+
         //Firebase Node Ref to check if the person is sharing his/her Ride
         //Setup Event listener on user data node
         userDataValueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                //Get updated data
+                //Get updated d ata
                 String name = dataSnapshot.child("name").getValue().toString();
                 String cell = dataSnapshot.child("cell").getValue().toString();
                 String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+
+                //Check if this user has a Scheduled Ride
+                if (dataSnapshot.child("scheduled_ride_id").getValue() != null) {
+                    switch_to_rideScheduled_fragment = true;
+                    App_Wide_Static_Vars.unique_ride_scheduled_id = dataSnapshot.child("scheduled_ride_id").toString();
+                }
 
                 //Put data in fields
                 TextView name_txtview = findViewById(R.id.textview_customerName);
@@ -101,7 +106,18 @@ public class NavigationDrawer extends AppCompatActivity
                 name_txtview.setText(name);
                 email_txtview.setText(email);
 
-                //Not updating Cell at navigation drawer header
+                if (switch_to_rideScheduled_fragment) {
+                    RideScheduledFragment rideScheduledFragment = new RideScheduledFragment();
+                    startNewFragmentActivity(rideScheduledFragment);
+
+                    //set home as checked item
+                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                    navigationView.setCheckedItem(R.id.home_item);
+                    //change toolbar title
+                    toolbar.setTitle("Home");
+                } else {
+                    tryToSwitchToHomeFragmentIfNoRideScheduled();
+                }
             }
 
             @Override
@@ -153,6 +169,23 @@ public class NavigationDrawer extends AppCompatActivity
 
     }
 
+    //Go-NO-Go
+    private void tryToSwitchToHomeFragmentIfNoRideScheduled() {
+        if (!switch_to_rideScheduled_fragment) {
+            //Switch to default homeFragment
+            HomeFragment homeFragment = new HomeFragment();
+            startNewFragmentActivity(homeFragment);
+
+
+            switch_to_rideShared_fragment = false;
+            //set home as checked item
+            NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+            navigationView.setCheckedItem(R.id.home_item);
+            //change toolbar title
+            toolbar.setTitle("Home");
+        }
+    }
+
     //When the user presses DEFAULT back button on Android
     @Override
     public void onBackPressed() {
@@ -184,16 +217,21 @@ public class NavigationDrawer extends AppCompatActivity
 
             Toolbar toolbar = findViewById(R.id.toolbar);
             toolbar.setTitle("Home");
-            if (!switch_to_rideShared_fragment) {
-                startNewFragmentActivity(new HomeFragment());
-            } else {
+            if (switch_to_rideShared_fragment) {
                 startNewFragmentActivity(new RideSharedFragment());
+            } else if (switch_to_rideScheduled_fragment) {
+                startNewFragmentActivity(new RideScheduledFragment());
+
+            } else {
+                startNewFragmentActivity(new HomeFragment());
             }
 
         } else if (id == R.id.messages_item) {
-            Toolbar toolbar = findViewById(R.id.toolbar);
-            toolbar.setTitle("Messages");
-            startNewFragmentActivity(new MessagesFragment());
+            if (!switch_to_rideScheduled_fragment) {
+                Toolbar toolbar = findViewById(R.id.toolbar);
+                toolbar.setTitle("Messages");
+                startNewFragmentActivity(new MessagesFragment());
+            }
         } else if (id == R.id.settings_item) {
             Toolbar toolbar = findViewById(R.id.toolbar);
             toolbar.setTitle("Settings");
