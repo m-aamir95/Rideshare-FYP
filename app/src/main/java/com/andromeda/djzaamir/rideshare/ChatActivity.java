@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 
 import com.andromeda.djzaamir.rideshare.utils.InputUtils;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -283,8 +286,24 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+    //Go-No-Go Pattern
     private void tryToInvokeRideScheduledDataPush(String unique_rideSchedueld_id) {
         if (start_position != null && end_position != null && start_end_timestamps != null) {
+           //Initiate Data Push with Scheduled Ride info
+            DatabaseReference unique_scheduled_ride_node =  FirebaseDatabase.getInstance().getReference()
+                    .child("scheduled_rides")
+                    .child(unique_rideSchedueld_id);
+            unique_scheduled_ride_node.child("start_point").setValue(start_position);
+            unique_scheduled_ride_node.child("end_point").setValue(end_position);
+            unique_scheduled_ride_node
+                    .child("start_end_timestamps")
+                    .setValue(start_end_timestamps).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    //Finish This Activity
+                    finish();
+                }
+            });
 
         }
     }
