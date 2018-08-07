@@ -1,6 +1,5 @@
 package com.andromeda.djzaamir.rideshare;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -13,7 +12,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.andromeda.djzaamir.rideshare.utils.App_Wide_Static_Vars;
 import com.bumptech.glide.Glide;
@@ -53,7 +51,7 @@ public class NavigationDrawer extends AppCompatActivity
         isUserSharingRideNodeRef = FirebaseDatabase.getInstance().getReference().child("available_drivers_start_point").child(u_id);
 
         //If This Person is sharing His/her Ride then switch to RideShared Fragment
-        isUserSharingRideNodeRef.addValueEventListener(new ValueEventListener() {
+        isUserSharingRideNodeRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null && dataSnapshot.getValue() != null) {
@@ -96,7 +94,8 @@ public class NavigationDrawer extends AppCompatActivity
                 //Check if this user has a Scheduled Ride
                 if (dataSnapshot.child("scheduled_ride_id").getValue() != null) {
                     switch_to_rideScheduled_fragment = true;
-                    App_Wide_Static_Vars.unique_ride_scheduled_id = dataSnapshot.child("scheduled_ride_id").toString();
+                    App_Wide_Static_Vars.unique_ride_scheduled_id = dataSnapshot.child("scheduled_ride_id").getValue().toString();
+
                 }
 
                 //Put data in fields
@@ -107,6 +106,9 @@ public class NavigationDrawer extends AppCompatActivity
                 email_txtview.setText(email);
 
                 if (switch_to_rideScheduled_fragment) {
+
+                    //Remove Firebase Listeners
+                    userDataNodeRef.removeEventListener(userDataValueEventListener);
                     RideScheduledFragment rideScheduledFragment = new RideScheduledFragment();
                     startNewFragmentActivity(rideScheduledFragment);
 
@@ -128,7 +130,7 @@ public class NavigationDrawer extends AppCompatActivity
 
         //Get and set image data , if available
         DatabaseReference image_url = FirebaseDatabase.getInstance().getReference().child("Users").child(u_id);
-        image_url.addValueEventListener(new ValueEventListener() {
+        image_url.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //if driver data is resent then this snapshot wont be empty
@@ -296,6 +298,7 @@ public class NavigationDrawer extends AppCompatActivity
         //Stop Listener when activity is on background
         userDataNodeRef.removeEventListener(userDataValueEventListener);
     }
+    //endregion
 
     @Override
     public void triggerMenuSwitchToHomeFragment() {
@@ -310,5 +313,4 @@ public class NavigationDrawer extends AppCompatActivity
         //Start Home Fragment
         startNewFragmentActivity(new HomeFragment());
     }
-    //endregion
 }

@@ -87,7 +87,8 @@
         <activity
             android:name=".ChangeSettingsActivity"
             android:windowSoftInputMode="adjustPan|adjustResize" />
-        <activity android:name=".ChangePasswordActivity"></activity>
+        <activity android:name=".ChangePasswordActivity" />
+        <activity android:name=".DisplayScheduledRideInfoActiviy"></activity>
     </application>
 
 </manifest>
