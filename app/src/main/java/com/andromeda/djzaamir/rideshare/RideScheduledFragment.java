@@ -33,17 +33,5 @@ public class RideScheduledFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-           //Start data grab from FirebaseR
-
-
-        Button button = getView().findViewById(R.id.see_ride_details);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent lols = new Intent(getContext(),DisplayScheduledRideInfoActiviy.class);
-                startActivity(lols);
-            }
-        });
-
     }
 }

@@ -5,20 +5,60 @@
     tools:context="com.andromeda.djzaamir.rideshare.RideScheduledFragment">
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ride-Scheduled Fragment"
-        android:layout_gravity="center"
-        android:textSize="20sp"
-        />
+        <!--Greetings Message-->
+        <TextView
+            android:id="@+id/grettings_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="Aamir, your Ride has been Scheduled"
+            android:textAlignment="center"
+            android:textSize="20sp" />
 
-    <Button
-        android:id="@+id/see_ride_details"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="See Ride Details"
-        />
+        <!--Driver or customer name-->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Driver Name"
+            android:layout_marginTop="30dp"
+                android:layout_marginLeft="15dp"
+            >
+
+            <EditText
+                android:id="@+id/vehicle_no"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Shehriyaar"
+                android:textSize="20sp" />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <!--Vehicle Colour-->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/hint_text"
+            android:hint="Vehicle No"
+            android:layout_marginTop="10dp"
+                android:layout_marginLeft="15dp"
+            >
+
+            <EditText
+                android:id="@+id/name_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="fgt-567"
+                android:textSize="20sp" />
+
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
+
 
 </FrameLayout>
