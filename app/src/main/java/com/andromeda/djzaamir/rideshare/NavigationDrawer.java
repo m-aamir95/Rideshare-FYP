@@ -56,8 +56,7 @@ public class NavigationDrawer extends AppCompatActivity
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null && dataSnapshot.getValue() != null) {
 
-                    RideSharedFragment rideSharedFragment = new RideSharedFragment();
-                    startNewFragmentActivity(rideSharedFragment);
+                    startNewFragmentActivity(new RideSharedFragment());
 
                     switch_to_rideShared_fragment = true;
 
@@ -173,7 +172,7 @@ public class NavigationDrawer extends AppCompatActivity
 
     //Go-NO-Go
     private void tryToSwitchToHomeFragmentIfNoRideScheduled() {
-        if (!switch_to_rideScheduled_fragment) {
+        if (!switch_to_rideScheduled_fragment && !switch_to_rideShared_fragment) {
             //Switch to default homeFragment
             HomeFragment homeFragment = new HomeFragment();
             startNewFragmentActivity(homeFragment);
@@ -219,6 +218,7 @@ public class NavigationDrawer extends AppCompatActivity
 
             Toolbar toolbar = findViewById(R.id.toolbar);
             toolbar.setTitle("Home");
+
             if (switch_to_rideShared_fragment) {
                 startNewFragmentActivity(new RideSharedFragment());
             } else if (switch_to_rideScheduled_fragment) {
@@ -264,6 +264,9 @@ public class NavigationDrawer extends AppCompatActivity
         return true;
     }
 
+
+
+
     //Responsible for switching between different fragments
     void startNewFragmentActivity(android.support.v4.app.Fragment fragmentToSwitchTo) {
 
@@ -271,6 +274,7 @@ public class NavigationDrawer extends AppCompatActivity
         fragmentTransaction.replace(R.id.activity_container_framelayout, fragmentToSwitchTo);
         fragmentTransaction.commitAllowingStateLoss(); //very imp, signals OS to perform above operation whenever possible
     }
+
 
     void signout() {
         FirebaseAuth.getInstance().signOut();

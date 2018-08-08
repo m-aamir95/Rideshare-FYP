@@ -57,19 +57,19 @@ public class RideSharedFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         //Establish gui references
-        start_point = getActivity().findViewById(R.id.start_point_txtview);
-        end_point = getActivity().findViewById(R.id.end_point_txtview);
-        start_date = getActivity().findViewById(R.id.start_date_time_textview);
-        end_date = getActivity().findViewById(R.id.return_date_time_textview);
-        edit_ride_button = getActivity().findViewById(R.id.edit_ride_btn);
-        cancel_ride_button = getActivity().findViewById(R.id.cancel_ride_btn);
+        start_point = getView().findViewById(R.id.start_point_txtview);
+        end_point = getView().findViewById(R.id.end_point_txtview);
+        start_date = getView().findViewById(R.id.start_date_time_textview);
+        end_date = getView().findViewById(R.id.return_date_time_textview);
+        edit_ride_button = getView().findViewById(R.id.edit_ride_btn);
+        cancel_ride_button = getView().findViewById(R.id.cancel_ride_btn);
 
         final String u_id = FirebaseAuth.getInstance().getCurrentUser().getUid().toString();
 
         edit_ride_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent shareMyRideActivity = new Intent(getContext(), shareMyRide.class);
+                Intent shareMyRideActivity = new Intent(getView().getContext(), shareMyRide.class);
                 startActivity(shareMyRideActivity);
             }
         });
@@ -96,7 +96,6 @@ public class RideSharedFragment extends Fragment {
                                 //Do nothing
                             }
                         }).create().show();
-
             }
         });
 
@@ -113,7 +112,7 @@ public class RideSharedFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                     //Extract data
-                    Geocoder start_point_address = new Geocoder(getContext(), Locale.getDefault());
+                    Geocoder start_point_address = new Geocoder(getContext() ,Locale.getDefault());
 
                     String latitude = dataSnapshot.child("0").getValue().toString();
                     String longitude = dataSnapshot.child("1").getValue().toString();
@@ -139,7 +138,7 @@ public class RideSharedFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                     //Extract data
-                    Geocoder start_point_address = new Geocoder(getContext(), Locale.getDefault());
+                    Geocoder start_point_address = new Geocoder(getContext() ,Locale.getDefault());
                     String latitude = dataSnapshot.child("0").getValue().toString();
                     String longitude = dataSnapshot.child("1").getValue().toString();
                     try {

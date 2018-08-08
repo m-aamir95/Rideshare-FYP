@@ -122,62 +122,62 @@ public class HomeFragment extends Fragment {
             @Override
             public void onMapReady(GoogleMap googleMap) {
                 mMap = googleMap;
+
+                InputUtils.disableInputControls(root_homeFragment_layout, findADriver, shareMyRide);
+
+
+                checkIfUserHasGivenLocationAccessPermissions();
+                //Get Accurate Location
+                if (App_Wide_Static_Vars.is_first_run) {
+                    App_Wide_Static_Vars.is_first_run = false;
+
+                    //Get High Accuracy Map for the first time
+                    rideShareLocationManager = new RideShareLocationManager();
+                    rideShareLocationManager.setOnLocationUpdate(new onLocationUpdateInterface() {
+                        @Override
+                        public void onLocationUpdate(LatLng latLng) {
+                            if (latLng != null) {
+                                map_load_progress_bar.setVisibility(View.GONE);
+                                InputUtils.enableInputControls();
+                                rideShareLocationManager.stopLocationUpdates();
+
+                                LatLng updated_loc = new LatLng(latLng.latitude, latLng.longitude);
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(updated_loc, 16));
+                                marker = mMap.addMarker(new MarkerOptions().position(updated_loc));
+                            }
+                        }
+                    }, getView().getContext());
+
+                }
+                //Use Less accurate Last Location For the rest of App run
+                else {
+
+
+                    //Now attach the less Accurate Event Listener
+                    rideShareLocationManager = new RideShareLocationManager();
+                    rideShareLocationManager.setOnLocationUpdate(new onLocationUpdateInterface() {
+                        @Override
+                        public void onLocationUpdate(LatLng latLng) {
+
+                            if (latLng != null) {
+                                if (marker != null) {
+                                    marker.remove();
+                                }
+
+                                map_load_progress_bar.setVisibility(View.GONE);
+                                InputUtils.enableInputControls();
+                                rideShareLocationManager.stopLocationUpdates();
+
+                                LatLng updated_loc = new LatLng(latLng.latitude, latLng.longitude);
+                                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(updated_loc, 16));
+                                mMap.addMarker(new MarkerOptions().position(updated_loc));
+                            }
+                        }
+                    }, getView().getContext(), true);
+
+                }
             }
         });
-
-        InputUtils.disableInputControls(root_homeFragment_layout, findADriver, shareMyRide);
-
-
-        checkIfUserHasGivenLocationAccessPermissions();
-        //Get Accurate Location
-        if (App_Wide_Static_Vars.is_first_run) {
-            App_Wide_Static_Vars.is_first_run = false;
-
-            //Get High Accuracy Map for the first time
-            rideShareLocationManager = new RideShareLocationManager();
-            rideShareLocationManager.setOnLocationUpdate(new onLocationUpdateInterface() {
-                @Override
-                public void onLocationUpdate(LatLng latLng) {
-                    if (latLng != null) {
-                        map_load_progress_bar.setVisibility(View.GONE);
-                        InputUtils.enableInputControls();
-                        rideShareLocationManager.stopLocationUpdates();
-
-                        LatLng updated_loc = new LatLng(latLng.latitude, latLng.longitude);
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(updated_loc, 16));
-                        marker = mMap.addMarker(new MarkerOptions().position(updated_loc));
-                    }
-                }
-            }, getView().getContext());
-
-        }
-        //Use Less accurate Last Location For the rest of App run
-        else {
-
-
-            //Now attach the less Accurate Event Listener
-            rideShareLocationManager = new RideShareLocationManager();
-            rideShareLocationManager.setOnLocationUpdate(new onLocationUpdateInterface() {
-                @Override
-                public void onLocationUpdate(LatLng latLng) {
-
-                    if (latLng != null) {
-                        if (marker != null) {
-                            marker.remove();
-                        }
-
-                        map_load_progress_bar.setVisibility(View.GONE);
-                        InputUtils.enableInputControls();
-                        rideShareLocationManager.stopLocationUpdates();
-
-                        LatLng updated_loc = new LatLng(latLng.latitude, latLng.longitude);
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(updated_loc, 16));
-                        mMap.addMarker(new MarkerOptions().position(updated_loc));
-                    }
-                }
-            }, getView().getContext(), true);
-
-        }
 
 
         //setup Event listener's on both buttons

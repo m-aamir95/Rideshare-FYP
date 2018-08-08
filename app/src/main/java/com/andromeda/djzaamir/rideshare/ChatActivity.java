@@ -264,7 +264,7 @@ public class ChatActivity extends AppCompatActivity {
                 if (dataSnapshot != null && dataSnapshot.getValue() != null) {
                     long start_timestamp = Long.parseLong(dataSnapshot.child("start_time_stamp").getValue().toString());
                     long end_timestamp = Long.parseLong(dataSnapshot.child("end_time_stamp").getValue().toString());
-                    start_end_timestamps = new Start_End_Timestamps_Wrapper(start_timestamp ,end_timestamp);
+                    start_end_timestamps = new Start_End_Timestamps_Wrapper(start_timestamp, end_timestamp);
 
                     //Data deletion
                     FirebaseDatabase.getInstance().getReference()
@@ -289,21 +289,22 @@ public class ChatActivity extends AppCompatActivity {
     //Go-No-Go Pattern
     private void tryToInvokeRideScheduledDataPush(String unique_rideSchedueld_id) {
         if (start_position != null && end_position != null && start_end_timestamps != null) {
-           //Initiate Data Push with Scheduled Ride info
-            DatabaseReference unique_scheduled_ride_node =  FirebaseDatabase.getInstance().getReference()
+            //Initiate Data Push with Scheduled Ride info
+            DatabaseReference unique_scheduled_ride_node = FirebaseDatabase.getInstance().getReference()
                     .child("scheduled_rides")
                     .child(unique_rideSchedueld_id);
             unique_scheduled_ride_node.child("start_point").setValue(start_position);
             unique_scheduled_ride_node.child("end_point").setValue(end_position);
-            unique_scheduled_ride_node
-                    .child("start_end_timestamps")
-                    .setValue(start_end_timestamps).addOnCompleteListener(new OnCompleteListener<Void>() {
+            unique_scheduled_ride_node.child("start_end_timestamps").setValue(start_end_timestamps);
+            unique_scheduled_ride_node.child("driver_id").setValue(u_id);
+            unique_scheduled_ride_node.child("customer_id").setValue(other_u_id).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    //Finish This Activity
+                    //Finish this Activity
                     finish();
                 }
             });
+
 
         }
     }
