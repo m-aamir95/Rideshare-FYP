@@ -55,6 +55,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private Latlng_wrapper start_position = null, end_position = null;
     private Start_End_Timestamps_Wrapper start_end_timestamps = null;
+    private boolean do_not_disable_buttons_Until_One_2_One_Chat = true;
     //endregion
 
 
@@ -67,6 +68,7 @@ public class ChatActivity extends AppCompatActivity {
 
         other_u_id = getIntent().getExtras().getString("other_person_id");
         unique_chat_id = getIntent().getExtras().getString("unique_chat_id");
+
         u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         InputUtils.disableInputControls(chats_container, chat_message_edittextview, scrollView);
