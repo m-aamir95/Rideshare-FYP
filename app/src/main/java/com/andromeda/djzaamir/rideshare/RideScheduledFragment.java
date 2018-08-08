@@ -1,6 +1,7 @@
 package com.andromeda.djzaamir.rideshare;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -51,7 +52,7 @@ public class RideScheduledFragment extends Fragment {
 
         final String u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        //init Firebase DataGrab
+        //region Firebase DataGrab
         FirebaseDatabase.getInstance().getReference()
                 .child("scheduled_rides")
                 .child(App_Wide_Static_Vars.unique_ride_scheduled_id)
@@ -108,26 +109,6 @@ public class RideScheduledFragment extends Fragment {
 
 
                             if (u_id.equals(driver_id)) { //Current user is a driver
-                                name_hint.setHint("Driver Name");
-                                //region Data grab for username
-                                FirebaseDatabase.getInstance().getReference()
-                                        .child("Users")
-                                        .child(driver_id).addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(DataSnapshot dataSnapshot) {
-                                        if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                                            String name = dataSnapshot.child("name").getValue().toString();
-                                            name_editText.setText(name);
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(DatabaseError databaseError) {
-
-                                    }
-                                });
-                                //endregion
-                            } else { //is a customer
                                 name_hint.setHint("Customer Name");
                                 //region Data grab for username
                                 FirebaseDatabase.getInstance().getReference()
@@ -140,7 +121,25 @@ public class RideScheduledFragment extends Fragment {
                                             name_editText.setText(name);
                                         }
                                     }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
 
+                                    }
+                                });
+                                //endregion
+                            } else { //is a customer
+                                name_hint.setHint("Driver Name");
+                                //region Data grab for username
+                                FirebaseDatabase.getInstance().getReference()
+                                        .child("Users")
+                                        .child(driver_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                                            String name = dataSnapshot.child("name").getValue().toString();
+                                            name_editText.setText(name);
+                                        }
+                                    }
                                     @Override
                                     public void onCancelled(DatabaseError databaseError) {
 
@@ -157,6 +156,17 @@ public class RideScheduledFragment extends Fragment {
 
                     }
                 });
+        //endregion
+
+        //region Button Listeners
+         ride_details_button.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 Intent ride_details_intent =  new Intent(getContext() , DisplayScheduledRideInfoActiviy.class);
+                 startActivity(ride_details_intent);
+             }
+         });
+        //endregion
     }
 
 
@@ -166,7 +176,7 @@ public class RideScheduledFragment extends Fragment {
         name_editText = getView().findViewById(R.id.name);
         vehicle_no_editText = getView().findViewById(R.id.vehicle_no);
         vehicle_color_editText = getView().findViewById(R.id.vehicle_colour);
-        ride_details_button = getView().findViewById(R.id.ride_finish_button);
+        ride_details_button = getView().findViewById(R.id.ride_details_button);
         chat_button = getView().findViewById(R.id.chat_button);
         finish_button = getView().findViewById(R.id.ride_finish_button);
     }
