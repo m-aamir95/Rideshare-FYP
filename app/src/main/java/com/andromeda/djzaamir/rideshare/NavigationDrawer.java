@@ -51,7 +51,7 @@ public class NavigationDrawer extends AppCompatActivity
         isUserSharingRideNodeRef = FirebaseDatabase.getInstance().getReference().child("available_drivers_start_point").child(u_id);
 
         //If This Person is sharing His/her Ride then switch to RideShared Fragment
-        isUserSharingRideNodeRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        isUserSharingRideNodeRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null && dataSnapshot.getValue() != null) {
@@ -85,39 +85,42 @@ public class NavigationDrawer extends AppCompatActivity
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                //Get updated d ata
-                String name = dataSnapshot.child("name").getValue().toString();
-                String cell = dataSnapshot.child("cell").getValue().toString();
-                String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                    //Get updated d ata
+                    String name = dataSnapshot.child("name").getValue().toString();
+                    String cell = dataSnapshot.child("cell").getValue().toString();
+                    String email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
-                //Check if this user has a Scheduled Ride
-                if (dataSnapshot.child("scheduled_ride_id").getValue() != null) {
-                    switch_to_rideScheduled_fragment = true;
-                    App_Wide_Static_Vars.unique_ride_scheduled_id = dataSnapshot.child("scheduled_ride_id").getValue().toString();
+                    //Check if this user has a Scheduled Ride
+                    if (dataSnapshot.child("scheduled_ride_id").getValue() != null) {
+                        switch_to_rideScheduled_fragment = true;
+                        switch_to_rideShared_fragment = false;
+                        App_Wide_Static_Vars.unique_ride_scheduled_id = dataSnapshot.child("scheduled_ride_id").getValue().toString();
+                    }else{
+                        switch_to_rideScheduled_fragment = false;
+                    }
 
-                }
+                    //Put data in fields
+                    TextView name_txtview = findViewById(R.id.textview_customerName);
+                    TextView email_txtview = findViewById(R.id.textview_customerEmail);
 
-                //Put data in fields
-                TextView name_txtview = findViewById(R.id.textview_customerName);
-                TextView email_txtview = findViewById(R.id.textview_customerEmail);
+                    name_txtview.setText(name);
+                    email_txtview.setText(email);
 
-                name_txtview.setText(name);
-                email_txtview.setText(email);
+                    if (switch_to_rideScheduled_fragment) {
 
-                if (switch_to_rideScheduled_fragment) {
+                        //Remove Firebase Listeners
+                        RideScheduledFragment rideScheduledFragment = new RideScheduledFragment();
+                        startNewFragmentActivity(rideScheduledFragment);
 
-                    //Remove Firebase Listeners
-                    userDataNodeRef.removeEventListener(userDataValueEventListener);
-                    RideScheduledFragment rideScheduledFragment = new RideScheduledFragment();
-                    startNewFragmentActivity(rideScheduledFragment);
-
-                    //set home as checked item
-                    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-                    navigationView.setCheckedItem(R.id.home_item);
-                    //change toolbar title
-                    toolbar.setTitle("Home");
-                } else {
-                    tryToSwitchToHomeFragmentIfNoRideScheduled();
+                        //set home as checked item
+                        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                        navigationView.setCheckedItem(R.id.home_item);
+                        //change toolbar title
+                        toolbar.setTitle("Home");
+                    } else {
+                        tryToSwitchToHomeFragmentIfNoRideScheduled();
+                    }
                 }
             }
 
@@ -126,6 +129,7 @@ public class NavigationDrawer extends AppCompatActivity
 
             }
         };
+        userDataNodeRef.addValueEventListener(userDataValueEventListener);
 
         //Get and set image data , if available
         DatabaseReference image_url = FirebaseDatabase.getInstance().getReference().child("Users").child(u_id);
@@ -285,24 +289,6 @@ public class NavigationDrawer extends AppCompatActivity
         return;
     }
 
-
-    //region Activity Life-Cycle Callbacks
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        //Start Listener on Activity Startup
-        userDataNodeRef.addValueEventListener(userDataValueEventListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
-        //Stop Listener when activity is on background
-        userDataNodeRef.removeEventListener(userDataValueEventListener);
-    }
-    //endregion
 
     @Override
     public void triggerMenuSwitchToHomeFragment() {

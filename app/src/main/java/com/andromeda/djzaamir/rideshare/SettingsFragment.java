@@ -22,8 +22,8 @@ public class SettingsFragment extends Fragment {
 
     private String u_id;
     private String u_email;
-    private TextView name_textview ,  email_textview ,  cell_textview;
-    private LinearLayout name_layout ,  email_layout , cell_layout, password_layout;
+    private TextView name_textview, email_textview, cell_textview;
+    private LinearLayout name_layout, email_layout, cell_layout, password_layout;
 
     private FirebaseAuth.AuthStateListener authStateListener;
 
@@ -34,14 +34,16 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        u_id    = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        u_id = FirebaseAuth.getInstance().getCurrentUser().getUid();
         u_email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
 
-        authStateListener =  new FirebaseAuth.AuthStateListener() {
+        authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                 u_email =  firebaseAuth.getCurrentUser().getEmail();
-                 email_textview.setText(u_email);
+                if (firebaseAuth.getCurrentUser() != null) {
+                    u_email = firebaseAuth.getCurrentUser().getEmail();
+                    email_textview.setText(u_email);
+                }
             }
         };
 
@@ -57,29 +59,29 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
 
-        name_textview  =  getView().findViewById(R.id.person_name_textview);
-        email_textview =  getView().findViewById(R.id.person_email_textview);
-        cell_textview  =  getView().findViewById(R.id.person_cell_textview);
+        name_textview = getView().findViewById(R.id.person_name_textview);
+        email_textview = getView().findViewById(R.id.person_email_textview);
+        cell_textview = getView().findViewById(R.id.person_cell_textview);
 
 
-        name_layout        = getView().findViewById(R.id.name_layout);
-        email_layout       = getView().findViewById(R.id.email_layout);
-        cell_layout        = getView().findViewById(R.id.cell_layout);
-        password_layout    = getView().findViewById(R.id.password_layout);
+        name_layout = getView().findViewById(R.id.name_layout);
+        email_layout = getView().findViewById(R.id.email_layout);
+        cell_layout = getView().findViewById(R.id.cell_layout);
+        password_layout = getView().findViewById(R.id.password_layout);
 
         //Initiate data load
         FirebaseDatabase.getInstance().getReference().child("Users").child(u_id).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-              if (dataSnapshot != null && dataSnapshot.getValue() != null){
+                if (dataSnapshot != null && dataSnapshot.getValue() != null) {
 
-                  name_textview.setText(dataSnapshot.child("name").getValue().toString());
-                  cell_textview.setText(dataSnapshot.child("cell").getValue().toString());
+                    name_textview.setText(dataSnapshot.child("name").getValue().toString());
+                    cell_textview.setText(dataSnapshot.child("cell").getValue().toString());
 
-                  email_textview.setText(u_email);
+                    email_textview.setText(u_email);
 
 
-              }
+                }
             }
 
             @Override
@@ -89,25 +91,23 @@ public class SettingsFragment extends Fragment {
         });
 
 
-
         //Put event listeners for different layout sections from them to act as buttons
         name_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              startIntentForSettingChange("Update your Name" ,
-                      "Please use your real `Full Name` , Using a fake name may result in account termination",
-                      "NAME_CHANGE");
+                startIntentForSettingChange("Update your Name",
+                        "Please use your real `Full Name` , Using a fake name may result in account termination",
+                        "NAME_CHANGE");
             }
         });
-
 
 
         email_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startIntentForSettingChange("Update your Email" ,
-                      "Please use a valid Email, This will be used incase you forget your password",
-                      "EMAIL_CHANGE");
+                startIntentForSettingChange("Update your Email",
+                        "Please use a valid Email, This will be used incase you forget your password",
+                        "EMAIL_CHANGE");
             }
         });
 
@@ -115,22 +115,20 @@ public class SettingsFragment extends Fragment {
         cell_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                  startIntentForSettingChange("Update your Cell Number" ,
-                      "Please use a valid Cell Number, Because this will be used to contact you for any complaints or queries",
-                      "CELL_CHANGE");
+                startIntentForSettingChange("Update your Cell Number",
+                        "Please use a valid Cell Number, Because this will be used to contact you for any complaints or queries",
+                        "CELL_CHANGE");
             }
         });
-
 
 
         password_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              Intent passwordChangeActivityIntent =  new Intent(getContext() ,  ChangePasswordActivity.class);
-              startActivity(passwordChangeActivityIntent);
+                Intent passwordChangeActivityIntent = new Intent(getContext(), ChangePasswordActivity.class);
+                startActivity(passwordChangeActivityIntent);
             }
         });
-
 
 
     }
@@ -147,11 +145,11 @@ public class SettingsFragment extends Fragment {
         FirebaseAuth.getInstance().removeAuthStateListener(authStateListener);
     }
 
-    private void  startIntentForSettingChange(String header_title, String description , String intent_type){
-        Intent settingsUpdateIntent = new Intent(getActivity().getApplicationContext() ,ChangeSettingsActivity.class);
-        settingsUpdateIntent.putExtra("content_header_title" , header_title);
-        settingsUpdateIntent.putExtra("content_description" , description);
-        settingsUpdateIntent.putExtra("intent_type" , intent_type);
+    private void startIntentForSettingChange(String header_title, String description, String intent_type) {
+        Intent settingsUpdateIntent = new Intent(getActivity().getApplicationContext(), ChangeSettingsActivity.class);
+        settingsUpdateIntent.putExtra("content_header_title", header_title);
+        settingsUpdateIntent.putExtra("content_description", description);
+        settingsUpdateIntent.putExtra("intent_type", intent_type);
         startActivity(settingsUpdateIntent);
     }
 }
