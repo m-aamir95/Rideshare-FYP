@@ -194,3 +194,5 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
 35) its very important to Limit user input where ever you can , for example if you allow a user to enter a Name
     potentially of 200 characters, then you are going to have very hard time dealing with this issue in the GUI controls
     A very good approach would be to stop it right there, while taking inputs
+
+36) Mention about Rides History

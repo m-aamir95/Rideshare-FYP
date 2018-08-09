@@ -282,9 +282,8 @@ public class ChatActivity extends AppCompatActivity {
 
             }
         });
-
-
         //endregion
+
 
     }
 
@@ -299,14 +298,45 @@ public class ChatActivity extends AppCompatActivity {
             unique_scheduled_ride_node.child("end_point").setValue(end_position);
             unique_scheduled_ride_node.child("start_end_timestamps").setValue(start_end_timestamps);
             unique_scheduled_ride_node.child("driver_id").setValue(u_id);
-            unique_scheduled_ride_node.child("customer_id").setValue(other_u_id).addOnCompleteListener(new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    //Finish this Activity
-                    finish();
-                }
-            });
+            unique_scheduled_ride_node.child("customer_id").setValue(other_u_id);
 
+
+            //region Make a unique entry for Rides History both for the driver and the customer
+            DatabaseReference unique_ride_history_node_ref =
+                    FirebaseDatabase.getInstance().getReference()
+                            .child("Rides_History").push();
+
+            //Push this unique_Ride_history_under_both_driver and customer
+            DatabaseReference driver_rides_history_ref = FirebaseDatabase.getInstance().getReference()
+                    .child("Users")
+                    .child(u_id) //U_id represents Driver id
+                    .child("rides_history")
+                    .push();
+            driver_rides_history_ref.child("unique_ride_history_id").setValue(unique_ride_history_node_ref.getKey());
+
+            //For customer
+            DatabaseReference customer_rides_history_ref = FirebaseDatabase.getInstance().getReference()
+                    .child("Users")
+                    .child(other_u_id) //other_u_id represents Customer id
+                    .child("rides_history")
+                    .push();
+            customer_rides_history_ref.child("unique_ride_history_id").setValue(unique_ride_history_node_ref.getKey());
+
+
+            //Starting filling data for new unique_ride_history
+            unique_ride_history_node_ref.child("driver_id").setValue(u_id);
+            unique_ride_history_node_ref.child("customer_id").setValue(other_u_id);
+            unique_ride_history_node_ref.child("start_position").setValue(start_position);
+            unique_ride_history_node_ref.child("end_position").setValue(end_position);
+            unique_ride_history_node_ref.child("start_end_timestamps").setValue(start_end_timestamps).
+                    addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            //Finish this Activity
+                            finish();
+                        }
+                    });
+            //endregion
 
         }
     }
