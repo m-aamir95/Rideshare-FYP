@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.andromeda.djzaamir.rideshare.DisplayDriverDetails"
-    android:padding="10dp"
-    android:orientation="vertical"
     android:background="#b1c3e0"
-    >
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:context="com.andromeda.djzaamir.rideshare.DisplayDriverDetails">
 
 
     <!--Linear Layout Header Holder for Image,Name,Approx Fair-->
@@ -32,8 +30,7 @@
                 android:id="@+id/driver_image_imageview"
                 android:layout_width="160dp"
                 android:layout_height="160dp"
-                android:layout_gravity="center"
-                 />
+                android:layout_gravity="center" />
 
             <!--Driver Name-->
             <TextView
@@ -54,124 +51,118 @@
             android:gravity="left"
             android:orientation="vertical">
 
-             <!--Approx Fair Calculation-->
+            <!--Approx Fair Calculation-->
             <TextView
-            android:id="@+id/distance_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|bottom"
-            android:layout_marginTop="110dp"
-            android:textSize="18sp" />
+                android:id="@+id/distance_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|bottom"
+                android:layout_marginTop="110dp"
+                android:textSize="18sp" />
 
-             <!--Approx Fair Calculation-->
+            <!--Approx Fair Calculation-->
             <TextView
-            android:id="@+id/fair_textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left|bottom"
-            android:layout_marginTop="6dp"
-            android:textSize="18sp" />
+                android:id="@+id/fair_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|bottom"
+                android:layout_marginTop="6dp"
+                android:textSize="18sp" />
 
         </LinearLayout>
 
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_marginTop="5dp"
         android:background="#eaecef"
-        >
+        android:orientation="vertical">
 
-                    <TextView
-                        android:layout_marginTop="25dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Pickup location"
-                        android:textColor="#6983ad"
-                        android:layout_marginLeft="6dp"
-                        android:textSize="15sp"/>
-                    <!--Driver Pickup address-->
-                    <TextView
-                        android:id="@+id/driver_pickup_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="6dp"
-                        android:ellipsize="marquee"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:scrollHorizontally="true"
-                        android:singleLine="true"
-                        android:textColor="#52627c"
-                        android:textSize="17sp"
-                        android:textStyle="bold"
-                        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="25dp"
+            android:text="Pickup location"
+            android:textColor="#6983ad"
+            android:textSize="15sp" />
+        <!--Driver Pickup address-->
+        <TextView
+            android:id="@+id/driver_pickup_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textColor="#52627c"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Drop-off location"
-                        android:textColor="#6983ad"
-                        android:textSize="15sp"
-                        android:layout_marginLeft="6dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:text="Drop-off location"
+            android:textColor="#6983ad"
+            android:textSize="15sp" />
 
-                    <!--Driver Destination Address-->
-                    <TextView
-                        android:id="@+id/driver_destination_address"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="6dp"
-                        android:ellipsize="marquee"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:scrollHorizontally="true"
-                        android:singleLine="true"
-                        android:textColor="#52627c"
-                        android:textSize="17sp"
-                        android:textStyle="bold"
-                        />
+        <!--Driver Destination Address-->
+        <TextView
+            android:id="@+id/driver_destination_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:ellipsize="marquee"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:textColor="#52627c"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
-                        <!--Pickup time-->
-                        <TextView
-                        android:layout_marginTop="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Pickup Time"
-                        android:textColor="#6983ad"
-                        android:textSize="15sp"
-                        android:layout_marginLeft="6dp"/>
+        <!--Pickup time-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="20dp"
+            android:text="Pickup Time"
+            android:textColor="#6983ad"
+            android:textSize="15sp" />
 
-                       <TextView
-                        android:id="@+id/driver_pickup_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="6dp"
-                        android:textSize="18sp"
-                        />
+        <TextView
+            android:id="@+id/driver_pickup_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="5dp"
+            android:textSize="18sp" />
 
 
-                        <!--Drop-off/Return  Time-->
-                        <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Return time"
-                        android:textColor="#6983ad"
-                        android:textSize="15sp"
-                        android:layout_marginLeft="6dp"/>
+        <!--Drop-off/Return  Time-->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:text="Return time"
+            android:textColor="#6983ad"
+            android:textSize="15sp" />
 
-                       <TextView
-                        android:id="@+id/driver_return_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginLeft="6dp"
-                        android:textSize="18sp"
-                        />
-
+        <TextView
+            android:id="@+id/driver_return_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="5dp"
+            android:textSize="18sp" />
 
 
     </LinearLayout>
@@ -179,18 +170,16 @@
     <!--Contact Button Will Only Enable-->
     <Button
         android:id="@+id/contact_driver_button"
-        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="#00aa00"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:onClick="contact_button"
         android:text="Contact"
         android:textColor="#fff"
-        android:textSize="20sp"
-        android:layout_gravity="center"
-        android:background="#00aa00"
-        android:onClick="contact_button"
-        />
-
-
+        android:textSize="20sp" />
 
 
 </LinearLayout>

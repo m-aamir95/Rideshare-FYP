@@ -1,151 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:layout_height="match_parent">
 
     <!--Loading Spinner-->
     <ProgressBar
         android:id="@+id/loading_spinner"
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_gravity="center"
         android:layout_centerHorizontal="true"
-        android:visibility="gone"
-        />
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.andromeda.djzaamir.rideshare.shareMyRide"
-    android:orientation="vertical"
-    android:padding="20dp"
-    >
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        tools:context="com.andromeda.djzaamir.rideshare.shareMyRide">
 
-     <!--Starting location, Address-->
-      <HorizontalScrollView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:fillViewport="true"
-          android:scrollbarAlwaysDrawHorizontalTrack="true">
-
-        <android.support.design.widget.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-              <EditText
-              android:id="@+id/start_point_txtview"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:layout_marginBottom="10dp"
-              android:focusable="false"
-              android:focusableInTouchMode="false"
-              android:maxLines="1"
-              android:hint="Pickup point"
-              />
-
-        </android.support.design.widget.TextInputLayout>
-
-      </HorizontalScrollView>
-
-       <!--Ending location Address-->
+        <!--Starting location, Address-->
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fillViewport="true"
-            android:scrollbarAlwaysDrawHorizontalTrack="true"
-            >
+            android:scrollbarAlwaysDrawHorizontalTrack="true">
 
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-          <android.support.design.widget.TextInputLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+                <EditText
+                    android:id="@+id/start_point_txtview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="10dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="Pickup point"
+                    android:maxLines="1" />
 
-            <EditText
-            android:maxLines="1"
+            </android.support.design.widget.TextInputLayout>
+
+        </HorizontalScrollView>
+
+        <!--Ending location Address-->
+        <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:hint="Drop-off point"
-            android:id="@+id/end_point_txtview"
-            android:layout_marginBottom="10dp"
-            />
+            android:fillViewport="true"
+            android:scrollbarAlwaysDrawHorizontalTrack="true">
 
-          </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/end_point_txtview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="Drop-off point"
+                    android:maxLines="1" />
+
+            </android.support.design.widget.TextInputLayout>
 
 
         </HorizontalScrollView>
 
-    <!--Start Date and Time-->
-     <android.support.design.widget.TextInputLayout
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content">
+        <!--Start Date and Time-->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-         <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:hint="Start Date,Time"
-        android:id="@+id/start_date_time_textview"
-         android:layout_marginBottom="10dp"
-        />
-
-
-     </android.support.design.widget.TextInputLayout>
-
-   <!--Is this is a Round Trip Checkbox layout-->
-     <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Round Trip"
-        android:textSize="18sp"
-        android:id="@+id/roundTrip_checkbox"
-        android:layout_marginBottom="10dp"
-         android:enabled="false"
-       />
+            <EditText
+                android:id="@+id/start_date_time_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="Start Date,Time" />
 
 
-    <!--Round trip date and time-->
-   <android.support.design.widget.TextInputLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:visibility="invisible"
-       android:id="@+id/textInputLayout_wrapper_for_return_date_time">
+        </android.support.design.widget.TextInputLayout>
 
-        <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
-        android:hint="Return Date,Time"
-        android:id="@+id/return_date_time_textview"
-        android:layout_marginBottom="10dp"
-        />
-
-   </android.support.design.widget.TextInputLayout>
+        <!--Is this is a Round Trip Checkbox layout-->
+        <CheckBox
+            android:id="@+id/roundTrip_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:enabled="false"
+            android:text="Round Trip"
+            android:textSize="18sp" />
 
 
-    <!--share my ride button-->
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:text="Share my Ride"
-        android:textSize="20sp"
-        android:id="@+id/shareMyRide_button"
-        android:onClick="shareMyRide_onClick"/>
+        <!--Round trip date and time-->
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayout_wrapper_for_return_date_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible">
+
+            <EditText
+                android:id="@+id/return_date_time_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="Return Date,Time" />
+
+        </android.support.design.widget.TextInputLayout>
 
 
+        <!--share my ride button-->
+        <Button
+            android:id="@+id/shareMyRide_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:background="#00aa00"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="shareMyRide_onClick"
+            android:text="Share my Ride"
+            android:textColor="#fff"
+            android:textSize="20sp" />
 
 
-</LinearLayout>
+    </LinearLayout>
 
 
 </FrameLayout>

@@ -54,10 +54,10 @@
 
             <Button
                 android:id="@+id/content_submit_button"
-                style="android:attr"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#10ba87"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:onClick="on_submit_data"
                 android:text="Update"
                 android:textAlignment="center"
@@ -65,7 +65,6 @@
                 android:textSize="20sp" />
 
         </LinearLayout>
-
 
     </RelativeLayout>
 

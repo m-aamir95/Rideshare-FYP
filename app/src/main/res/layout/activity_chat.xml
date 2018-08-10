@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.andromeda.djzaamir.rideshare.ChatActivity"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.andromeda.djzaamir.rideshare.ChatActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="4dp"
-        >
+        android:padding="4dp">
 
         <!--Driver Info Display and Request View-->
         <LinearLayout
@@ -64,7 +63,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="15dp"
-                    android:background="#2d7dce"
+                    android:background="#4883e2"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:text="Ride Info"
                     android:textColor="#fff"
                     android:textSize="15dp"
@@ -74,7 +74,8 @@
                     android:id="@+id/function_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#2d7dce"
+                    android:background="#4883e2"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:textColor="#fff"
                     android:textSize="15dp"
                     android:visibility="invisible" />
@@ -145,6 +146,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 </FrameLayout>

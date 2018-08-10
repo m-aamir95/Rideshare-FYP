@@ -1,82 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.andromeda.djzaamir.rideshare.DriverDetailActivity"
-    >
+    tools:context="com.andromeda.djzaamir.rideshare.DriverDetailActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="5dp">
-
-
-    <!--Message about why this Data is required-->
-    <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="In order to use App as a driver, you have to\nfill up following required info."
-        android:textSize="17sp"
-        android:padding="10dp"
-        android:textAlignment="center"
-        android:textStyle="bold"
-        android:layout_marginBottom="10dp"/>
-
-    <ImageView
-        android:layout_width="110sp"
-        android:layout_height="110sp"
-        android:src="@drawable/default_user_1"
-        android:layout_marginBottom="10dp"
-        android:layout_gravity="center"
-        android:id="@+id/user_image"/>
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Upload Image"
-        android:id="@+id/profile_image_button"
-        android:onClick="image_upload"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="5dp">
 
 
-    <!--Vehicle No-->
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Vehicle No"
-        android:layout_marginBottom="5dp"
-        android:id="@+id/vehicle_no"/>
+        <!--Message about why this Data is required-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:padding="10dp"
+            android:text="In order to use App as a driver, you have to\nfill up following required info."
+            android:textAlignment="center"
+            android:textSize="17sp"
+            android:textStyle="bold" />
 
-    <!--Vehicle Color Selector-->
-    <Spinner
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:id="@+id/vehicle_color_spinner"
-        >
-    </Spinner>
+        <ImageView
+            android:id="@+id/user_image"
+            android:layout_width="110sp"
+            android:layout_height="110sp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/default_user_1" />
 
-    <!--CNIC-->
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="number"
-        android:hint="CNIC"
-        android:layout_marginBottom="5dp"
-        android:id="@+id/cnic"/>
+        <Button
+            android:id="@+id/profile_image_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#4883e2"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="image_upload"
+            android:text="Upload Image"
+            android:textColor="#fff" />
 
-    <Button
-        android:id="@+id/submit_Data_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Submit"
-        android:textSize="20dp"
-        android:padding="10dp"
-        android:onClick="submit_driver_details_btn"
-        />
+
+        <!--Vehicle No-->
+        <EditText
+            android:id="@+id/vehicle_no"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:hint="Vehicle No" />
+
+        <!--Vehicle Color Selector-->
+        <Spinner
+            android:id="@+id/vehicle_color_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"></Spinner>
+
+        <!--CNIC-->
+        <EditText
+            android:id="@+id/cnic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:hint="CNIC"
+            android:inputType="number" />
+
+        <Button
+            android:id="@+id/submit_Data_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#10ba87"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="submit_driver_details_btn"
+            android:textColor="#fff"
+            android:padding="10dp"
+            android:text="Submit"
+            android:textSize="20dp" />
     </LinearLayout>
 
     <ProgressBar
@@ -84,7 +85,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
 </FrameLayout>

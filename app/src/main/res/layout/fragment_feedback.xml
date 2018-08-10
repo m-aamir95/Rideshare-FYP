@@ -2,75 +2,71 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.andromeda.djzaamir.rideshare.FeedbackFragment"
     android:padding="5dp"
-    >
+    tools:context="com.andromeda.djzaamir.rideshare.FeedbackFragment">
 
 
-     <LinearLayout
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:orientation="vertical"
-         android:layout_gravity="center_vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
 
-         <TextView
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:textAlignment="center"
-         android:textSize="18sp"
-         android:textStyle="bold"
-         android:id="@+id/feedback_greeting_msg"
-             />
-         
-         <TextView
-             android:layout_marginTop="10dp"
-             android:layout_width="match_parent"
-             android:layout_height="1dp"
-             android:layout_marginHorizontal="40dp"
-             android:background="#00f"
-             />
+        <TextView
+            android:id="@+id/feedback_greeting_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:textStyle="bold" />
 
-         <RatingBar
-             android:id="@+id/rating_bar"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:numStars="5"
-             android:stepSize="1"
-             android:layout_gravity="center"
-             />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="40dp"
+            android:layout_marginTop="10dp"
+            android:background="#00f" />
 
-         <EditText
-         android:id="@+id/feedback_text"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-         android:hint="Write your feedback here..."
-         android:inputType="textMultiLine"
-         android:gravity="top"
-         android:minLines="10"
-         android:layout_marginTop="15dp"
-         />
+        <RatingBar
+            android:id="@+id/rating_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:numStars="5"
+            android:stepSize="1" />
 
-     <Button
-         android:id="@+id/feedback_submit_button"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:text="Submit Feedback"
-         android:textAlignment="center"
-         android:paddingHorizontal="80dp"
-         android:textSize="15sp"
-         android:paddingVertical="20dp"
-         android:layout_marginTop="10dp"
-         android:layout_gravity="center_horizontal"
-         />
+        <EditText
+            android:id="@+id/feedback_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="top"
+            android:hint="Write your feedback here..."
+            android:inputType="textMultiLine"
+            android:minLines="10" />
 
-     </LinearLayout>
+        <Button
+            android:id="@+id/feedback_submit_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="#00aa00"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:paddingHorizontal="80dp"
+            android:paddingVertical="20dp"
+            android:text="Submit Feedback"
+            android:textAlignment="center"
+            android:textColor="#fff"
+            android:textSize="15sp" />
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/data_submission_progressbar_feedback"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
 </FrameLayout>

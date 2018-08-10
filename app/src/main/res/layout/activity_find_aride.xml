@@ -1,76 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+    android:layout_height="match_parent">
 
 
     <ProgressBar
         android:id="@+id/loading_spinner"
+        style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_gravity="center"
         android:layout_centerHorizontal="true"
-        android:visibility="gone"
-        />
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.andromeda.djzaamir.rideshare.FindARide"
-    android:orientation="vertical"
-    android:padding="10dp"
-    android:gravity="center"
-    >
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Fill in the starting and ending point's of your journey, and Rideshare will try to find the Best Matching Driver's for you."
-        android:textSize="22sp"
-        android:textStyle="bold"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
         android:padding="10dp"
-        android:textAlignment="center"/>
+        tools:context="com.andromeda.djzaamir.rideshare.FindARide">
 
-    <!--Starting location, Address-->
-      <HorizontalScrollView
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_marginTop="15dp"
-          android:fillViewport="true"
-          android:scrollbarAlwaysDrawHorizontalTrack="true">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="Fill in the starting and ending point's of your journey, and Rideshare will try to find the Best Matching Driver's for you."
+            android:textAlignment="center"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-          <android.support.design.widget.TextInputLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+        <!--Starting location, Address-->
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fillViewport="true"
+            android:scrollbarAlwaysDrawHorizontalTrack="true">
 
-              <EditText
-              android:id="@+id/start_point_findAdriver_txtview"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:layout_marginBottom="10dp"
-              android:focusable="false"
-              android:focusableInTouchMode="false"
-              android:hint="Pickup point"
-              android:maxLines="1"
-                  />
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-          </android.support.design.widget.TextInputLayout>
+                <EditText
+                    android:id="@+id/start_point_findAdriver_txtview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="Pickup point"
+                    android:maxLines="1" />
 
-      </HorizontalScrollView>
+            </android.support.design.widget.TextInputLayout>
 
-    <!--Ending location Address-->
+        </HorizontalScrollView>
+
+        <!--Ending location Address-->
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:fillViewport="true"
-            android:scrollbarAlwaysDrawHorizontalTrack="true"
-            >
+            android:scrollbarAlwaysDrawHorizontalTrack="true">
 
 
             <android.support.design.widget.TextInputLayout
@@ -78,31 +71,33 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                android:maxLines="1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
-                android:hint="Drop-off Point"
-                android:id="@+id/end_point_findAdriver_txtview"
-                android:layout_marginBottom="10dp"
-                />
+                    android:id="@+id/end_point_findAdriver_txtview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="Drop-off Point"
+                    android:maxLines="1" />
 
             </android.support.design.widget.TextInputLayout>
 
 
         </HorizontalScrollView>
 
-     <!--share my ride button-->
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="35dp"
-        android:text="Find Matching Driver's"
-        android:textSize="20sp"
-        android:id="@+id/findADriver_button"
-        android:onClick="findADriver_onClick"/>
-</LinearLayout>
+        <!--share my ride button-->
+        <Button
+            android:id="@+id/findADriver_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:background="#00aa00"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:textColor="#fff"
+            android:onClick="findADriver_onClick"
+            android:text="Find Matching Driver's"
+            android:textSize="20sp" />
+    </LinearLayout>
 
 
 </FrameLayout>

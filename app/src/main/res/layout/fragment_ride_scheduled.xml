@@ -88,9 +88,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.4"
+                android:background="#4883e2"
+                android:foreground="?android:attr/selectableItemBackground"
                 android:padding="20dp"
-                android:text="Ride Details" />
-
+                android:text="Ride Details"
+                android:textColor="#fff" />
 
 
         </LinearLayout>
@@ -102,8 +104,12 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="30dp"
             android:layout_marginTop="20dp"
+            android:background="#f00"
+            android:foreground="?android:attr/selectableItemBackground"
             android:padding="20dp"
-            android:text="Finish Ride" />
+            android:textSize="15sp"
+            android:text="Finish Ride"
+            android:textColor="#fff" />
 
     </LinearLayout>
 
