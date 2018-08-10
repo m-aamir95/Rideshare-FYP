@@ -1,57 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.andromeda.djzaamir.rideshare.WelcomeActivity"
-    android:orientation="vertical"
     android:layout_gravity="center"
+    android:orientation="vertical"
     android:padding="10dp"
-    android:background="#FBFBFB"
-    >
+    tools:context="com.andromeda.djzaamir.rideshare.WelcomeActivity">
 
 
     <!--Main Logo-->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="75"
-        >
+        android:layout_weight="75">
+
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/rideshare_logo_final_new"
-            />
+            android:src="@drawable/rideshare_logo_final_new" />
     </LinearLayout>
-
 
 
     <!--Login And Signup Button-->
     <LinearLayout
-        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
+        android:layout_alignParentBottom="true"
+        android:background="#fff"
         android:orientation="vertical">
-          <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="LOGIN"
-            android:onClick="openLoginActivity"
-            android:padding="10dp"
-            android:textSize="20sp"
-            android:layout_marginBottom="5dp"
-            />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SIGNup"
+            android:layout_marginBottom="5dp"
+            android:background="#4883e2"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:onClick="openLoginActivity"
+            android:padding="10dp"
+            android:text="LOGIN"
+            android:textColor="#fff"
+            android:textSize="20sp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?android:attr/selectableItemBackground"
             android:onClick="openSignupActivity"
             android:padding="10dp"
-            android:textSize="20sp"
-        />
+            android:text="SIGNup"
+            android:textColor="#fff"
+            android:background="#4883e2"
+
+            android:textColorHint="#000"
+            android:textSize="20sp" />
+
     </LinearLayout>
 
 

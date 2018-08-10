@@ -1,93 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<FrameLayout android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.andromeda.djzaamir.rideshare.SignupActivity"
-    >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.andromeda.djzaamir.rideshare.SignupActivity">
 
 
-        <!--Loading spinner-->
-        <ProgressBar
-            android:id="@+id/loading_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_gravity="center"
-            android:layout_centerHorizontal="true"
-            android:visibility="gone"/>
+    <!--Loading spinner-->
+    <ProgressBar
+        android:id="@+id/loading_spinner"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.andromeda.djzaamir.rideshare.SignupActivity"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:padding="20dp"
+        tools:context="com.andromeda.djzaamir.rideshare.SignupActivity">
 
         <!--Name-->
-           <android.support.design.widget.TextInputLayout
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content" >
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Name"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/edittextbox_name"
-            />
+                android:id="@+id/edittextbox_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Name" />
 
-           </android.support.design.widget.TextInputLayout>
+        </android.support.design.widget.TextInputLayout>
 
 
         <!--email-->
-          <android.support.design.widget.TextInputLayout
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-                <EditText
+            <EditText
+                android:id="@+id/edittextbox_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
-                android:inputType="textEmailAddress"
                 android:layout_marginBottom="10dp"
-                android:id="@+id/edittextbox_email"/>
+                android:hint="Email"
+                android:inputType="textEmailAddress" />
 
-          </android.support.design.widget.TextInputLayout>
+        </android.support.design.widget.TextInputLayout>
 
         <!--cell-->
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-             <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Cell"
-            android:inputType="number"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/edittextbox_cell"/>
+            <EditText
+                android:id="@+id/edittextbox_cell"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Cell"
+                android:inputType="number" />
 
         </android.support.design.widget.TextInputLayout>
 
-         <!--Password-->
-         <android.support.design.widget.TextInputLayout
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content">
+        <!--Password-->
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/edittextbox_password"/>
+                android:id="@+id/edittextbox_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Password"
+                android:inputType="textPassword" />
 
-         </android.support.design.widget.TextInputLayout>
+        </android.support.design.widget.TextInputLayout>
 
 
         <!--Comfirm Password-->
@@ -96,27 +93,29 @@
             android:layout_height="wrap_content">
 
             <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Comfirm Password"
-            android:inputType="textPassword"
-            android:layout_marginBottom="10dp"
-            android:id="@+id/edittextbox_password_comfirm"/>
+                android:id="@+id/edittextbox_password_comfirm"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:hint="Comfirm Password"
+                android:inputType="textPassword" />
 
         </android.support.design.widget.TextInputLayout>
 
         <Button
-            android:layout_width="wrap_content"
+            android:id="@+id/signup_button"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Signup"
-            android:paddingHorizontal="100dp"
-            android:layout_gravity="center"
+            android:layout_marginHorizontal="20dp"
             android:layout_marginTop="20dp"
+            android:background="#4883e2"
+            android:foreground="?android:attr/selectableItemBackground"
             android:onClick="performSignup"
-            android:id="@+id/signup_button"/>
-
-
-
+            android:padding="10dp"
+            android:text="SIGNup"
+            android:textColor="#fff"
+            android:textColorHint="#000"
+            android:textSize="18sp" />
 
 
     </LinearLayout>
