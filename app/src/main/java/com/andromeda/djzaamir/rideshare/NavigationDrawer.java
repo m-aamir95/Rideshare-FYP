@@ -36,7 +36,6 @@ public class NavigationDrawer extends AppCompatActivity
     //Toolbar
     private Toolbar toolbar;
 
-    private boolean switch_to_rideShared_fragment = false; //Will be used to decide should the app Display Home Or RideShared Fragment
     private boolean switch_to_rideScheduled_fragment = false;
     //endregion
 
@@ -58,7 +57,7 @@ public class NavigationDrawer extends AppCompatActivity
 
                     startNewFragmentActivity(new RideSharedFragment());
 
-                    switch_to_rideShared_fragment = true;
+                    App_Wide_Static_Vars.switch_to_rideShared_fragment = true;
 
 
                     //set home as checked item
@@ -94,7 +93,7 @@ public class NavigationDrawer extends AppCompatActivity
                     //Check if this user has a Scheduled Ride
                     if (dataSnapshot.child("scheduled_ride_id").getValue() != null) {
                         switch_to_rideScheduled_fragment = true;
-                        switch_to_rideShared_fragment = false;
+                        App_Wide_Static_Vars.switch_to_rideShared_fragment = false;
                         App_Wide_Static_Vars.unique_ride_scheduled_id = dataSnapshot.child("scheduled_ride_id").getValue().toString();
                     }else{
                         switch_to_rideScheduled_fragment = false;
@@ -176,13 +175,13 @@ public class NavigationDrawer extends AppCompatActivity
 
     //Go-NO-Go
     private void tryToSwitchToHomeFragmentIfNoRideScheduled() {
-        if (!switch_to_rideScheduled_fragment && !switch_to_rideShared_fragment) {
+        if (!switch_to_rideScheduled_fragment && !App_Wide_Static_Vars.switch_to_rideShared_fragment) {
             //Switch to default homeFragment
             HomeFragment homeFragment = new HomeFragment();
             startNewFragmentActivity(homeFragment);
 
 
-            switch_to_rideShared_fragment = false;
+            App_Wide_Static_Vars.switch_to_rideShared_fragment = false;
             //set home as checked item
             NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
             navigationView.setCheckedItem(R.id.home_item);
@@ -223,7 +222,7 @@ public class NavigationDrawer extends AppCompatActivity
             Toolbar toolbar = findViewById(R.id.toolbar);
             toolbar.setTitle("Home");
 
-            if (switch_to_rideShared_fragment) {
+            if (App_Wide_Static_Vars.switch_to_rideShared_fragment) {
                 startNewFragmentActivity(new RideSharedFragment());
             } else if (switch_to_rideScheduled_fragment) {
                 startNewFragmentActivity(new RideScheduledFragment());
@@ -281,6 +280,7 @@ public class NavigationDrawer extends AppCompatActivity
 
 
     void signout() {
+        App_Wide_Static_Vars.switch_to_rideShared_fragment = false;
         FirebaseAuth.getInstance().signOut();
         //take back to login/signup screen
         Intent welcomeActivityIntetn = new Intent(NavigationDrawer.this, WelcomeActivity.class);

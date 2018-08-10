@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.andromeda.djzaamir.rideshare.utils.App_Wide_Static_Vars;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -84,6 +85,10 @@ public class RideSharedFragment extends Fragment {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+
+                                //Reset app app-wide switch_to_ride_shared
+                                App_Wide_Static_Vars.switch_to_rideShared_fragment = false;
+
                                 //Remove Start Position from firebase
                                 FirebaseDatabase.getInstance().getReference().child("available_drivers_start_point").child(u_id).removeValue();
                                 FirebaseDatabase.getInstance().getReference().child("available_drivers_end_point").child(u_id).removeValue();

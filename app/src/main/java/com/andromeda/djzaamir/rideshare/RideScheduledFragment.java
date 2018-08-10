@@ -251,6 +251,7 @@ public class RideScheduledFragment extends Fragment {
 
                 //Reset App_wide.RideScheduled_Unqiue_id
                 App_Wide_Static_Vars.unique_ride_scheduled_id = null;
+
             }
         });
         //endregion
