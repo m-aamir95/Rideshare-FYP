@@ -44,7 +44,7 @@
    Also making sure that No Past Times can be selected in Start_date_and_time timeStamp i-e No Date Less than current date
    And No Past can be selected which is less than start_date_and_time because that would be very strange
 
-6) Buttons are now being disable along with their titles which are being changed to some meaningful text e.g Logging in...
+6) Buttons are now being disabled along with their titles which are being changed to some meaningful text e.g Logging in...
    Indicating, some work is being performed on the background
    All of this is being managed by a ButtonUtil's class, to reduce code
 
@@ -196,3 +196,7 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
     A very good approach would be to stop it right there, while taking inputs
 
 36) Mention about Rides History
+
+37) Mention about auto-app login at the very of the DEMO, how the user dont have to re-login after a successful login
+
+38) Evaluate Application very critically , and point out small imp features which you have included all over the app
