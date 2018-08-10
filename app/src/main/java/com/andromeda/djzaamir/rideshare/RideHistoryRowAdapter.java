@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,9 +23,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class RideHistoryRowAdapter extends ArrayAdapter<RideHistoryDataModel> {
+public class RideHistoryRowAdapter extends ArrayAdapter<String> {
 
-    private ArrayList<RideHistoryDataModel> ride_histories;
+    private ArrayList<String> ride_histories;
     private Context context;
     private String u_id;
 
@@ -35,7 +34,7 @@ public class RideHistoryRowAdapter extends ArrayAdapter<RideHistoryDataModel> {
         super(context, resource);
     }
 
-    public RideHistoryRowAdapter(ArrayList<RideHistoryDataModel> ride_history, Context context) {
+    public RideHistoryRowAdapter(ArrayList<String> ride_history, Context context) {
         super(context, R.layout.message_row, ride_history);
         this.ride_histories = ride_history;
         this.context = context;
@@ -55,29 +54,71 @@ public class RideHistoryRowAdapter extends ArrayAdapter<RideHistoryDataModel> {
         //Grab different childern views of this Row
         final ImageView image = rowView.findViewById(R.id.image);
         final TextView name = rowView.findViewById(R.id.driver_name);
-        EditText from = (EditText) rowView.findViewById(R.id.driver_pickup_address);
-        EditText to = (EditText) rowView.findViewById(R.id.driver_destination_address);
-        final TextView date_of_msg = rowView.findViewById(R.id.date_of_msg);
+        final TextView from = rowView.findViewById(R.id.driver_pickup_address);
+        final TextView to = rowView.findViewById(R.id.driver_destination_address);
 
         //Begin Loading data from model to fields
-        final RideHistoryDataModel dataModel = ride_histories.get(position);
+        String unique_ride_history_id = ride_histories.get(position);
 
 
         //Begin fetching data
-
-        //Try to load name and image for other party
-        String other_person_id = dataModel.driver_id.equals(u_id) ? dataModel.customer_id : dataModel.driver_id;
-
         FirebaseDatabase.getInstance().getReference()
-                .child("Users").addValueEventListener(new ValueEventListener() {
+                .child("Rides_History")
+                .child(unique_ride_history_id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot != null && dataSnapshot.getValue() != null) {
-                    String name_str = dataSnapshot.child("name").getValue().toString();
-                    String image_url = dataSnapshot.child("driver_image").getValue() != null ?
-                            dataSnapshot.child("driver_image").getValue().toString() : null;
-                    name.setText(name_str);
-                    fetchAndLoadImage(rowView, image, image_url);
+                    String cust_id = dataSnapshot.child("customer_id").getValue().toString();
+                    final String dri_id = dataSnapshot.child("driver_id").getValue().toString();
+                    double start_lat = Double.parseDouble(dataSnapshot.child("start_position").child("lat").getValue().toString());
+                    double start_lng = Double.parseDouble(dataSnapshot.child("start_position").child("lng").getValue().toString());
+                    double end_lat = Double.parseDouble(dataSnapshot.child("end_position").child("lat").getValue().toString());
+                    double end_lng = Double.parseDouble(dataSnapshot.child("end_position").child("lng").getValue().toString());
+                    long start_timestamp = Long.parseLong(dataSnapshot.child("start_end_timestamps").child("start_timestamp").getValue().toString());
+                    long end_timestamp = Long.parseLong(dataSnapshot.child("start_end_timestamps").child("end_timestamp").getValue().toString());
+
+                    String other_person_id = u_id.equals(dri_id) ? cust_id : dri_id;
+
+                    FirebaseDatabase.getInstance().getReference()
+                            .child("Users")
+                            .child(other_person_id)
+                            .addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    if (dataSnapshot != null && dataSnapshot.getValue() != null) {
+                                        String name_str = dataSnapshot.child("name").getValue().toString();
+                                        String image_url = dataSnapshot.child("driver_image").getValue() != null ?
+                                                dataSnapshot.child("driver_image").getValue().toString() : null;
+
+                                            name.setText(name_str);
+
+                                        fetchAndLoadImage(rowView, image, image_url);
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+
+                    //Start Translating and loading Latlng to addresses
+                    Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+                    try {
+                        String s_address = geocoder.getFromLocation(start_lat, start_lng, 1).get(0).getAddressLine(0);
+                        from.setText(s_address);
+                        from.setSelected(true);
+
+                        String e_address = geocoder.getFromLocation(end_lat, end_lng, 1).get(0).getAddressLine(0);
+                        to.setText(e_address);
+                        to.setSelected(true);
+
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
                 }
             }
 
@@ -87,25 +128,12 @@ public class RideHistoryRowAdapter extends ArrayAdapter<RideHistoryDataModel> {
             }
         });
 
-        //Start Translating and loading Latlng to addresses
-        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-        try {
-            String s_address = geocoder.getFromLocation(dataModel.start_lat, dataModel.start_lng, 1).get(0).getAddressLine(0);
-            from.setText(s_address);
-
-             String e_address = geocoder.getFromLocation(dataModel.end_lat, dataModel.end_lng, 1).get(0).getAddressLine(0);
-            to.setText(s_address);
-
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         return rowView;
     }
 
     private void fetchAndLoadImage(View rowView, ImageView imageView, String image_url) {
-        if (image_url == null) {
+        if (image_url != null) {
             Glide.with(rowView.getContext()).load(image_url).into(imageView);
         } else {
             Drawable default_icon = rowView.getResources().getDrawable(R.drawable.rideshare_logo_final_new);

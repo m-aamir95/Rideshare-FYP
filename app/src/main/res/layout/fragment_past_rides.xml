@@ -4,9 +4,22 @@
     android:layout_height="match_parent"
     tools:context="com.andromeda.djzaamir.rideshare.PastRidesFragment">
 
-     <ListView
-         android:id="@+id/past_rides_listview"
-         android:layout_width="match_parent"
-         android:layout_height="match_parent"></ListView>
+    <ListView
+        android:id="@+id/past_rides_listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"></ListView>
+
+    <TextView
+        android:id="@+id/no_past_rides_exist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No Past Rides found!"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
+
 
 </FrameLayout>
