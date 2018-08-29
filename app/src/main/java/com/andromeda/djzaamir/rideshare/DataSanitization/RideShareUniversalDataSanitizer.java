@@ -36,7 +36,7 @@ public class RideShareUniversalDataSanitizer {
 
     public static boolean sanitizeCell(EditText editTextCell) {
         boolean cellGood;
-        if (editTextCell.getText().toString().trim().length() == 11) {
+        if (editTextCell.getText().toString().matches("\\b03[0-6][0-9]\\d{7}\\b")) {
             cellGood = true;
             editTextCell.setError(null);
             editTextCell.clearFocus();

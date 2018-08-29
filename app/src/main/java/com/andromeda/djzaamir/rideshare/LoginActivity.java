@@ -38,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void logIn(View view) {
-        if (sanitizeAllData()){
+            if (sanitizeAllData()){
 
           //Disable signin buttin, and change title
             Button login_button  = findViewById(R.id.button_login);
