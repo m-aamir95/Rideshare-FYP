@@ -200,3 +200,11 @@ amount of time, and the re-ables Ad's ,  mention about this behavior
 37) Mention about auto-app login at the very of the DEMO, how the user dont have to re-login after a successful login
 
 38) Evaluate Application very critically , and point out small imp features which you have included all over the app
+
+39) So at the very last of developing this APP, i have found out that
+    actually there is not direct way of veryfying duplicate cell phone numbers
+    at the time of signup, because the user is not Authenticated with Firebase, and hence Firebase doesnt allow user to
+    query its System, Probably i can develop a little REST API as the middle person to perform this check
+    via some kinda server in the middle, App will submit the cell no to the server, and the server will be authenticated
+    with some kinda user, able to query certain parts of the Firebase DB
+    Or maybe we can use Firebase Cloud Functions
